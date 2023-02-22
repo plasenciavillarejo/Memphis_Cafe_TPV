@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- Añadimos el nameSpace de seguridad de Thymeleaf -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head">
+
+
+</head>
+
+<!-- background-image:url('/images/logoMemphis.png'); opacity:1; -->
+<body>
+
+<!-- ### Div para la nieve ### -->
+<!--  <div id="nieve" th:replace="vistaNieve/nieve" ></div>-->
+<!-- #########################  -->
+	<!-- Py-4 : Nos da un margen de anchura. -->
+	<div id="ivPrincipal" class="container py-4">
+		<img th:src="@{/images/logoMemphis.jpg}"
+			class="rounded mx-auto d-block" alt="Logo Memphis"
+			style="max-width: 400px; width: 100%; margin-bottom: 20px;">
+
+		<!-- bg-light: Le da un fondo de color a la tabla grisaceo -->
+		<div class="card bg-light">
+			<!-- Añadir cuando se utilice el div de la nive
+					id="cabeceraTabla" 
+			-->
+			<div class="card-header" style="text-align: center;">
+				<span id="tituloPanel">Café &#x26; Copas - Memphis</span>
+			</div>
+			<div id="tablaAlimentos" class="card-body col text-center">
+
+				<!-- Clase Acordeon para los Sub-Menus -->
+				<!-- ################################# -->
+				<div class="accordion accordion-flush" id="accordionFlushExample">
+				
+					<h1>Pruebas Iniciales</h1>
+					
+				</div>
+				<!-- Cierre div Iniciales -->
+				<!-- #################### -->
+			</div>
+		</div>
+
+
+		<!-- FOOTER -->
+		<!-- ###### -->
+		<footer th:replace="layout/layout :: footer"> </footer>
+	</div>
+
+</body>
+
+<!-- Modal de alerta pasado 3 segundos -->
+<!--  
+<script type="text/javascript">
+setTimeout(function(){ 
+	$('#modalEmergente').modal('show')
+	}, 3000);
+</script>
+-->
+
+</html>

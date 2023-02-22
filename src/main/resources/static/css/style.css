@@ -1,0 +1,126 @@
+@charset "ISO-8859-1";
+
+body{
+	background-color: #eeeeee;  
+	width: 100%;
+}
+
+#tituloPanel {
+	color: #c1a676;
+	text-shadow: 0px 0px 10px;
+	font-family: Trebuchet MS;
+}
+
+table {
+	width:100%;
+}
+
+#tablaComidas{
+	width:100%;
+}
+
+#tablaCabecera {
+	width:80px;
+	text-align:right;
+	font-family: Verdana;
+	font-size: 16px;
+}
+
+#tituloBody{
+	text-align:left;
+	padding-bottom:6px;
+}
+
+#preciosBody{
+	text-align:right;
+	vertical-align:top;
+}
+
+#ingredientesExtras{
+	text-align:right;
+	vertical-align:top;
+	font-size: 12px;
+}
+
+#subtituloBody{
+	text-align:left;
+	padding-bottom:6px;
+	font-family: Verdana;
+	font-size: 16px;
+	padding-left: 19px
+}
+
+#subtituloBodyCursiva{
+	text-align:left;
+	padding-bottom:6px;
+	font-family: Verdana;
+	font-size: 12px;
+	padding-left: 19px;
+	font-style: italic;
+}
+
+#ivPrincipal{
+	width: 100%;
+	margin:0 auto;
+}
+
+#modalBoton{
+	margin-top: 2%;
+	background-color: #43b39b;
+	border-color: #43b39b;
+	color:white;
+}
+
+/*  Hacerlo fijo la cabecera y pie de página */
+/* 
+#piePagina{
+	bottom: 0;
+	position: fixed;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+}
+
+#cabeceraFija {
+	top: 0;
+	position: fixed;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+}
+*/
+
+.btn-outline-success:hover{
+	background-color: #43b39b;	
+}
+
+
+.accordion-button:not(.collapsed){
+	background-color: rgba(68,178,157,0.25);
+	color: forestgreen;
+	
+	/* color: cornflowerblue
+	
+	box-shadow: 0 0 0 .25rem rgba(68,178,157,0.25);*/
+	box-shadow: 0 0 0 2px rgba(68,178,157,1);
+}
+
+.popover-body{
+	background-color: rgba(68,178,157,0.25);
+	color: forestgreen;
+	white-space: pre-line;
+	text-align:left;
+	padding-bottom:6px;
+	font-family: Verdana;
+	font-size: 12px;
+	padding-left: 19px;
+	font-style: italic;
+	
+}
+
+.custom-popover{
+	--bs-popover-border-color: var(--bs-primary);
+}
+	
+
+
