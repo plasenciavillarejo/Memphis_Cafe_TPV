@@ -1,43 +1,104 @@
 <!DOCTYPE html>
-<!-- Añadimos el nameSpace de seguridad de Thymeleaf -->
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="layout/layout :: head">
 
-
 </head>
 
-<!-- background-image:url('/images/logoMemphis.png'); opacity:1; -->
 <body>
 
-<!-- ### Div para la nieve ### -->
-<!--  <div id="nieve" th:replace="vistaNieve/nieve" ></div>-->
-<!-- #########################  -->
 	<!-- Py-4 : Nos da un margen de anchura. -->
 	<div id="ivPrincipal" class="container py-4">
-		<img th:src="@{/images/logoMemphis.jpg}"
-			class="rounded mx-auto d-block" alt="Logo Memphis"
-			style="max-width: 400px; width: 100%; margin-bottom: 20px;">
+		
+		<!--   <img th:src="@{/images/logoMemphis.jpg}" class="rounded mx-auto d-block" alt="Logo Memphis"
+			style="max-width: 400px; width: 100%; margin-bottom: 20px;"> -->
 
 		<!-- bg-light: Le da un fondo de color a la tabla grisaceo -->
 		<div class="card bg-light">
-			<!-- Añadir cuando se utilice el div de la nive
-					id="cabeceraTabla" 
-			-->
+
 			<div class="card-header" style="text-align: center;">
 				<span id="tituloPanel">Café &#x26; Copas - Memphis</span>
 			</div>
+
 			<div id="tablaAlimentos" class="card-body col text-center">
 
-				<!-- Clase Acordeon para los Sub-Menus -->
-				<!-- ################################# -->
-				<div class="accordion accordion-flush" id="accordionFlushExample">
-				
-					<h1>Pruebas Iniciales</h1>
-					
+
+
+				<div class="contenedor">
+					<!--  Columnma calculadora -->
+					<div class="col">
+						<h1>Calculadora</h1>
+					</div>
+
+					<!-- Aplicacion -->
+					<div class="columna">
+						<div class="row">
+							<div th:if="${!logosPrincipales.empty}" class="d-flex col-xs-12 col-sm-12 col-md-3">
+								<img th:src="@{${'/images/logosPrincipales/' + logosPrincipales}}"
+									alt="N/A" class="rounded mx-auto d-block pb-3" width="57px">
+							</div>
+							<div th:if="${logosPrincipales.empty}" class="d-flex col-xs-12 col-sm-12 col-md-3">
+								<img alt="N/A" class="rounded mx-auto d-block pb-3" width="57px">
+
+							</div>
+						</div>
+					</div>
 				</div>
-				<!-- Cierre div Iniciales -->
-				<!-- #################### -->
+
+
+
+				<!-- En formato tabla
+				<div class="row">
+					<div class="col">
+						<h1>Calculadora</h1>
+					</div>
+
+
+					<div class="d-flex col-xs-12 col-sm-12 col-md-5">
+
+						<table class="tablec border-0">
+							<thead>
+								<tr id="cabeceraTabla">
+									<th scope="col"><img th:src="@{/images/refrescos/cc.png}"
+										class="rounded mx-auto d-block pb-3" alt="Logo Coca Cola"
+										width="57px" /></th>
+									<th scope="col"><img th:src="@{/images/refrescos/cc.png}"
+										class="rounded mx-auto d-block pb-3" alt="Logo Coca Cola"
+										width="57px" /></th>
+									<th scope="col"><img th:src="@{/images/refrescos/cc.png}"
+										class="rounded mx-auto d-block pb-3" alt="Logo Coca Cola"
+										width="57px" /></th>
+									<th scope="col"><img th:src="@{/images/refrescos/cc.png}"
+										class="rounded mx-auto d-block pb-3" alt="Logo Coca Cola"
+										width="57px" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>Mark</td>
+									<td>Otto</td>
+									<td>@mdo</td>
+								</tr>
+								<tr>
+									<th scope="row">2</th>
+									<td>Jacob</td>
+									<td>Thornton</td>
+									<td>@fat</td>
+								</tr>
+								<tr>
+									<th scope="row">3</th>
+									<td colspan="2">Larry the Bird</td>
+									<td>@twitter</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+				-->
+				
+				
 			</div>
 		</div>
 

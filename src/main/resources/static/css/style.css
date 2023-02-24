@@ -15,48 +15,10 @@ table {
 	width:100%;
 }
 
-#tablaComidas{
-	width:100%;
-}
-
-#tablaCabecera {
-	width:80px;
-	text-align:right;
-	font-family: Verdana;
-	font-size: 16px;
-}
 
 #tituloBody{
 	text-align:left;
 	padding-bottom:6px;
-}
-
-#preciosBody{
-	text-align:right;
-	vertical-align:top;
-}
-
-#ingredientesExtras{
-	text-align:right;
-	vertical-align:top;
-	font-size: 12px;
-}
-
-#subtituloBody{
-	text-align:left;
-	padding-bottom:6px;
-	font-family: Verdana;
-	font-size: 16px;
-	padding-left: 19px
-}
-
-#subtituloBodyCursiva{
-	text-align:left;
-	padding-bottom:6px;
-	font-family: Verdana;
-	font-size: 12px;
-	padding-left: 19px;
-	font-style: italic;
 }
 
 #ivPrincipal{
@@ -70,25 +32,6 @@ table {
 	border-color: #43b39b;
 	color:white;
 }
-
-/*  Hacerlo fijo la cabecera y pie de página */
-/* 
-#piePagina{
-	bottom: 0;
-	position: fixed;
-	right: 0;
-	left: 0;
-	z-index: 1030;
-}
-
-#cabeceraFija {
-	top: 0;
-	position: fixed;
-	right: 0;
-	left: 0;
-	z-index: 1030;
-}
-*/
 
 .btn-outline-success:hover{
 	background-color: #43b39b;	
@@ -122,5 +65,21 @@ table {
 	--bs-popover-border-color: var(--bs-primary);
 }
 	
+
+/* Ini: Div que divide la aplicación entre la calculadora y los productos*/
+.contenedor{
+    text-align: center;
+    display: flex;
+}
+
+.columna{
+    margin: 0 auto;
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px;
+}
+
+/* Fin: Div que divide la aplicación entre la calculadora y los productos*/
 
 
