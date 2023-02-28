@@ -82,4 +82,14 @@ table {
 
 /* Fin: Div que divide la aplicación entre la calculadora y los productos*/
 
+#tamanioButtonPrincipal {
+	width: -moz-available;
+	background-color: #eeeee4;
+	color: black;
+	color: #c1a676;
+	text-shadow: 0px 0px 10px;
+	font-family: Trebuchet MS;
+}
+
+
 

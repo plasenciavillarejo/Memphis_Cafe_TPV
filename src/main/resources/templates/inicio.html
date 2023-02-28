@@ -9,21 +9,15 @@
 
 	<!-- Py-4 : Nos da un margen de anchura. -->
 	<div id="ivPrincipal" class="container py-4">
-		
-		<!--   <img th:src="@{/images/logoMemphis.jpg}" class="rounded mx-auto d-block" alt="Logo Memphis"
-			style="max-width: 400px; width: 100%; margin-bottom: 20px;"> -->
-
-		<!-- bg-light: Le da un fondo de color a la tabla grisaceo -->
 		<div class="card bg-light">
 
+			<!-- Cabecera header -->
+			<!-- ############### -->
 			<div class="card-header" style="text-align: center;">
 				<span id="tituloPanel">Café &#x26; Copas - Memphis</span>
 			</div>
 
 			<div id="tablaAlimentos" class="card-body col text-center">
-
-
-
 				<div class="contenedor">
 					<!--  Columnma calculadora -->
 					<div class="col">
@@ -31,6 +25,24 @@
 					</div>
 
 					<!-- Aplicacion -->
+					<div class="columna">
+						<div class="row">
+							<div th:each="nombrePrincipal: ${logosPrincipales}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+								<a th:href="@{/Memphis_Cafe/redireccionComidas(valorBoton=${nombrePrincipal})}" id="tamanioButtonPrincipal" type="button" class="btn btn-success rounded-pill border-0" 
+									th:text="${nombrePrincipal}" ></a>
+							</div>
+							<div th:if="${logosPrincipales.empty}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+								<img alt="N/A" class="rounded mx-auto d-block pb-3" width="57px">
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+					<!-- Copia columna productos con imágenes 
 					<div class="columna">
 						<div class="row">
 							<div th:if="${!logosPrincipales.empty}" class="d-flex col-xs-12 col-sm-12 col-md-3">
@@ -43,9 +55,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
-
-
+					-->
 
 				<!-- En formato tabla
 				<div class="row">
@@ -95,13 +105,10 @@
 						</table>
 
 					</div>
-				</div>
-				-->
-				
+				</div> -->
 				
 			</div>
 		</div>
-
 
 		<!-- FOOTER -->
 		<!-- ###### -->
