@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.service.ICafeService;
+import com.memphis.cafe.tpv.service.ICarneService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
+import com.memphis.cafe.tpv.service.IRacionService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller
@@ -29,8 +31,8 @@ public class MemphisController {
 	private static final String PAGINADESAYUNOS = "/desayuno/paginaDesayuno";
 	private static final String PAGINABEBIDAS = "/bebida/paginaBebida";
 	private static final String PAGINACOMIDAS = "/comida/paginaComida";
-	private static final String PAGINARACIONES = "raciones";
-	private static final String PAGINACARNES = "carnes";
+	private static final String PAGINARACIONES = "/raciones/paginaRaciones";
+	private static final String PAGINACARNES = "/carne/paginaCarne";
 	private static final String PAGINAPESCADOS = "pescados";
 	private static final String PAGINAPOSTRES = "postres";
 	private static final String PAGINACOMBINADOS = "combinados";
@@ -45,9 +47,18 @@ public class MemphisController {
 	@Autowired
 	private IDesayunosService desayunoService;
 	
+	@Autowired
+	private IRacionService racionService;
 	
 	@Autowired
 	private Utilidades utilidades;
+	
+	@Autowired
+	private ICarneService carneService;
+	
+	
+	
+	
 	
 	@GetMapping({ "/inicio", "/" })
 	public String inicio(Model model) {
@@ -77,6 +88,12 @@ public class MemphisController {
 		} else if(valorBoton.equalsIgnoreCase("Comidas")) {
 			// La pagina comidas se incluyen los botones dentro de la vista, no se llama a ninguna tabla en BBDD.
 			return PAGINACOMIDAS;
+		} else if(valorBoton.equalsIgnoreCase("Raciones")) {
+			model.addAttribute("listaRaciones", racionService.listaRaciones());
+			return PAGINARACIONES;
+		} else if(valorBoton.equalsIgnoreCase("Carnes")) {
+			model.addAttribute("listaCarnes", carneService.listaCarnes());
+			return PAGINACARNES;
 		}
 		
 		

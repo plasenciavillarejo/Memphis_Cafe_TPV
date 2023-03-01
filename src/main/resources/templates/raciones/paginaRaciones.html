@@ -26,17 +26,16 @@
 					<!-- Aplicacion -->
 					<div class="columna">
 						<div class="row">
-							<div th:each="desayuno: ${listaDesayunos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+							<div th:each="raciones: ${listaRaciones}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
 								<a th:href="@{/redireccionComidas(valorBoton=${nombrePrincipal})}" id="tamanioButtonPrincipal" type="button" class="btn btn-success rounded-pill border-0" 
-									th:text="${desayuno.nombre}" ></a>
+									th:text="${raciones.nombre}" ></a>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- Botón para retroceder -->
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<a id="modalBoton" onclick="return confirm('¿Estás seguro que deseas volver hacia atras?')" 
-						th:href="@{/Memphis_Cafe/inicio}" class="btn btn-primary me-md-2 border-0 rounded-pill" style="width: 10%;" type="button">&laquo; Atrás</a>
+					<a id="modalBoton"	th:href="@{/Memphis_Cafe/inicio}" class="btn btn-primary me-md-2 border-0 rounded-pill" style="width: 10%;" type="button">&laquo; Atrás</a>
 				</div>
 			</div>
 		</div>
