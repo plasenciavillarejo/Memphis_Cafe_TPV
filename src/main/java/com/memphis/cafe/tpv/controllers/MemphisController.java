@@ -57,9 +57,6 @@ public class MemphisController {
 	private ICarneService carneService;
 	
 	
-	
-	
-	
 	@GetMapping({ "/inicio", "/" })
 	public String inicio(Model model) {
 		

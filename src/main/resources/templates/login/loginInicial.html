@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" >
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery.tipsy.css}">
+
+
+<!-- ### Fichero Login Externo ### -->
+<link rel="stylesheet" th:href="@{/css/paginaLogin.css}">
+
+<title>Login</title>
+</head>
+<body>
+
+	<header>
+		<h2 class="logo">logo</h2>
+		<nav class="navigation">
+			<a href="#">Home</a>
+			<a href="#">About</a>
+			<a href="#">Services</a>
+			<a href="#">Contact</a>
+			<button class="btnLogin-popup">Login</button>
+		</nav>
+	</header>
+
+	
+	<div class="wrapper">
+		<div class="form-box login">
+			<h2>Login</h2>
+			<form action="#">
+				<div class="input-box">
+					<span class="icon"></span>
+					<input type="email" required>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+
+</body>
+
+		<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>		
+		<!-- Liberería de Jquery.js -->
+		<script th:src="@{/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/js/jquery.tipsy.js}"></script>
+		<script th:src="@{/js/jquery.tipsy.min.js}"></script>
+
+</html>
