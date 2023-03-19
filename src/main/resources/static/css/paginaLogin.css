@@ -55,7 +55,7 @@ header {
 	height: 3px;
 	background: #fff;
 	border-radius: 5px;
-	/* Esconde el subrayado si no estamos en lo alto*/
+	/* Esconde el subrayado si no estamos en lo alto */
 	transform-origin: right;
 	transform: scaleX(0);
 	transition: transform .5s;
@@ -79,8 +79,7 @@ header {
 	color: #fff;
 	font-weight: 500;
 	margin-left: 40px;
-	/* Al pasar el cursor por el boton login 
-	le da un efecto de relleno */
+	/* Al pasar el cursor por el boton login le da un efecto de relleno */
 	transition: .5s;
 }
 
@@ -129,46 +128,48 @@ header {
 }
 
 
-/* Inicio para Mostar/Ocultar los PopUp */
+/* Al pasar al popup de registrar agranda el recuadro */
 .wrapper.active {
 	height: 520px;
 }
 /* Fin para Mostar/Ocultar los PopUp */
 
 
+/* Da un tamaño dentro de el div form-box login de un 100% */
 .wrapper .form-box {
 	width: 100%;
 	padding: 40px; 
 }
 
+/* Lógica para hacer la transacción entre PopUps */
+/* ############################################# */
+	
+	/* El login vulve a su estado inicial al pulsar desde Register en el boton 'Login' */
+	.wrapper .form-box.login {
+		transation: transform .18s ease;
+		transform: translateX(0);
+	}
+	
+	/* Sirve para intercambiar entre login y register pulsando en "Login, Register" */
+	.wrapper.active .form-box.login {
+		transation: none;
+		transform: translateX(-400px);
+	}
+	
+	
+	.wrapper .form-box.register {
+		position: absolute;
+		transation: none;
+		transform: translateX(400px);
+	}
+	
+	.wrapper.active .form-box.register {
+		transation: transform .18s ease;
+		transform: translateX(0);
+	}
 
-
-/* El login vulve a su estado inicial al pulsar desde Register en el boton 'Login' */
-.wrapper .form-box.login {
-	/*	display: none; */
-	transation: transform .18s ease;
-	transform: translateX(0);
-}
-
-/* Sirve para intercambiar entre login y register pulsando en "Login, Register" */
-.wrapper.active .form-box.login {
-	transation: none;
-	transform: translateX(-400px);
-}
-
-
-.wrapper .form-box.register {
-	position: absolute;
-	transation: none;
-	transform: translateX(400px);
-}
-
-.wrapper.active .form-box.register {
-	transation: transform .18s ease;
-	transform: translateX(0);
-}
-
-
+/* Fin Lógica para hacer la transacción entre PopUps */
+/* ################################################# */
 
 
 /* Estilos para el boton X para cerrar el PopUp*/
@@ -219,7 +220,7 @@ header {
 	transition: .5s;
 }
 
-/* Cuando nos situamos dentro de los inputs el Texto se moverá hacia arriba */
+/* Cuando nos situamos dentro de los inputs los labels se moverán hacia arriba */
 .input-box input:focus~label,
 .input-box input:valid~label {
 	top: -5px;
@@ -250,14 +251,12 @@ header {
 	font-size: .9em;
 	color: #162938;
 	font-weight: 500;
-	/*margin: -15px 0 15px 27px; 
-	margin: -14px 27px 17px;*/
 	margin: -15px 0 15px; 
 	display: flex;
 	justify-content: space-between;
 }
 
-/* Da color al checkbox */
+/* Da color y un tamaño al checkbox */
 .remember-forgot label input {
 	accent-color: #162938;
 	margin-right: 3px;
