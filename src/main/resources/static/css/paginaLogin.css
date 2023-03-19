@@ -90,4 +90,233 @@ header {
 }
 	
 
+/* Damos estilos PopUp Login*/
+.wrapper {
+	position: relative;
+	width: 400px;
+	height: 440px;
+	background: transparent;
+	border: 2px solid rgba(255,255,255,.5);
+	border-radius: 20px;
+	
+	/* Le da un fondo borroso al Login */
+	backdrop-filter: blur(20px);
+	
+	/* Mete una sombra al fondo oscura */
+	box-shadow: 0 0 30px rgba(0,0,0,0.5);
+	
+	/* Alineamos todo el contenido en el centro */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	/* Esconde todo lo que sobresalga de la clase, nos sirve para ocultar el recudra de la "X" que sobre sale por la parte superior de la derecha 
+	 Tambíen nos sirve para la transacción entre el login y el pulsar el register, muestra ambos popup */ 
+	overflow: hidden;
+	
+	/* transacción cuando se oculta o se muestra el popup 'Se pone más grande el cuadro o se pone más pequeño'
+		También se encarga de dar movimiento al pulsar el login y se muestre el popup en el centro */
+	transition: transform .5s ease, height .2s ease;
+	
+	/* Oculta el PopUp de forma inicial*/
+	transform: scale(0);
+}
+
+
+/* Al pulsar el login mostrará el popup en el centro*/
+.wrapper.active-popup {
+	transform: scale(1);
+}
+
+
+/* Inicio para Mostar/Ocultar los PopUp */
+.wrapper.active {
+	height: 520px;
+}
+/* Fin para Mostar/Ocultar los PopUp */
+
+
+.wrapper .form-box {
+	width: 100%;
+	padding: 40px; 
+}
+
+
+
+/* El login vulve a su estado inicial al pulsar desde Register en el boton 'Login' */
+.wrapper .form-box.login {
+	/*	display: none; */
+	transation: transform .18s ease;
+	transform: translateX(0);
+}
+
+/* Sirve para intercambiar entre login y register pulsando en "Login, Register" */
+.wrapper.active .form-box.login {
+	transation: none;
+	transform: translateX(-400px);
+}
+
+
+.wrapper .form-box.register {
+	position: absolute;
+	transation: none;
+	transform: translateX(400px);
+}
+
+.wrapper.active .form-box.register {
+	transation: transform .18s ease;
+	transform: translateX(0);
+}
+
+
+
+
+/* Estilos para el boton X para cerrar el PopUp*/
+.wrapper .icon-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 45px;
+	height: 45px;
+	background: #162938;
+	font-size: 2em;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom-left-radius: 20px;
+	cursor: pointer;
+	z-index: 1; 
+}
+
+
+.form-box h2 {
+	font-size: 2em;
+	color: #162938;
+	text-align: center;
+}
+
+/* Damos formato a los inputs */
+.input-box {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	border-bottom: 2px solid #162938;
+	margin: 30px 0;
+}
+
+.input-box label {
+	position: absolute;
+	top: 50%;
+	left: 5px;
+	transform: translateY(-50%);
+	font-size: 1em;
+	color: #162938;
+	font-weight: 500;
+	pointer-events: none;
+	
+	/* Da una transaccion lenta cuando se mueve el texto de los inputs hacia arriba */
+	transition: .5s;
+}
+
+/* Cuando nos situamos dentro de los inputs el Texto se moverá hacia arriba */
+.input-box input:focus~label,
+.input-box input:valid~label {
+	top: -5px;
+}
+
+
+.input-box input {
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 1em;
+	color: #162938;
+	font-weight: 600;
+	padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+	position: absolute;
+	right: 8px;
+	font-size: 1.2em;
+	color: #162938;
+	line-height: 57px;
+}
+
+.remember-forgot {
+	font-size: .9em;
+	color: #162938;
+	font-weight: 500;
+	/*margin: -15px 0 15px 27px; 
+	margin: -14px 27px 17px;*/
+	margin: -15px 0 15px; 
+	display: flex;
+	justify-content: space-between;
+}
+
+/* Da color al checkbox */
+.remember-forgot label input {
+	accent-color: #162938;
+	margin-right: 3px;
+}
+
+.remember-forgot a {
+	color: #162938;
+	text-decoration: none;
+}
+
+.remember-forgot a:hover {
+	text-decoration: underline;
+}
+
+.btn {
+	width: 100%;
+	height: 45px;
+	background: #162938;
+	border: none;
+	outline: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 1em;
+	color: #fff;
+	font-weight: 500;
+}
+
+.btn:hover {
+	color: #fff;
+}
+
+.login-registrer {
+	font-size: .9em;
+	color: #162938;
+	text-align: center;
+	font-weight: 500;
+	margin: 25px 0 10px;
+}
+
+
+.login-registrer p a {
+	color: #162938;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.login-registrer p a:hover {
+	text-decoration: underline;
+}
+
+/* Fin estilos PopUp Login*/
+
+
+
+
+
+
+
+
+
+
 

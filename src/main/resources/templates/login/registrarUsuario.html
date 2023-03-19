@@ -12,21 +12,9 @@
 <!-- ### Fichero Login Externo ### -->
 <link rel="stylesheet" th:href="@{/css/paginaLogin.css}">
 
-<title>Login</title>
+<title>Registrar Usuario</title>
 </head>
 <body>
-
-	<header>
-		<h2 class="logo">logo</h2>
-		<nav class="navigation">
-			<a href="#">Home</a>
-			<a href="#">About</a>
-			<a href="#">Services</a>
-			<a href="#">Contact</a>
-			<button class="btnLogin-popup">Login</button>
-		</nav>
-	</header>
-
 	
 	<!-- PopUp Login -->
 	<!-- ########### -->
@@ -38,6 +26,7 @@
 		<div class="form-box login">
 			<h2>Login</h2>
 			<form action="#">
+				
 				<div class="input-box">
 					<span class="icon">
 						<ion-icon name="mail"></ion-icon>
@@ -71,66 +60,11 @@
 				</div>
 			</form>
 		</div>
-		
-		
-		<!-- Registrar un Usuario -->
-		<!-- #################### -->
-		<div class="form-box register">
-			<h2>Registration</h2>
-			<form action="#">
-				
-				<div class="input-box">
-					<span class="icon">
-						<ion-icon name="person"></ion-icon>
-					</span>
-					<input type="text" required>
-					<label>Username</label>
-				</div>
-				
-				
-				<div class="input-box">
-					<span class="icon">
-						<ion-icon name="mail"></ion-icon>
-					</span>
-					<input type="email" required>
-					<label>Email</label>
-				</div>
-				
-				<div class="input-box">
-					<span class="icon">
-						<ion-icon name="lock-closed"></ion-icon>
-					</span>
-					<input type="password" required>
-					<label>Password</label>
-				</div>
-				
-				<div class="remember-forgot">
-					<label>
-						<input type="checkbox"> 
-						I agree to the terms & conditions 
-					</label>
-				</div>
-				<button type="submit" class="btn">Register</button>
-				
-				<div class="login-registrer">
-					<p>
-						<span>Already have an account?</span>
-						<a href="#" class="login-link">Login</a>
-					</p>
-				</div>
-			</form>
-		</div>
-		
 	</div>
 	
 
 </body>
-		
-		<!-- Importación Script para lógica -->
-		<!-- ############################## -->
-		<script th:src="@{/js/script.js}"></script>
-		
-		
+
 		<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>		
 		
