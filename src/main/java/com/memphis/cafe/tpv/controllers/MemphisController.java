@@ -1,6 +1,8 @@
 package com.memphis.cafe.tpv.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -13,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.memphis.cafe.tpv.entity.Combinado;
+import com.memphis.cafe.tpv.entity.Lotes;
 import com.memphis.cafe.tpv.service.ICafeService;
 import com.memphis.cafe.tpv.service.ICarneService;
+import com.memphis.cafe.tpv.service.ICombinadoService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
+import com.memphis.cafe.tpv.service.ILoteService;
+import com.memphis.cafe.tpv.service.IPescadoService;
 import com.memphis.cafe.tpv.service.IRacionService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
@@ -33,9 +40,9 @@ public class MemphisController {
 	private static final String PAGINACOMIDAS = "/comida/paginaComida";
 	private static final String PAGINARACIONES = "/raciones/paginaRaciones";
 	private static final String PAGINACARNES = "/carne/paginaCarne";
-	private static final String PAGINAPESCADOS = "pescados";
+	private static final String PAGINAPESCADOS = "/pescado/paginaPescado";
 	private static final String PAGINAPOSTRES = "postres";
-	private static final String PAGINACOMBINADOS = "combinados";
+	private static final String PAGINACOMBINADOS = "/combinado/paginaCombinado";
 	private static final String PAGINAREPOSTERIA = "reposteria";
 	private static final String PAGINAINFUSIONES = "infusiones";
 	
@@ -55,6 +62,17 @@ public class MemphisController {
 	
 	@Autowired
 	private ICarneService carneService;
+	
+	@Autowired
+	private IPescadoService pescadoService;
+	
+	@Autowired
+	private ICombinadoService combinadoService;
+	
+	@Autowired
+	private ILoteService loteService;
+	
+	
 	
 	
 	@GetMapping({ "/inicio", "/" })
@@ -91,8 +109,25 @@ public class MemphisController {
 		} else if(valorBoton.equalsIgnoreCase("Carnes")) {
 			model.addAttribute("listaCarnes", carneService.listaCarnes());
 			return PAGINACARNES;
+		} else if(valorBoton.equalsIgnoreCase("Pescados")) {
+			model.addAttribute("listaPescados", pescadoService.listaPescado());
+			return PAGINAPESCADOS;
+		} else if(valorBoton.equalsIgnoreCase("Combinados")) {
+
+			List<Combinado> listaCombinados = combinadoService.listaCombinadosConLotes();
+			List<Lotes> listaLotes = loteService.listaLotes();
+			List<String> listaCompleta = new ArrayList<>();
+			
+			for (Combinado c : listaCombinados) {
+				listaCompleta.add(c.getNombre());
+			}
+			for (Lotes l : listaLotes) {
+				listaCompleta.add(l.getNombre());
+			}
+
+			model.addAttribute("listaCombinados", listaCompleta);
+			return PAGINACOMBINADOS;
 		}
-		
 		
 		return null;
 	}

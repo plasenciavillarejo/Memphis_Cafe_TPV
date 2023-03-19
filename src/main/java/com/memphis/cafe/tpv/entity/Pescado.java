@@ -12,8 +12,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(schema = "Memphis_Cafe", name = "Pescado")
-public class Pescado implements Serializable{
-
+public class Pescado implements Serializable {
 
 	private static final long serialVersionUID = 2733989957765151894L;
 
@@ -53,5 +52,5 @@ public class Pescado implements Serializable{
 	public void setPrecio(String precio) {
 		this.precio = precio;
 	}
-	
+
 }

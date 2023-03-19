@@ -28,8 +28,8 @@
 					<div class="columna">
 						<div class="row">
 							<div th:each="nombrePrincipal: ${logosPrincipales}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
-								<a th:href="@{/Memphis_Cafe/redireccionComidas(valorBoton=${nombrePrincipal})}" id="tamanioButtonPrincipal" type="button" class="btn btn-success rounded-pill border-0" 
-									th:text="${nombrePrincipal}" ></a>
+								<a th:href="@{/Memphis_Cafe/redireccionComidas(valorBoton=${nombrePrincipal})}" id="tamanioButtonPrincipal" type="button" 
+									class="btn btn-success rounded-pill border-0" th:text="${nombrePrincipal}" ></a>
 							</div>
 							<div th:if="${logosPrincipales.empty}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
 								<img alt="N/A" class="rounded mx-auto d-block pb-3" width="57px">
