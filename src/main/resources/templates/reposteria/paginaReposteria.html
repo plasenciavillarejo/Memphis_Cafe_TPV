@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head">
+
+</head>
+
+<body>
+
+<div id="ivPrincipal" class="container py-4">
+		<div class="card bg-light">
+			
+			<!-- Cabecera header -->
+			<!-- ############### -->
+			<div class="card-header" style="text-align: center;">
+				<span id="tituloPanel">Café &#x26; Copas - Memphis</span>
+			</div>
+
+			<div id="tablaAlimentos" class="card-body col text-center">
+				<div class="contenedor">
+					<!--  Columnma calculadora -->
+					<div class="col">
+						<h1>Calculadora</h1>
+					</div>
+
+					<!-- Aplicacion -->
+					<div class="columna">
+						<div class="row">
+							<div th:each="reposteria: ${listaReposteria}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+								<a th:href="@{/redireccionComidas(valorBoton=${nombrePrincipal})}" id="tamanioButtonPrincipal" type="button" 
+									class="btn btn-success rounded-pill border-0" th:text="${reposteria.nombre}" ></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Botón para retroceder -->
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<a id="modalBoton" th:href="@{/Memphis_Cafe/inicio}" class="btn btn-primary me-md-2 border-0 rounded-pill" style="width: 10%;" type="button">&laquo; Atrás</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		<!-- ###### -->
+		<footer th:replace="layout/layout :: footer"> </footer>
+	</div>
+</body>
+</html>

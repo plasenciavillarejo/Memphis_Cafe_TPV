@@ -24,6 +24,7 @@ import com.memphis.cafe.tpv.service.IDesayunosService;
 import com.memphis.cafe.tpv.service.ILoteService;
 import com.memphis.cafe.tpv.service.IPescadoService;
 import com.memphis.cafe.tpv.service.IRacionService;
+import com.memphis.cafe.tpv.service.IReposteriaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller
@@ -43,7 +44,7 @@ public class MemphisController {
 	private static final String PAGINAPESCADOS = "/pescado/paginaPescado";
 	private static final String PAGINAPOSTRES = "postres";
 	private static final String PAGINACOMBINADOS = "/combinado/paginaCombinado";
-	private static final String PAGINAREPOSTERIA = "reposteria";
+	private static final String PAGINAREPOSTERIA = "/reposteria/paginaReposteria";
 	private static final String PAGINAINFUSIONES = "infusiones";
 	
 	private Logger logAplicacion = LoggerFactory.getLogger(this.getClass());
@@ -72,6 +73,8 @@ public class MemphisController {
 	@Autowired
 	private ILoteService loteService;
 	
+	@Autowired
+	private IReposteriaService reposteriaService;
 	
 	
 	
@@ -127,7 +130,10 @@ public class MemphisController {
 
 			model.addAttribute("listaCombinados", listaCompleta);
 			return PAGINACOMBINADOS;
-		}
+		} else if(valorBoton.equalsIgnoreCase("Reposteria")) {
+			model.addAttribute("listaReposteria", reposteriaService.listaReposteria());
+			return PAGINAREPOSTERIA;
+		} 
 		
 		return null;
 	}

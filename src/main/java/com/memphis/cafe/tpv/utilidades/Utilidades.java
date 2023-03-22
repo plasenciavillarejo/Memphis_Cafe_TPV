@@ -21,7 +21,6 @@ public class Utilidades {
 		logos.put(8, "Postres");
 		logos.put(9, "Combinados");
 		logos.put(10, "Reposteria");
-		logos.put(11, "Infusiones");
 		return logos;
 	}
 	
