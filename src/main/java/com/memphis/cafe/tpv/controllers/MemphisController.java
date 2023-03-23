@@ -24,6 +24,7 @@ import com.memphis.cafe.tpv.service.IDesayunosService;
 import com.memphis.cafe.tpv.service.ILoteService;
 import com.memphis.cafe.tpv.service.IPescadoService;
 import com.memphis.cafe.tpv.service.IRacionService;
+import com.memphis.cafe.tpv.service.IRefrescoService;
 import com.memphis.cafe.tpv.service.IReposteriaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
@@ -76,7 +77,8 @@ public class MemphisController {
 	@Autowired
 	private IReposteriaService reposteriaService;
 	
-	
+	@Autowired
+	private IRefrescoService refrescoService;
 	
 	@GetMapping({ "/inicio", "/" })
 	public String inicio(Model model) {
@@ -138,6 +140,17 @@ public class MemphisController {
 		return null;
 	}
 	
+	
+	@GetMapping(value = "/bebidas")
+	public String listaBebidas(Model model, @RequestParam(value = "valorBoton", required = false) String valorBoton) {
+		String salidaPagina = "";
+		
+		if(valorBoton.equalsIgnoreCase("Refrescos")) {
+ 			model.addAttribute("listaRefrescos", refrescoService.listaRefrescos());
+ 			salidaPagina = PAGINACAFE;
+		}
+		return salidaPagina;
+	}
 	
 	
 }

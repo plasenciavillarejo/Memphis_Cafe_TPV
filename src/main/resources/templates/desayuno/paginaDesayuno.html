@@ -27,7 +27,7 @@
 					<div class="columna">
 						<div class="row">
 							<div th:each="desayuno: ${listaDesayunos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
-								<a th:href="@{/redireccionComidas(valorBoton=${nombrePrincipal})}" id="tamanioButtonPrincipal" type="button" class="btn btn-success rounded-pill border-0" 
+								<a th:href="@{/redireccionComidas(valorBoton=${desayuno.nombre})}" id="tamanioButtonPrincipal" type="button" class="btn btn-success rounded-pill border-0" 
 									th:text="${desayuno.nombre}" ></a>
 							</div>
 						</div>
