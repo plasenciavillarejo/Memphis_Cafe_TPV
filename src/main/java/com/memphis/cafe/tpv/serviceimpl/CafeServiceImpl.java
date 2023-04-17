@@ -20,4 +20,9 @@ public class CafeServiceImpl implements ICafeService{
 		return cafeDao.listaCafes();
 	}
 
+	@Override
+	public String precioCafe(String nombre) {
+		return cafeDao.precioCafe(nombre);
+	}
+
 }

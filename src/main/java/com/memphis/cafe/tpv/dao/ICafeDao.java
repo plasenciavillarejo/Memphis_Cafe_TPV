@@ -11,5 +11,8 @@ public interface ICafeDao extends CrudRepository<Cafe, Integer> {
 
 	@Query(value = "SELECT c FROM #{#entityName} c")
 	public List<Cafe> listaCafes();
+
+	@Query(value = "SELECT c.precio FROM #{#entityName} c WHERE c.nombre = ?1 ")
+	public String precioCafe(String nombre);
 	
 }
