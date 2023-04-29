@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.constantes.sesion.ConstantesSesion;
 import com.memphis.cafe.tpv.entity.Combinado;
+import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
 import com.memphis.cafe.tpv.entity.Lotes;
 import com.memphis.cafe.tpv.service.ICafeService;
 import com.memphis.cafe.tpv.service.ICarneService;
 import com.memphis.cafe.tpv.service.ICombinadoService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
+import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
 import com.memphis.cafe.tpv.service.ILoteService;
 import com.memphis.cafe.tpv.service.IPescadoService;
 import com.memphis.cafe.tpv.service.IRacionService;
@@ -93,12 +95,26 @@ public class MemphisController {
 	@Autowired
 	private HttpServletRequest request;
 
+	@Autowired
+	private IListaBebidaAlmacenadaService bebidaAlmacenadaService;
+	
 	
 	@GetMapping({ "/inicio", "/" })
 	public String inicio(Model model) {
 
 		session = request.getSession();
 
+		// Primero busco en la tabla para verificar que no hay nada en la cuenta
+		// Procedo almacenar el producto en la tabla
+		List<ListaBebidaAlmacenada> bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+		
+		for(ListaBebidaAlmacenada lista: bebidaAlmacenada) {
+			ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.add(lista.getPrecio());
+			ConstantesSesion.LISTACONSTANTENOMBREBEBIDA.add(lista.getNombreBebida());
+			session.setAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA,ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA);
+			session.setAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA,ConstantesSesion.LISTACONSTANTENOMBREBEBIDA);
+		}
+		
 		Map<Integer, String> localizarNombre = new HashMap<>();
 		localizarNombre = utilidades.logosIniciales();
 
@@ -106,16 +122,18 @@ public class MemphisController {
 		logAplicacion.info("Mostrando la carta para el Cafe Bar - Memphis");
 
 		// Metemos la constante de sesión
-		if (session.getAttribute(ConstantesSesion.CONSTANTECOMIDA) == null
-				&& session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA) == null) {
+		if (session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA) == null
+				&& session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA) == null) {
 			// Cuando se accede por primera vez a la página inicial no debe de existir
 			// ningún listado de productos
-			session.setAttribute(ConstantesSesion.CONSTANTECOMIDA, null);
-			session.setAttribute(ConstantesSesion.CONSTANTEBEBIDA, null);
-		} else if (session.getAttribute(ConstantesSesion.CONSTANTECOMIDA) != null) {
-			model.addAttribute(ConstantesSesion.CONSTANTECOMIDA, ConstantesSesion.LISTACONSTANTECOMIDA);
-		} else if (session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA) != null) {
-			model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, ConstantesSesion.LISTACONSTANTEBEBIDA);
+			session.setAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA, null);
+			session.setAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, null);
+		} else if (session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA) != null) {
+			model.addAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA, ConstantesSesion.LISTACONSTANTEPRECIOCOMIDA);
+		} else if (session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA) != null || !bebidaAlmacenada.isEmpty()) {
+			
+			model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA);
+			model.addAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA, ConstantesSesion.LISTACONSTANTENOMBREBEBIDA);
 		}
 
 		return INICIO;
@@ -126,16 +144,22 @@ public class MemphisController {
 		logAplicacion.info("Entrando por la redireccionComidas");
 		
 		if(valorBoton.equalsIgnoreCase("Café")) {
-			if (session.getAttribute(ConstantesSesion.CONSTANTECOMIDA) == null
-					&& session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA) == null) {
+			
+			// Primero busco en la tabla para verificar que no hay nada en la cuenta
+			// Procedo almacenar el producto en la tabla
+			List<ListaBebidaAlmacenada> bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+			
+			if (bebidaAlmacenada.isEmpty() && session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA) == null
+					&& session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA) == null) {
 				// Cuando se accede por primera vez a la página inicial no debe de existir
 				// ningún listado de productos
-				session.getAttribute(ConstantesSesion.CONSTANTECOMIDA);
-				session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA);
-			} else if (session.getAttribute(ConstantesSesion.CONSTANTECOMIDA) != null) {
-				model.addAttribute(ConstantesSesion.CONSTANTECOMIDA, ConstantesSesion.LISTACONSTANTECOMIDA);
-			} else if (session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA) != null) {
-				model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, ConstantesSesion.LISTACONSTANTEBEBIDA);
+				session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA);
+				session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA);
+			} else if (session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA) != null) {
+				model.addAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA, ConstantesSesion.LISTACONSTANTEPRECIOCOMIDA);
+			} else if (session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA) != null || !bebidaAlmacenada.isEmpty()) {
+				model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA);
+				model.addAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA, ConstantesSesion.LISTACONSTANTENOMBREBEBIDA);
 			}
  			model.addAttribute("listaCafes", cafeService.listaCafes());
  			VALORPAGINAACTUAL = PAGINACAFE;
@@ -206,20 +230,67 @@ public class MemphisController {
 		
 		session = request.getSession();
 		
+		
 		model.addAttribute("listaCafes", cafeService.listaCafes());
 		String precioCafe = cafeService.precioCafe(nombreCafe);
-		ConstantesSesion.LISTACONSTANTEBEBIDA.add(precioCafe);
-		session.setAttribute(ConstantesSesion.CONSTANTEBEBIDA, ConstantesSesion.LISTACONSTANTEBEBIDA);
 		
-		if (session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA) != null) {
-			model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA));
+		// Procedo almacenar el producto en la tabla
+		List<ListaBebidaAlmacenada> bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+		
+		
+		if (bebidaAlmacenada.isEmpty()) {
+			ListaBebidaAlmacenada b = new ListaBebidaAlmacenada();
+			b.setPrecio(precioCafe);
+			b.setNombreBebida(nombreCafe);
+			bebidaAlmacenadaService.guardarBebida(b);
+			
+			// Almaceno el precio de la bebida
+			ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.add(b.getPrecio());
+			// ALmaceno el nombre de la bebida
+			ConstantesSesion.LISTACONSTANTENOMBREBEBIDA.add(b.getNombreBebida());
+			
+			// Si ya hay algo en sesión se procede a verificar que es lo que se ha recibido
+			// y si existe en la tabla de bebidas existentes.
+		} else {
+			for (ListaBebidaAlmacenada b : bebidaAlmacenada) {
+				String resultadoString = "";
+				if (b.getNombreBebida().equalsIgnoreCase(nombreCafe)) {
+					// Sumo el nuevo valor
+					double resultado = Double.parseDouble(precioCafe.replace(',', '.')) + Double.parseDouble(b.getPrecio().replace(',', '.'));
+					
+					// Función para redondear decimales
+					resultadoString = String.valueOf(utilidades.redondearDecimales(resultado)).replace('.', ',');
+					
+					b.setPrecio(resultadoString);
+					bebidaAlmacenadaService.guardarBebida(b);
+				}
+				break;
+			}
 		}
 		
-		if(session.getAttribute(ConstantesSesion.CONSTANTECOMIDA) == null) {
-			model.addAttribute(ConstantesSesion.CONSTANTECOMIDA, null);
+		// Empezamos a guardar todo en sesión
+		if(!bebidaAlmacenada.isEmpty()) {
+			utilidades.borrarObjetosListaBebidas(request);
 		}
 		
+		for(ListaBebidaAlmacenada bebida: bebidaAlmacenada) {
+			// Almaceno el precio de la bebida
+			ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.add(bebida.getPrecio());
+			// ALmaceno el nombre de la bebida
+			ConstantesSesion.LISTACONSTANTENOMBREBEBIDA.add(bebida.getNombreBebida());
+		}
 		
+		// Lo metemos en sesión
+		session.setAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA);
+		session.setAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA, ConstantesSesion.LISTACONSTANTENOMBREBEBIDA);
+		
+		// Pasamos los atributos a la vista
+		model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA);
+		model.addAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA, ConstantesSesion.LISTACONSTANTENOMBREBEBIDA);
+		
+		if(session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA) == null) {
+			model.addAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA, null);
+		}
 		return VALORPAGINAACTUAL;
 	}
 	
@@ -230,46 +301,90 @@ public class MemphisController {
 	public String obtenerSesionAtributos(Model model) {
 		// Procedemos a borrar los atributos que existe en la sesión
 		logAplicacion.info("Se procede a borrar los atributos que hay en sesión.");
-		ConstantesSesion.LISTACONSTANTEBEBIDA = new ArrayList<>();
-		ConstantesSesion.LISTACONSTANTECOMIDA = new ArrayList<>();
-		session.removeAttribute(ConstantesSesion.CONSTANTECOMIDA);
-		session.removeAttribute(ConstantesSesion.CONSTANTEBEBIDA);
+		
+		List<ListaBebidaAlmacenada> bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+		
+		for(ListaBebidaAlmacenada l: bebidaAlmacenada) {
+			bebidaAlmacenadaService.borrarBebida(l.getId());
+		}
+		
+		ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA = new ArrayList<>();
+		ConstantesSesion.LISTACONSTANTEPRECIOCOMIDA = new ArrayList<>();
+		
+		ConstantesSesion.LISTACONSTANTENOMBREBEBIDA = new ArrayList<>();
+		ConstantesSesion.LISTACONSTANTENOMBRECOMIDA = new ArrayList<>();
+		
+		session.removeAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA);
+		session.removeAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA);
+		
+		session.removeAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA);
+		session.removeAttribute(ConstantesSesion.CONSTANTENOMBRECOMIDA);
 
-		if (session.getAttribute(ConstantesSesion.CONSTANTECOMIDA) == null
-				&& session.getAttribute(ConstantesSesion.CONSTANTEBEBIDA) == null) {
+		if (session.getAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA) == null
+				&& session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA) == null) {
 			logAplicacion.info("Se ha borrado los atributos de sesión correctamente");
 		}
+		
+		
+		
 		return VALORPAGINAACTUAL;
 	}
 	
 	@GetMapping("/validarObjetosActuales/{borrarPrecio}")
 	public String validarObjetosDeSesion(@PathVariable("borrarPrecio") String borrarPrecio, Model model) {
 
-		if(ConstantesSesion.LISTACONSTANTEBEBIDA != null) { 
-			for(String bebidas: ConstantesSesion.LISTACONSTANTEBEBIDA) {
+		if(ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA != null) { 
+			for(String bebidas: ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA) {
 				if(borrarPrecio.trim().equalsIgnoreCase(bebidas.trim())) {
-					ConstantesSesion.LISTACONSTANTEBEBIDA.remove(bebidas);
+					ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.remove(bebidas);
 					break;
 				}
 			}
 			// Validamos que si no hay más objetos en sesión se elimine todo
-			if(ConstantesSesion.LISTACONSTANTEBEBIDA.isEmpty()) {
-				ConstantesSesion.LISTACONSTANTEBEBIDA = new ArrayList<>();
-				session.removeAttribute(ConstantesSesion.CONSTANTEBEBIDA);
+			if(ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.isEmpty()) {
+				ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA = new ArrayList<>();
+				session.removeAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA);
 				// Con esto borramos el card de Bebida
-				model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, null);
+				model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, null);
 			}else {
-				model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, ConstantesSesion.LISTACONSTANTEBEBIDA);
+				model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA);
 			}
 			
-		} else if (ConstantesSesion.LISTACONSTANTECOMIDA.isEmpty()) {
-			ConstantesSesion.LISTACONSTANTECOMIDA = new ArrayList<>();
-			session.removeAttribute(ConstantesSesion.CONSTANTECOMIDA);
+		} else if (ConstantesSesion.LISTACONSTANTEPRECIOCOMIDA.isEmpty()) {
+			ConstantesSesion.LISTACONSTANTEPRECIOCOMIDA = new ArrayList<>();
+			session.removeAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA);
 			// Con esto borramos el card de Comida
-			model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, null);
+			model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, null);
 		}
 
 		return VALORPAGINAACTUAL;
 	}
 
+	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor
+	@GetMapping("/sumarObjetosActuales/{sumarPrecio}/{nombreCafe}")
+	public String sumarPrecioEnSesion(@PathVariable("sumarPrecio") String sumarPrecio,
+			@PathVariable("nombreCafe") String nombreCafe, Model model) {
+		
+	String resultadoString = "";
+	String buscarPrecioBBDD = cafeService.precioCafeAumentaCantidad(sumarPrecio.trim());
+	
+		String valorFijo = sumarPrecio;
+		if (ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA != null) {
+			for (String bebidas : ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA) {
+					// Elimino el valor antiguo
+					ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.remove(bebidas);
+					// Sumo el nuevo valor
+					double resultado = Double.parseDouble(sumarPrecio.replace(',', '.')) + Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
+					resultadoString = String.valueOf(resultado).replace('.', ',');
+					ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA.add(resultadoString);
+					break;
+			}
+			
+		}
+		model.addAttribute("valorModificado", resultadoString);
+		return VALORPAGINAACTUAL;
+	}
+	
+	
+	
 }

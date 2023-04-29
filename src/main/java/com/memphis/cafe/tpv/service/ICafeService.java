@@ -9,4 +9,6 @@ public interface ICafeService {
 	public List<Cafe> listaCafes();
 	
 	public String precioCafe(String nombre);
+	
+	public String precioCafeAumentaCantidad(String precio);
 }

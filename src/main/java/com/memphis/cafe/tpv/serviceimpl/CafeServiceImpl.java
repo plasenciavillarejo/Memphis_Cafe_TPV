@@ -25,4 +25,9 @@ public class CafeServiceImpl implements ICafeService{
 		return cafeDao.precioCafe(nombre);
 	}
 
+	@Override
+	public String precioCafeAumentaCantidad(String precio) {
+		return cafeDao.precioCafeAumentaCantidad(precio);
+	}
+
 }

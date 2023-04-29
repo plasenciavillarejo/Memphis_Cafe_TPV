@@ -1,9 +1,16 @@
 package com.memphis.cafe.tpv.utilidades;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+
+import com.memphis.cafe.constantes.sesion.ConstantesSesion;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Component
 public class Utilidades {
@@ -22,6 +29,30 @@ public class Utilidades {
 		logos.put(9, "Combinados");
 		logos.put(10, "Reposteria");
 		return logos;
+	}
+	
+	
+	public void borrarObjetosListaBebidas(HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		ConstantesSesion.LISTACONSTANTEPRECIOBEBIDA = new ArrayList<>();
+		ConstantesSesion.LISTACONSTANTEPRECIOCOMIDA = new ArrayList<>();
+
+		ConstantesSesion.LISTACONSTANTENOMBREBEBIDA = new ArrayList<>();
+		ConstantesSesion.LISTACONSTANTENOMBRECOMIDA = new ArrayList<>();
+
+		session.removeAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA);
+		session.removeAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA);
+
+		session.removeAttribute(ConstantesSesion.CONSTANTENOMBREBEBIDA);
+		session.removeAttribute(ConstantesSesion.CONSTANTENOMBRECOMIDA);
+		
+	}
+
+	public String redondearDecimales(double precioProducto) {
+		DecimalFormat formato = new DecimalFormat("#.###"); // Define el formato para tres decimales
+		String numeroFormateado = formato.format(precioProducto); // Aplica el formato al número
+		return numeroFormateado;
 	}
 	
 }

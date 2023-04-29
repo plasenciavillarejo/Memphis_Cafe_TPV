@@ -23,22 +23,32 @@
 				</div>
 				<!-- Div para la lista de la bebida -->
 				<div id="lista-productos" class="col-6">
-					<div th:if="${constanteBebida != null}" class="card"
+					<div th:if="${constanteBebida != null && constanteNombreBebida != null}" class="card"
 						style="width: 18rem;">
 						<div class="card-header">Bebida</div>
 						<ul id="lista-bebidas" th:each="listaBebidas: ${constanteBebida}" class="list-group list-group-flush">
-							<li id="borrar-bebidas" class="list-group-item contar-bebida"><ion-icon
-									class="borrar-icono" name="remove-circle"></ion-icon> 
-										<span th:text="${listaBebidas}" class="borrar-bebida-especifica"></span>
-								<ion-icon class="aniadir-icono" name="add-circle"></ion-icon></li>
+							<li th:each="listadoNombreBebida: ${constanteNombreBebida}" id="borrar-bebidas" class="list-group-item contar-bebida">
+								<ion-icon class="borrar-icono" name="remove-circle"></ion-icon> 
+										<input id="nombre-cafe-seleccionado" type="hidden" th:text="${listadoNombreBebida}">
+										<span id="suma-bebidas" th:text="${listaBebidas}" class="borrar-bebida-especifica"></span>
+								<ion-icon class="aniadir-icono" name="add-circle"></ion-icon>
+							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		
+		<div th:if="${constanteComida != null || constanteBebida != null}" class="mb-3 mt-5 row texto-pagar justify-content-center">
+		    <label for="totalPagar" class="col-sm-2 col-form-label">Total: </label>
+		    <div class="col-sm-2 ">
+		      <input id="suma-cuenta" type="text" class="form-control"> 
+		    </div>
+		 </div>
+		
 		<!-- Botón para limpiar -->
-		<div th:if="${constanteComida != null || constanteBebida != null}"
-			class="d-grid d-md-flex justify-content-center">
+		<div th:if="${constanteComida != null || constanteBebida != null}" class="d-grid d-md-flex justify-content-center">
 			<button id="modalBoton"
 				class="btn btn-primary me-md-2 border-0 rounded-pill borrar-productos"
 				style="width: 30%;">Limpiar Comanda</button>
@@ -52,50 +62,20 @@
 			</div>
 		</div>
 		-->
-
+	
 	</div>
 
 </body>
 
-<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-<!-- Librería para utilizar los iconos: https://ionic.io/ionicons/usage -->
-<script type="module"
-	src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule
-	src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-<script type="text/javascript">
-	
-	// Cuando pulsamos en borrar todos los productos de la lista
-	$(document).on('click', '.borrar-productos', function() {
-		borrarAtributosSession();
-	});
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 
-	// Cuando solo pulsamos en borrar un solo producto en específico
-	$(document).on('click', '.borrar-icono', function() {
-		// Busca el elemento padre correspondiente al producto que se va a eliminar
-		var productoAEliminar = $(this).parent();
-		var valorObjeto = $(this).parent().text();
-		// Elimina el elemento de la lista de productos
-		productoAEliminar.remove();
-		
-		$.get('/Memphis_Cafe/validarObjetosActuales/' + valorObjeto , function() {			
-			var cantidadElementos = $('#lista-bebidas li').length;
-
-			if (cantidadElementos === 0) {
-				borrarAtributosSession();
-			}
-		});
+	<!-- Librería para utilizar los iconos: https://ionic.io/ionicons/usage -->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	
-	});
-	
-	function borrarAtributosSession() {
-		$.get('/Memphis_Cafe/limpiarObjetosSesion', function() {
-			$('#lista-productos').empty();
-			$('.borrar-productos').hide();
-		});
-	}
-	
-</script>
+	<!-- Importación Script para lógica agrupada -->
+	<!-- ####################################### -->
+	<script th:src="@{/js/panelListadoProductos.js}"></script>
 
 
 
