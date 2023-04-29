@@ -324,9 +324,6 @@ public class MemphisController {
 				&& session.getAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA) == null) {
 			logAplicacion.info("Se ha borrado los atributos de sesión correctamente");
 		}
-<<<<<<< HEAD
-		
-		
 		
 		return VALORPAGINAACTUAL;
 	}
@@ -356,38 +353,7 @@ public class MemphisController {
 			session.removeAttribute(ConstantesSesion.CONSTANTECPRECIOCOMIDA);
 			// Con esto borramos el card de Comida
 			model.addAttribute(ConstantesSesion.CONSTANTEPRECIOBEBIDA, null);
-=======
-		return VALORPAGINAACTUAL;
-	}
-	
-	@GetMapping("/validarObjetosActuales/{borrarPrecio}")
-	public String validarObjetosDeSesion(@PathVariable("borrarPrecio") String borrarPrecio, Model model) {
-
-		if(ConstantesSesion.LISTACONSTANTEBEBIDA != null) { 
-			for(String bebidas: ConstantesSesion.LISTACONSTANTEBEBIDA) {
-				if(borrarPrecio.trim().equalsIgnoreCase(bebidas.trim())) {
-					ConstantesSesion.LISTACONSTANTEBEBIDA.remove(bebidas);
-					break;
-				}
-			}
-			// Validamos que si no hay más objetos en sesión se elimine todo
-			if(ConstantesSesion.LISTACONSTANTEBEBIDA.isEmpty()) {
-				ConstantesSesion.LISTACONSTANTEBEBIDA = new ArrayList<>();
-				session.removeAttribute(ConstantesSesion.CONSTANTEBEBIDA);
-				// Con esto borramos el card de Bebida
-				model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, null);
-			}else {
-				model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, ConstantesSesion.LISTACONSTANTEBEBIDA);
-			}
-			
-		} else if (ConstantesSesion.LISTACONSTANTECOMIDA.isEmpty()) {
-			ConstantesSesion.LISTACONSTANTECOMIDA = new ArrayList<>();
-			session.removeAttribute(ConstantesSesion.CONSTANTECOMIDA);
-			// Con esto borramos el card de Comida
-			model.addAttribute(ConstantesSesion.CONSTANTEBEBIDA, null);
->>>>>>> branch 'main' of https://github.com/plasenciavillarejo/Memphis_Cafe_TPV.git
 		}
-
 		return VALORPAGINAACTUAL;
 	}
 
