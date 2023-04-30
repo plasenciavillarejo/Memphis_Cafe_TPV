@@ -25,7 +25,7 @@
 		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
 		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/validarObjetosActuales/' + nombreCafe + '/' + precioCafe , function(resultadoString) {			
+		$.get('/Memphis_Cafe/validarObjetosActuales/' + nombreCafe + '/' + precioCafe , function(resultadoString) {		
 			var cantidadElementos = $('#lista-bebidas li').length;
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-bebidas li').each(function() {
@@ -33,19 +33,22 @@
 				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
 				console.log(nombreCafeLista,precioCafeLista);
 				if(nombreCafe===nombreCafeLista){					
-					if(resultadoString=== '0,0'){
+					if(resultadoString=== '0,0' || resultadoString=== '0'){
 						// Elimino este objeto de la lista
-						$(this).closest('li').remove();
+						$(this).closest('ul').remove();
+						actualizarInputTotal();
 					} else{
 						// Actualizao el valor
-						$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+						//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+						$(this).find('.borrar-bebida-especifica').text(resultadoString)
+						actualizarInputTotal();
 					}
 				}		
-			// Si ya no hay más datos en la lista, se borra todo y se oculta	
-			if (cantidadElementos === 1) {
-				borrarAtributosSession();
+		});
+		// Si ya no hay más datos en la lista, se borra todo y se oculta	
+		if (cantidadElementos === 1) {
+			borrarAtributosSession();
 			}	
-			});
 		});
 	});
 
@@ -76,12 +79,67 @@
 				
 				if(nombreCafe===nombreCafeLista){					
 					// Actualizao el valor
-					$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+					//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+					$(this).find('.borrar-bebida-especifica').text(resultadoString)
+					actualizarInputTotal();
 				}
 			});
 		});
 	});
 	
+	// Almacenar productos en el input.
+	/*$(document).ready(function() { //DOMSubtreeModified
+		$('#lista-bebidas').on('DOMSubtreeModified', function() {
+			//setTimeout(function() {
+				var nuevoPrecio = 0;
+				$('.borrar-bebida-especifica').each(function() {
+					var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
+					nuevoPrecio += precioBebida;
+				});
+				if (isNaN(nuevoPrecio)) {
+					$('#suma-cuenta').val('0.00');
+				} else {
+					$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
+				}
+			//}, 300);
+		});
+	});*/
 	
+	// Cuando se inicia la aplicacíón se verifica que haya alguna cuenta existente
+	$(document).ready(function() {
+		validarInputInicial();
+	
+		function validarInputInicial() {
+			$('#lista-bebidas').each(function() {
+				var nuevoPrecio = 0;
+				$('.borrar-bebida-especifica').each(function() {
+					var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
+					nuevoPrecio += precioBebida;
+				});
+				if (isNaN(nuevoPrecio)) {
+					$('#suma-cuenta').val('0.00');
+				} else {
+					$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
+				}
+			});
+		}
+	});
+
+
+function actualizarInputTotal() {
+	$('#lista-bebidas').each(function() {
+		var nuevoPrecio = 0;
+		$('.borrar-bebida-especifica').each(function() {
+			var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
+			nuevoPrecio += precioBebida;
+		});
+		if (isNaN(nuevoPrecio)) {
+			$('#suma-cuenta').val('0.00');
+		} else {
+			$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
+		}
+	});
+}
+
 	
 	

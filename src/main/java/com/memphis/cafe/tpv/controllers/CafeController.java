@@ -107,7 +107,8 @@ public class CafeController {
 					bebida.setPrecio(resultadoString);
 					// Lo guardo nuevamente
 					
-					if(!resultadoString.equalsIgnoreCase("0,0")) {
+					
+					if(!resultadoString.equalsIgnoreCase("0")) {
 						bebidaAlmacenadaService.guardarBebida(bebida);
 					} else {
 						bebidaAlmacenadaService.borrarBebida(bebida.getId());
