@@ -61,11 +61,7 @@ public class Utilidades {
 	public String suma(String precioCafe, String buscarPrecioBBDD ) {
 		String resultadoString = "";
 		double resultado = Double.parseDouble(precioCafe.replace(',', '.')) + Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
-<<<<<<< HEAD
 		resultadoString = String.valueOf(redondearDecimales(resultado)).replace('.', ',');
-=======
-		resultadoString = String.valueOf(resultado).replace('.', ',');
->>>>>>> branch 'main' of https://github.com/plasenciavillarejo/Memphis_Cafe_TPV.git
 		return resultadoString;
 	}
 	
