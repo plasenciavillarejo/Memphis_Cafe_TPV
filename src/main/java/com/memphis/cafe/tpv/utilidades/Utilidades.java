@@ -54,7 +54,7 @@ public class Utilidades {
 	public String resta(String precioCafe, String buscarPrecioBBDD) {
 		String resultadoString = "";
 		double resultado = Double.parseDouble(precioCafe.replace(',', '.')) - Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
-		resultadoString = String.valueOf(resultado).replace('.', ',');
+		resultadoString = String.valueOf(redondearDecimales(resultado)).replace('.', ',');
 		return resultadoString;
 	}
 	
