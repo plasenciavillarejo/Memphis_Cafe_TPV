@@ -55,4 +55,19 @@ public class Utilidades {
 		return numeroFormateado;
 	}
 	
+	
+	public String resta(String precioCafe, String buscarPrecioBBDD) {
+		String resultadoString = "";
+		double resultado = Double.parseDouble(precioCafe.replace(',', '.')) - Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
+		resultadoString = String.valueOf(resultado).replace('.', ',');
+		return resultadoString;
+	}
+	
+	public String suma(String precioCafe, String buscarPrecioBBDD ) {
+		String resultadoString = "";
+		double resultado = Double.parseDouble(precioCafe.replace(',', '.')) + Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
+		resultadoString = String.valueOf(resultado).replace('.', ',');
+		return resultadoString;
+	}
+	
 }

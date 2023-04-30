@@ -23,14 +23,14 @@
 				</div>
 				<!-- Div para la lista de la bebida -->
 				<div id="lista-productos" class="col-6">
-					<div th:if="${constanteBebida != null && constanteNombreBebida != null}" class="card"
+					<div th:if="${constanteBebida != null}" class="card"
 						style="width: 18rem;">
 						<div class="card-header">Bebida</div>
-						<ul id="lista-bebidas" th:each="listaBebidas: ${constanteBebida}" class="list-group list-group-flush">
-							<li th:each="listadoNombreBebida: ${constanteNombreBebida}" id="borrar-bebidas" class="list-group-item contar-bebida">
+						<ul id="lista-bebidas" th:each="productos: ${listaProductos}" class="list-group list-group-flush">
+							<li id="borrar-bebidas" class="list-group-item contar-bebida">
 								<ion-icon class="borrar-icono" name="remove-circle"></ion-icon> 
-										<input id="nombre-cafe-seleccionado" type="hidden" th:text="${listadoNombreBebida}">
-										<span id="suma-bebidas" th:text="${listaBebidas}" class="borrar-bebida-especifica"></span>
+										<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span>
+										<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span>
 								<ion-icon class="aniadir-icono" name="add-circle"></ion-icon>
 							</li>
 						</ul>

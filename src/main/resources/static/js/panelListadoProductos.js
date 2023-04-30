@@ -5,24 +5,64 @@
 	});
 
 	// Cuando solo pulsamos en borrar (-) un solo producto en específico
-	$(document).on('click', '.borrar-icono', function() {
+	$(document).on('click', '.borrar-icono', function(event) {
 		// Busca el elemento padre correspondiente al producto que se va a eliminar
-		var productoAEliminar = $(this).parent();
 		var valorObjeto = $(this).parent().text();
-		// Elimina el elemento de la lista de productos
-		productoAEliminar.remove();
 		
-		$.get('/Memphis_Cafe/validarObjetosActuales/' + valorObjeto , function() {			
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
+		
+		/* La expresión regular /^\s*([^\d]+)/ busca al inicio de la cadena (^) cualquier cantidad de espacios
+		 (\s*) seguida de cualquier cantidad de caracteres que no sean dígitos ([^\d]+) y captura ese 
+		 grupo de caracteres ((...)) 
+		 El método match() devuelve un array con el texto coincidente y los grupos capturados, por lo que 
+		 match(/^\s*([^\d]+)/)[1] devuelve el nombre sin los espacios al principio y al final
+		 */
+		var nombreCafe = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
+		
+		/*
+		La expresión regular /\d+(?:[.,]\d+)?/ busca cualquier secuencia de dígitos (\d+) seguida opcionalmente 
+		por un punto o una coma y más dígitos ((?:[.,]\d+)?), sin capturar el grupo. El método match() devuelve 
+		un array con todas las coincidencias, por lo que match(/\d+(?:[.,]\d+)?/)[0] devuelve el primer número 
+		que aparece en la cadena. 
+		*/
+		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		
+		event.preventDefault(); // Evita que se recargue la página
+		$.get('/Memphis_Cafe/validarObjetosActuales/' + nombreCafe + '/' + precioCafe , function(resultadoString) {			
 			var cantidadElementos = $('#lista-bebidas li').length;
-
-			if (cantidadElementos === 0) {
+			
+			// Recorro la lista para obtener el elemnto seleccionado
+			$('#lista-bebidas li').each(function() {
+				
+				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
+				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
+				console.log(nombreCafeLista,precioCafeLista);
+				
+				if(nombreCafe===nombreCafeLista){					
+					if(resultadoString=== '0,0'){
+						// Elimino este objeto de la lista
+						$(this).closest('li').remove();
+					} else{
+						// Actualizao el valor
+						$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+					}
+				}
+			
+			// Si ya no hay más datos en la lista, se borra todo y se oculta	
+			if (cantidadElementos === 1) {
 				borrarAtributosSession();
 			}
+				
+				
+			});
+			
+			
 		});
 	
 	});
-	
-	// Funcioón para borrar los productos
+
+
+	// Función para borrar los productos
 	function borrarAtributosSession() {
 		$.get('/Memphis_Cafe/limpiarObjetosSesion', function() {
 			$('#lista-productos').empty();
