@@ -11,5 +11,7 @@ public interface IListaBebidaAlmacenadaService {
 	public void guardarBebida(ListaBebidaAlmacenada bebidaAlmacenada);
 
 	public void borrarBebida(int id);
+
+	public void borrarListaCompleta();
 	
 }

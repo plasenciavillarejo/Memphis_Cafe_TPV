@@ -23,14 +23,14 @@
 				</div>
 				<!-- Div para la lista de la bebida -->
 				<div id="lista-productos" class="col-6">
-					<div th:if="${constanteBebida != null && constanteNombreBebida != null}" class="card"
+					<div th:if="${!listaProductos.isEmpty()}" class="card"
 						style="width: 18rem;">
 						<div class="card-header">Bebida</div>
-						<ul id="lista-bebidas" th:each="listaBebidas: ${constanteBebida}" class="list-group list-group-flush">
-							<li th:each="listadoNombreBebida: ${constanteNombreBebida}" id="borrar-bebidas" class="list-group-item contar-bebida">
+						<ul id="lista-bebidas" th:each="productos: ${listaProductos}" class="list-group list-group-flush">
+							<li id="borrar-bebidas" class="list-group-item contar-bebida">
 								<ion-icon class="borrar-icono" name="remove-circle"></ion-icon> 
-										<input id="nombre-cafe-seleccionado" type="hidden" th:text="${listadoNombreBebida}">
-										<span id="suma-bebidas" th:text="${listaBebidas}" class="borrar-bebida-especifica"></span>
+										<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span>
+										<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span>
 								<ion-icon class="aniadir-icono" name="add-circle"></ion-icon>
 							</li>
 						</ul>
@@ -40,7 +40,7 @@
 		</div>
 		
 		
-		<div th:if="${constanteComida != null || constanteBebida != null}" class="mb-3 mt-5 row texto-pagar justify-content-center">
+		<div th:if="${!listaProductos.isEmpty()}" class="mb-3 mt-5 row texto-pagar justify-content-center">
 		    <label for="totalPagar" class="col-sm-2 col-form-label">Total: </label>
 		    <div class="col-sm-2 ">
 		      <input id="suma-cuenta" type="text" class="form-control"> 
@@ -48,7 +48,7 @@
 		 </div>
 		
 		<!-- Botón para limpiar -->
-		<div th:if="${constanteComida != null || constanteBebida != null}" class="d-grid d-md-flex justify-content-center">
+		<div th:if="${!listaProductos.isEmpty()}" class="d-grid d-md-flex justify-content-center">
 			<button id="modalBoton"
 				class="btn btn-primary me-md-2 border-0 rounded-pill borrar-productos"
 				style="width: 30%;">Limpiar Comanda</button>
