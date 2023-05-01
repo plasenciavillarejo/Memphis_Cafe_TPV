@@ -1,4 +1,14 @@
  
+ 
+ 	// Cuando se inicia la aplicacíón se verifica que haya alguna cuenta existente
+	$(document).ready(function() {	
+		actualizarInputTotal();
+		
+		// Se llama a la fucion para verificar que se ha cambiado o no el switch
+		cambioSwitch();
+
+	});
+ 
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
 		borrarAtributosSession();
@@ -87,59 +97,52 @@
 		});
 	});
 	
-	// Almacenar productos en el input.
-	/*$(document).ready(function() { //DOMSubtreeModified
-		$('#lista-bebidas').on('DOMSubtreeModified', function() {
-			//setTimeout(function() {
-				var nuevoPrecio = 0;
-				$('.borrar-bebida-especifica').each(function() {
-					var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
-					nuevoPrecio += precioBebida;
-				});
-				if (isNaN(nuevoPrecio)) {
-					$('#suma-cuenta').val('0.00');
-				} else {
-					$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
-				}
-			//}, 300);
-		});
-	});*/
 	
-	// Cuando se inicia la aplicacíón se verifica que haya alguna cuenta existente
-	$(document).ready(function() {
-		validarInputInicial();
-	
-		function validarInputInicial() {
-			$('#lista-bebidas').each(function() {
-				var nuevoPrecio = 0;
-				$('.borrar-bebida-especifica').each(function() {
-					var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
-					nuevoPrecio += precioBebida;
-				});
-				if (isNaN(nuevoPrecio)) {
-					$('#suma-cuenta').val('0.00');
-				} else {
-					$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
-				}
+	function actualizarInputTotal() {
+		$('#lista-bebidas').each(function() {
+			var nuevoPrecio = 0;
+			$('.borrar-bebida-especifica').each(function() {
+				var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
+				nuevoPrecio += precioBebida;
 			});
-		}
-	});
-
-
-function actualizarInputTotal() {
-	$('#lista-bebidas').each(function() {
-		var nuevoPrecio = 0;
-		$('.borrar-bebida-especifica').each(function() {
-			var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
-			nuevoPrecio += precioBebida;
+			if (isNaN(nuevoPrecio)) {
+				$('#suma-cuenta').val('0.00');
+			} else {
+				$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
+			}
 		});
-		if (isNaN(nuevoPrecio)) {
-			$('#suma-cuenta').val('0.00');
+	}
+
+	
+	// ###### INIC - LÓGICA PARA LA PARTE DE EL DESAYUNO ######
+	
+	
+	// Verificar si el switch está activado o desactivado para enviar média o entera.
+	//  escuchar el evento de cambio en el checkbox utilizando el evento change()
+	
+	function cambioSwitch() {
+	$("#flexSwitchCheckDefault").change(function() {
+		if ($(this).is(":checked")) {
+			$('#flexSwitchCheckDefault').css({
+				"background-color": "#43b39b",
+				"border": "none"
+			});
+			$('#switch-desayuno').text('Entera');
 		} else {
-			$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
+			$('#flexSwitchCheckDefault').css({
+				"background-color": "#FFF",
+				"border": "1px solid #43b39b"
+				});
+			$('#switch-desayuno').text('Media');
 		}
 	});
-}
-
+	}
+	
+	
+	
+	
+	
+	
+	// ###### FIN - LÓGICA PARA LA PARTE DE EL DESAYUNO ######
 	
 	

@@ -7,4 +7,6 @@ import com.memphis.cafe.tpv.entity.Desayuno;
 public interface IDesayunosService {
 
 	public List<Desayuno> listaDesayunos();
+	
+	public String precioDesayuno(String nombre);
 }

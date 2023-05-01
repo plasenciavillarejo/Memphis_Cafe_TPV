@@ -66,7 +66,7 @@ table {
 }
 	
 
-/* Ini: Div que divide la aplicación entre la calculadora y los productos*/
+/* Ini: Div que divide la aplicación entre comida,bebida y los productos*/
 .contenedor{
     text-align: center;
     display: flex;
@@ -80,7 +80,7 @@ table {
     height: auto;
 }
 
-/* Fin: Div que divide la aplicación entre la calculadora y los productos*/
+/* Fin: Div que divide la aplicación entre comida,bebida y los productos*/
 
 #tamanioButtonPrincipal {
 	width: -moz-available;
@@ -107,3 +107,17 @@ table {
   height: 100%;
 }
 */
+
+
+
+
+#flexSwitchCheckDefault {
+height: 96%;
+width: 11%;
+}
+
+
+
+
+
+

@@ -21,7 +21,7 @@ import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller
 @RequestMapping(value = "/Memphis_Cafe")
-@SessionAttributes({"listaProductos", "paginaActual"})
+@SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada"})
 public class CafeController {
 
 	private Logger logAplicacion = LoggerFactory.getLogger(this.getClass());

@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.entity.Combinado;
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
+import com.memphis.cafe.tpv.entity.ListaComidaAlmacenada;
 import com.memphis.cafe.tpv.entity.Lotes;
 import com.memphis.cafe.tpv.service.ICafeService;
 import com.memphis.cafe.tpv.service.ICarneService;
 import com.memphis.cafe.tpv.service.ICombinadoService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
 import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
+import com.memphis.cafe.tpv.service.IListaComidaAlmacenadaService;
 import com.memphis.cafe.tpv.service.ILoteService;
 import com.memphis.cafe.tpv.service.IPescadoService;
 import com.memphis.cafe.tpv.service.IRacionService;
@@ -36,7 +38,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "/Memphis_Cafe")
-@SessionAttributes({"listaProductos", "paginaActual"})
+@SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada"})
 public class MemphisController {
 
 	private static final String INICIO = "inicio";
@@ -94,6 +96,9 @@ public class MemphisController {
 	@Autowired
 	private IListaBebidaAlmacenadaService bebidaAlmacenadaService;
 	
+	@Autowired
+	private IListaComidaAlmacenadaService comidaAlmacenadaService;
+	
 	
 	@GetMapping(value={"/inicio", "/"})
 	public String inicio(Model model) {
@@ -102,15 +107,25 @@ public class MemphisController {
 		localizarNombre = utilidades.logosIniciales();
 		model.addAttribute("logosPrincipales", localizarNombre.values());
 		logAplicacion.info("Mostrando la carta para el Cafe Bar - Memphis");
+		
+		
+		// Se mete en sesión la listaBebida
 		model.addAttribute("listaProductos", bebidaAlmacenadaService.listaBebidaAlmacenada());
-		VALORPAGINAACTUAL = INICIO;
+		
+		// Se mete en sesión la listComida
+		model.addAttribute("comidaAlmacenada", comidaAlmacenadaService.listaComidaAlmacenada());
+		
+		// Se mete en sesión la página actual
 		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
+		
+		VALORPAGINAACTUAL = INICIO; 
 		return INICIO;
 	}
 
 	@GetMapping(value = "/redireccionComidas")
 	public String redireccioneComidas(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
-			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model, @RequestParam(value = "valorBoton", required = false) String valorBoton) {
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model, @RequestParam(value = "valorBoton", required = false) String valorBoton) {
 		logAplicacion.info("Entrando por la redireccionComidas");
 		
 		if(valorBoton.equalsIgnoreCase("Café")) {
@@ -125,6 +140,12 @@ public class MemphisController {
  			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINACAFE;
 		} else if(valorBoton.equalsIgnoreCase("Desayunos")) {
+			if (!comidaAlmacenada.isEmpty()) {
+				comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
+				model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+			}else {
+				model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+			}
 			model.addAttribute("listaDesayunos", desayunoService.listaDesayunos());
 			VALORPAGINAACTUAL = PAGINADESAYUNOS;
 			return PAGINADESAYUNOS;

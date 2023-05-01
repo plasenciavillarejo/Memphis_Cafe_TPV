@@ -12,11 +12,16 @@
 			<div class="row">
 				<!-- Div para la lista de la comida -->
 				<div class="col-6">
-					<div th:if="${constanteComida != null}" class="card"
+					<div th:if="${!comidaAlmacenada.isEmpty()}" class="card"
 						style="width: 18rem;">
 						<div class="card-header">Comida</div>
-						<ul id="lista-productos" class="list-group list-group-flush">
-							<!--<li class="list-group-item">An item</li>-->
+						<ul id="lista-comidas" class="list-group list-group-flush">
+							<li id="borrar-comidas" class="list-group-item contar-bebida">
+								<ion-icon class="borrar-icono" name="remove-circle"></ion-icon> 
+										<span id="nombre-comida-seleccionado" th:text="${productos.nombreBebida}"></span>
+										<span id="suma-comidas" th:text="${productos.precio}+ ' €'" class="borrar-comida-especifica"></span>
+								<ion-icon class="aniadir-icono" name="add-circle"></ion-icon>
+							</li>
 						</ul>
 					</div>
 
@@ -40,7 +45,7 @@
 		</div>
 		
 		
-		<div th:if="${!listaProductos.isEmpty()}" class="mb-3 mt-5 row texto-pagar justify-content-center">
+		<div th:if="${!listaProductos.isEmpty() || !comidaAlmacenada.isEmpty()}" class="mb-3 mt-5 row texto-pagar justify-content-center">
 		    <label for="totalPagar" class="col-sm-2 col-form-label">Total: </label>
 		    <div class="col-sm-2 ">
 		      <input id="suma-cuenta" type="text" class="form-control"> 
@@ -48,7 +53,7 @@
 		 </div>
 		
 		<!-- Botón para limpiar -->
-		<div th:if="${!listaProductos.isEmpty()}" class="d-grid d-md-flex justify-content-center">
+		<div th:if="${!listaProductos.isEmpty() || !comidaAlmacenada.isEmpty()}" class="d-grid d-md-flex justify-content-center">
 			<button id="modalBoton"
 				class="btn btn-primary me-md-2 border-0 rounded-pill borrar-productos"
 				style="width: 30%;">Limpiar Comanda</button>

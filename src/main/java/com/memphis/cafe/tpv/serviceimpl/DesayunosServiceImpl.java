@@ -20,4 +20,9 @@ public class DesayunosServiceImpl implements IDesayunosService {
 		return desayunoDao.listaDesayunos();
 	}
 
+	@Override
+	public String precioDesayuno(String nombre) {
+		return desayunoDao.precioDesayuno(nombre);
+	}
+
 }
