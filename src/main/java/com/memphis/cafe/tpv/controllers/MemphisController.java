@@ -148,6 +148,7 @@ public class MemphisController {
 			}
 			model.addAttribute("listaDesayunos", desayunoService.listaDesayunos());
 			VALORPAGINAACTUAL = PAGINADESAYUNOS;
+ 			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINADESAYUNOS;
 		} else if(valorBoton.equalsIgnoreCase("Bebidas")) {
 			// La pagina bebidas se incluyen los botones dentro de la vista, no se llama a ninguna tabla en BBDD.

@@ -21,8 +21,13 @@ public class DesayunosServiceImpl implements IDesayunosService {
 	}
 
 	@Override
-	public String precioDesayuno(String nombre) {
-		return desayunoDao.precioDesayuno(nombre);
+	public String precioDesayunoMedia(String nombre) {
+		return desayunoDao.precioDesayunoMedia(nombre);
+	}
+
+	@Override
+	public String precioDesayunoEntera(String nombre) {
+		return desayunoDao.precioDesayunoEntera(nombre);
 	}
 
 }

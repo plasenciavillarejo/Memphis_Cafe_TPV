@@ -8,5 +8,7 @@ public interface IDesayunosService {
 
 	public List<Desayuno> listaDesayunos();
 	
-	public String precioDesayuno(String nombre);
+	public String precioDesayunoMedia(String nombre);
+	
+	public String precioDesayunoEntera(String nombre);
 }

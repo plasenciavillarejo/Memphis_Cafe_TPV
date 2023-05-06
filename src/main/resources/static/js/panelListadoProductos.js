@@ -81,7 +81,7 @@
 		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
 		
 		$.get('/Memphis_Cafe/sumarObjetosActuales/' + nombreCafe + '/' + precioCafe, function(resultadoString) {		
-			// Recorro la lista para obtener el elemnto seleccionado
+			// Recorro la lista para obtener el elemento seleccionado
 			$('#lista-bebidas li').each(function() {
 				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
 				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
@@ -118,8 +118,7 @@
 	
 	
 	// Verificar si el switch está activado o desactivado para enviar média o entera.
-	//  escuchar el evento de cambio en el checkbox utilizando el evento change()
-	
+	// escuchar el evento de cambio en el checkbox utilizando el evento change()
 	function cambioSwitch() {
 	$("#flexSwitchCheckDefault").change(function() {
 		if ($(this).is(":checked")) {
@@ -139,8 +138,17 @@
 	}
 	
 	
-	
-	
+	$(document).on('click', '.boton-desayuno', function(event) {
+		event.preventDefault(); // Evita que se recargue la página
+		
+		var valorBoton = $("#tamanioButtonPrincipal").text();
+		var switchValueTru = $('#flexSwitchCheckDefault').prop('checked');
+		
+		$.get('/Memphis_Cafe/desayuno/'+ valorBoton + '/' + switchValueTru, function(data) {
+			console.log("Precio: ", data[0].precio, "Desayuno: ", data[0].nombreBebida)
+		});
+		
+	});
 	
 	
 	// ###### FIN - LÓGICA PARA LA PARTE DE EL DESAYUNO ######

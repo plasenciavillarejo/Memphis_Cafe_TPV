@@ -12,6 +12,9 @@ public interface IDesayunosDao extends CrudRepository<Desayuno, Integer>{
 	@Query(value = "select l from #{#entityName} l")
 	public List<Desayuno> listaDesayunos();
 	
-	@Query(value = "SELECT c.precio_media, c.precio_entera FROM #{#entityName} c WHERE c.nombre = ?1 ")
-	public String precioDesayuno(String nombre);
+	@Query(value = "SELECT c.precio_media FROM #{#entityName} c WHERE c.nombre = ?1 ")
+	public String precioDesayunoMedia(String nombre);
+	
+	@Query(value = "SELECT c.precio_entera FROM #{#entityName} c WHERE c.nombre = ?1 ")
+	public String precioDesayunoEntera(String nombre);
 }

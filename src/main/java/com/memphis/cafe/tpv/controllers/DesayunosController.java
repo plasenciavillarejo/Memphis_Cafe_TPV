@@ -3,12 +3,15 @@ package com.memphis.cafe.tpv.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
@@ -31,12 +34,22 @@ public class DesayunosController {
 	@Autowired
 	private Utilidades utilidades;
 	
-	@GetMapping(value = "/desayuno/{nombre}")
-	public String aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+	@GetMapping(value = "/desayuno/{nombre}/{valorSwitch}")
+	@ResponseBody
+	public List<ListaComidaAlmacenada> aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
 			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model,
-			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, @PathVariable(value ="nombre") String nombre) {
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, 
+			@PathVariable(value ="nombre", required=false) String nombre,
+			@PathVariable(value ="valorSwitch", required = false) boolean checked) {
 		
-		String precioDesayuno = desayunoService.precioDesayuno(nombre);
+		String precioDesayuno = "";
+		
+		if(!checked) {
+			precioDesayuno = desayunoService.precioDesayunoMedia(nombre);
+		}else {
+			precioDesayuno = desayunoService.precioDesayunoEntera(nombre);
+		}
+		
 		
 		if (comidaAlmacenada.isEmpty()) {
 			ListaComidaAlmacenada b = new ListaComidaAlmacenada();
@@ -78,7 +91,7 @@ public class DesayunosController {
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
 			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 		}
-		return VALORPAGINAACTUAL;
+		return comidaAlmacenada;
 	}
 	
 }
