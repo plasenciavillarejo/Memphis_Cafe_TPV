@@ -211,12 +211,15 @@ public class MemphisController {
 	@GetMapping("/limpiarObjetosSesion")
 	@ResponseBody
 	public String obtenerSesionAtributos(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
-			Model model) {
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model) {
 		// Procedemos a borrar los atributos que existe en la sesión
 		logAplicacion.info("Se procede a borrar los atributos que hay en sesión.");
 		bebidaAlmacenada = new ArrayList<>();
+		comidaAlmacenada = new ArrayList<>();
 		bebidaAlmacenadaService.borrarListaCompleta();
+		comidaAlmacenadaService.borrarListaCompletaComida();
 		model.addAttribute("listaProductos", bebidaAlmacenada);
+		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 		return "OK";
 	}
 	

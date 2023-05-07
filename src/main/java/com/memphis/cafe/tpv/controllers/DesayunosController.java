@@ -36,13 +36,14 @@ public class DesayunosController {
 	
 	@GetMapping(value = "/desayuno/{nombre}/{valorSwitch}")
 	@ResponseBody
-	public List<ListaComidaAlmacenada> aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+	public ListaComidaAlmacenada aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
 			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model,
 			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, 
 			@PathVariable(value ="nombre", required=false) String nombre,
 			@PathVariable(value ="valorSwitch", required = false) boolean checked) {
 		
 		String precioDesayuno = "";
+		ListaComidaAlmacenada desayunoSolicitado = new ListaComidaAlmacenada();
 		
 		if(!checked) {
 			precioDesayuno = desayunoService.precioDesayunoMedia(nombre);
@@ -54,10 +55,11 @@ public class DesayunosController {
 		if (comidaAlmacenada.isEmpty()) {
 			ListaComidaAlmacenada b = new ListaComidaAlmacenada();
 			b.setPrecio(precioDesayuno);
-			b.setNombreBebida(nombre);
+			b.setNombreComida(nombre);
 			comidaAlmacenadaService.guardarComida(b);
-			
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
+			
+			desayunoSolicitado = b;
 			
 			// Si ya hay algo en sesión se procede a verificar que es lo que se ha recibido
 			// y si existe en la tabla de bebidas existentes.
@@ -65,7 +67,7 @@ public class DesayunosController {
 			boolean encontrado = false;
 			for (ListaComidaAlmacenada b: comidaAlmacenada) {
 				String resultadoString = "";
-				if (b.getNombreBebida().equalsIgnoreCase(nombre)) {
+				if (b.getNombreComida().equalsIgnoreCase(nombre)) {
 					// Sumo el nuevo valor
 					double resultado = Double.parseDouble(precioDesayuno.replace(',', '.')) + Double.parseDouble(b.getPrecio().replace(',', '.'));
 					
@@ -74,24 +76,35 @@ public class DesayunosController {
 					
 					b.setPrecio(resultadoString);
 					comidaAlmacenadaService.guardarComida(b);
+					desayunoSolicitado = b;
 					encontrado = true;
 					break;
 				}	
 			}
 			if(!encontrado) {
-				ListaComidaAlmacenada aniadirBebida = new ListaComidaAlmacenada();
-				aniadirBebida.setPrecio(precioDesayuno);
-				aniadirBebida.setNombreBebida(nombre);
-				comidaAlmacenadaService.guardarComida(aniadirBebida);
+				ListaComidaAlmacenada aniadirComida = new ListaComidaAlmacenada();
+				aniadirComida.setPrecio(precioDesayuno);
+				aniadirComida.setNombreComida(nombre);
+				comidaAlmacenadaService.guardarComida(aniadirComida);
+				desayunoSolicitado = aniadirComida;
 			}
 		}
 		// Empezamos a guardar todo en sesión
 			
-		if (!bebidaAlmacenada.isEmpty()) {
+		if (!comidaAlmacenada.isEmpty()) {
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
 			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 		}
-		return comidaAlmacenada;
+		return desayunoSolicitado;
+	}
+	
+	@GetMapping(value = "/buscarDesayunos")
+	public String buscarDesayunos(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, 
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model) {
+		comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
+		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+		
+		return VALORPAGINAACTUAL;
 	}
 	
 }

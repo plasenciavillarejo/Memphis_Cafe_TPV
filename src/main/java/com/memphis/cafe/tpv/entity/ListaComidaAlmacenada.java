@@ -40,12 +40,14 @@ public class ListaComidaAlmacenada {
 		this.id = id;
 	}
 
-	public String getNombreBebida() {
+	public String getNombreComida() {
 		return nombreComida;
 	}
 
-	public void setNombreBebida(String nombreComida) {
+	public void setNombreComida(String nombreComida) {
 		this.nombreComida = nombreComida;
 	}
+
+
 
 }

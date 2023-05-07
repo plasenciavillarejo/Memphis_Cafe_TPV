@@ -67,6 +67,7 @@
 	function borrarAtributosSession() {
 		$.get('/Memphis_Cafe/limpiarObjetosSesion', function() {
 			$('#lista-productos').empty();
+			$('#lista-comida').empty();
 			$('.texto-pagar').empty();
 			$('.borrar-productos').hide();
 		});
@@ -137,19 +138,86 @@
 	});
 	}
 	
-	
+	// Función encargada de aniadir el desayuno.
 	$(document).on('click', '.boton-desayuno', function(event) {
 		event.preventDefault(); // Evita que se recargue la página
 		
-		var valorBoton = $("#tamanioButtonPrincipal").text();
+		var valorObjeto = $(this).parent().text();
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
+		var nombreDesayuno = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
+		
+		//var valorBoton = $("#tamanioButtonPrincipal").text();
 		var switchValueTru = $('#flexSwitchCheckDefault').prop('checked');
 		
-		$.get('/Memphis_Cafe/desayuno/'+ valorBoton + '/' + switchValueTru, function(data) {
-			console.log("Precio: ", data[0].precio, "Desayuno: ", data[0].nombreBebida)
+		$.get('/Memphis_Cafe/desayuno/'+ nombreDesayuno + '/' + switchValueTru, function(data) {
+			console.log("Precio: ", data.precio, "Desayuno: ", data.nombreComida);
+			
+			var productoActualizado = false;
+			var contar = 0;
+			$('#lista-comidas li').each(function() {
+				var nombreDesayunoLista = $(this).find('#nombre-comida-seleccionado').text();
+				var precioDesayunoLista = $(this).find('.borrar-comida-especifica').text().trim();
+				contar ++;
+				if(nombreDesayuno===nombreDesayunoLista){					
+					// Actualizao el valor
+					$(this).find('.borrar-comida-especifica').text(data);
+					productoActualizado = true;
+				}
+			});
+			
+			if(!productoActualizado) {
+				
+				// Verifica si la lista existe
+				if ($("#lista-comidas").length) {
+					// Agrega elementos a la lista
+				// Obtener la lista de comidas
+				var listaComidas = $("#lista-comidas");
+
+				// Crear un nuevo elemento li con el nombre y precio de la comida
+				var nuevaComida = '<li id="borrar-comidas" class="list-group-item contar-bebida">' +
+					'<ion-icon class="borrar-icono" name="remove-circle"></ion-icon>' +
+					'<span id="nombre-comida-seleccionado">' + ' ' + data.nombreComida + ' ' +' </span>' +
+					'<span id="suma-comidas">' + ' ' + data.precio + ' €' +'</span>' +
+					'<ion-icon class="aniadir-icono" name="add-circle"></ion-icon>' +
+					'</li>';
+				
+				// Agregar el nuevo elemento al final de la lista
+				listaComidas.append(nuevaComida);
+				
+				} else {
+				$.get('/Memphis_Cafe/buscarDesayunos', function() {
+					console.log("Actualizando");
+				});
+				}
+				
+				
+
+				
+				//$("#nombre-comida-seleccionado").text(data.nombreComida);
+				//$("#suma-comidas").text(data.precio);
+				
+			}
+				// Actualizamos el input con el precio final de toda la comanda.
+				actualizarComidaInputTotal();
 		});
 		
 	});
 	
+	
+	function actualizarComidaInputTotal() {
+		$('#lista-comidas').each(function() {
+			var nuevoPrecioComida = 0;
+			$('.borrar-comida-especifica').each(function() {
+				var precioComida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
+				nuevoPrecioComida += precioComida;
+			});
+			if (isNaN(nuevoPrecioComida)) {
+				$('#suma-cuenta').val('0.00');
+			} else {
+				$('#suma-cuenta').val(nuevoPrecioComida.toFixed(2));
+			}
+		});
+	}
 	
 	// ###### FIN - LÓGICA PARA LA PARTE DE EL DESAYUNO ######
 	
