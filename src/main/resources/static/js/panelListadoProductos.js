@@ -138,7 +138,9 @@
 	});
 	}
 	
-	// Función encargada de aniadir el desayuno.
+	
+	/*
+	// Función encargada de aniadir el desayuno. -> Por ahora está comentada ya que inicilamente no crea el div
 	$(document).on('click', '.boton-desayuno', function(event) {
 		event.preventDefault(); // Evita que se recargue la página
 		
@@ -167,42 +169,44 @@
 			
 			if(!productoActualizado) {
 				
+				//$('#nombre-comida-seleccionado').show()
+				// Mostramos el desayuno en pantalla
+				//$('#lista-comida').show();
+				
 				// Verifica si la lista existe
 				if ($("#lista-comidas").length) {
 					// Agrega elementos a la lista
 				// Obtener la lista de comidas
+				$('div.card').show();
 				var listaComidas = $("#lista-comidas");
 
 				// Crear un nuevo elemento li con el nombre y precio de la comida
-				var nuevaComida = '<li id="borrar-comidas" class="list-group-item contar-bebida">' +
+				var nuevaComida = 
+					'<div class="card-header">'+
+					'<li id="borrar-comidas" class="list-group-item contar-bebida">' +
 					'<ion-icon class="borrar-icono" name="remove-circle"></ion-icon>' +
 					'<span id="nombre-comida-seleccionado">' + ' ' + data.nombreComida + ' ' +' </span>' +
 					'<span id="suma-comidas">' + ' ' + data.precio + ' €' +'</span>' +
 					'<ion-icon class="aniadir-icono" name="add-circle"></ion-icon>' +
-					'</li>';
+					'</li>' +
+					'</div>';
 				
 				// Agregar el nuevo elemento al final de la lista
 				listaComidas.append(nuevaComida);
 				
-				} else {
-				$.get('/Memphis_Cafe/buscarDesayunos', function() {
-					console.log("Actualizando");
-				});
-				}
-				
-				
-
-				
 				//$("#nombre-comida-seleccionado").text(data.nombreComida);
 				//$("#suma-comidas").text(data.precio);
 				
+				}
 			}
 				// Actualizamos el input con el precio final de toda la comanda.
-				actualizarComidaInputTotal();
+				//actualizarComidaInputTotal();
 		});
 		
 	});
 	
+	
+	*/
 	
 	function actualizarComidaInputTotal() {
 		$('#lista-comidas').each(function() {

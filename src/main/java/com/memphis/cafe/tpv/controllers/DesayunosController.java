@@ -3,7 +3,6 @@ package com.memphis.cafe.tpv.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,8 @@ import com.memphis.cafe.tpv.service.IDesayunosService;
 import com.memphis.cafe.tpv.service.IListaComidaAlmacenadaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping(value = "/Memphis_Cafe")
 @SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada"})
@@ -34,13 +35,15 @@ public class DesayunosController {
 	@Autowired
 	private Utilidades utilidades;
 	
-	@GetMapping(value = "/desayuno/{nombre}/{valorSwitch}")
-	@ResponseBody
-	public ListaComidaAlmacenada aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
-			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model,
-			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, 
-			@PathVariable(value ="nombre", required=false) String nombre,
-			@PathVariable(value ="valorSwitch", required = false) boolean checked) {
+	@GetMapping(value = "/desayuno")
+	//@ResponseBody 
+	public String aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+			@RequestParam(value ="checked", required = false) boolean checked,
+			Model model, HttpServletRequest request) {
+		
+		String nombre = request.getParameter("nombreDesayuno");
 		
 		String precioDesayuno = "";
 		ListaComidaAlmacenada desayunoSolicitado = new ListaComidaAlmacenada();
@@ -94,17 +97,11 @@ public class DesayunosController {
 		if (!comidaAlmacenada.isEmpty()) {
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
 			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+			model.addAttribute("listaDesayunos", desayunoService.listaDesayunos());
 		}
-		return desayunoSolicitado;
-	}
-	
-	@GetMapping(value = "/buscarDesayunos")
-	public String buscarDesayunos(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, 
-			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model) {
-		comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
-		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-		
 		return VALORPAGINAACTUAL;
 	}
+	
+
 	
 }

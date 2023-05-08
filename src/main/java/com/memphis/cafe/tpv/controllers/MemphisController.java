@@ -125,7 +125,8 @@ public class MemphisController {
 	@GetMapping(value = "/redireccionComidas")
 	public String redireccioneComidas(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
 			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
-			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model, @RequestParam(value = "valorBoton", required = false) String valorBoton) {
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model, 
+			@RequestParam(value = "valorBoton", required = false) String valorBoton) {
 		logAplicacion.info("Entrando por la redireccionComidas");
 		
 		if(valorBoton.equalsIgnoreCase("Café")) {
@@ -146,6 +147,7 @@ public class MemphisController {
 			}else {
 				model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 			}
+			// Cargamos todos los desayunos
 			model.addAttribute("listaDesayunos", desayunoService.listaDesayunos());
 			VALORPAGINAACTUAL = PAGINADESAYUNOS;
  			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
