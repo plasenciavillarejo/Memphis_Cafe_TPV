@@ -2,7 +2,11 @@
  
  	// Cuando se inicia la aplicacíón se verifica que haya alguna cuenta existente
 	$(document).ready(function() {	
+		
 		actualizarInputTotal();
+		
+		// Cuando se añade cualquier comida desde el button se cargará automaticamente el precio
+		actualizarComidaInputTotal();
 		
 		// Se llama a la fucion para verificar que se ha cambiado o no el switch
 		cambioSwitch();

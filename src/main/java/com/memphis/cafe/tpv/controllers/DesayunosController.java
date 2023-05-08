@@ -43,11 +43,11 @@ public class DesayunosController {
 			@RequestParam(value ="checked", required = false) boolean checked,
 			Model model, HttpServletRequest request) {
 		
+		// Recuperamos el valor de el boton que se está pulsando en los desayunos
 		String nombre = request.getParameter("nombreDesayuno");
 		
 		String precioDesayuno = "";
-		ListaComidaAlmacenada desayunoSolicitado = new ListaComidaAlmacenada();
-		
+				
 		if(!checked) {
 			precioDesayuno = desayunoService.precioDesayunoMedia(nombre);
 		}else {
@@ -61,9 +61,7 @@ public class DesayunosController {
 			b.setNombreComida(nombre);
 			comidaAlmacenadaService.guardarComida(b);
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
-			
-			desayunoSolicitado = b;
-			
+						
 			// Si ya hay algo en sesión se procede a verificar que es lo que se ha recibido
 			// y si existe en la tabla de bebidas existentes.
 		} else {
@@ -79,7 +77,6 @@ public class DesayunosController {
 					
 					b.setPrecio(resultadoString);
 					comidaAlmacenadaService.guardarComida(b);
-					desayunoSolicitado = b;
 					encontrado = true;
 					break;
 				}	
@@ -89,7 +86,6 @@ public class DesayunosController {
 				aniadirComida.setPrecio(precioDesayuno);
 				aniadirComida.setNombreComida(nombre);
 				comidaAlmacenadaService.guardarComida(aniadirComida);
-				desayunoSolicitado = aniadirComida;
 			}
 		}
 		// Empezamos a guardar todo en sesión
