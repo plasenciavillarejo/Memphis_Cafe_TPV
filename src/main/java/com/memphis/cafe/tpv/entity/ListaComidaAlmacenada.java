@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(schema = "Memphis_Cafe", name = "ListaComidaAlmacenada")
@@ -17,7 +16,6 @@ public class ListaComidaAlmacenada {
 	@Column(name = "id")
 	private int id;
 
-	@NotEmpty
 	@Column(name = "nombreComida")
 	private String nombreComida;
 
