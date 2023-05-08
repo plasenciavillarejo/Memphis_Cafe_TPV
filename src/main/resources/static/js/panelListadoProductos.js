@@ -6,7 +6,7 @@
 		actualizarInputTotal();
 		
 		// Cuando se añade cualquier comida desde el button se cargará automaticamente el precio
-		actualizarComidaInputTotal();
+		//actualizarComidaInputTotal();
 		
 		// Se llama a la fucion para verificar que se ha cambiado o no el switch
 		cambioSwitch();
@@ -104,18 +104,29 @@
 	
 	
 	function actualizarInputTotal() {
+		var nuevoPrecio = 0;
+		var nuevoPrecioComida = 0;
 		$('#lista-bebidas').each(function() {
-			var nuevoPrecio = 0;
 			$('.borrar-bebida-especifica').each(function() {
 				var precioBebida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
 				nuevoPrecio += precioBebida;
 			});
-			if (isNaN(nuevoPrecio)) {
+		});
+
+		$('#lista-comidas').each(function() {
+			$('.borrar-comida-especifica').each(function() {
+				var precioComida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
+				nuevoPrecioComida += precioComida;
+			});
+		});		
+		
+		precioPagarFinal = nuevoPrecio + nuevoPrecioComida;
+		if (isNaN(nuevoPrecioComida)) {
 				$('#suma-cuenta').val('0.00');
 			} else {
-				$('#suma-cuenta').val(nuevoPrecio.toFixed(2));
+				$('#suma-cuenta').val(precioPagarFinal.toFixed(2));
 			}
-		});
+		
 	}
 
 	
@@ -203,8 +214,6 @@
 				
 				}
 			}
-				// Actualizamos el input con el precio final de toda la comanda.
-				//actualizarComidaInputTotal();
 		});
 		
 	});
@@ -212,20 +221,6 @@
 	
 	*/
 	
-	function actualizarComidaInputTotal() {
-		$('#lista-comidas').each(function() {
-			var nuevoPrecioComida = 0;
-			$('.borrar-comida-especifica').each(function() {
-				var precioComida = Number($(this).text().trim().replace(' €', '').replace(',', '.'));
-				nuevoPrecioComida += precioComida;
-			});
-			if (isNaN(nuevoPrecioComida)) {
-				$('#suma-cuenta').val('0.00');
-			} else {
-				$('#suma-cuenta').val(nuevoPrecioComida.toFixed(2));
-			}
-		});
-	}
 	
 	// ###### FIN - LÓGICA PARA LA PARTE DE EL DESAYUNO ######
 	
