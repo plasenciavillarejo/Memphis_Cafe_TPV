@@ -40,7 +40,6 @@
 		
 		event.preventDefault(); // Evita que se recargue la página
 		$.get('/Memphis_Cafe/validarObjetosActuales/' + nombreCafe + '/' + precioCafe , function(resultadoString) {		
-			var cantidadElementos = $('#lista-bebidas li').length;
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-bebidas li').each(function() {
 				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
@@ -59,8 +58,9 @@
 					}
 				}		
 		});
+		var cantidadElementos = $('#lista-bebidas li').length;
 		// Si ya no hay más datos en la lista, se borra todo y se oculta	
-		if (cantidadElementos === 1) {
+		if (cantidadElementos === 0) {
 			borrarAtributosSession();
 			}	
 		});
