@@ -1,5 +1,7 @@
 package com.memphis.cafe.tpv.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +12,9 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(schema = "Memphis_Cafe", name = "ListaBebidaAlmacenada")
-public class ListaBebidaAlmacenada {
+public class ListaBebidaAlmacenada implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +28,9 @@ public class ListaBebidaAlmacenada {
 	@Column(name = "precio")
 	private String precio;
 
+	@Column(name = "nombreTabla")
+	private String nombreTabla;
+	
 	public String getPrecio() {
 		return precio;
 	}
@@ -48,4 +55,14 @@ public class ListaBebidaAlmacenada {
 		this.nombreBebida = nombreBebida;
 	}
 
+	public String getNombreTabla() {
+		return nombreTabla;
+	}
+
+	public void setNombreTabla(String nombreTabla) {
+		this.nombreTabla = nombreTabla;
+	}
+
+	
+	
 }

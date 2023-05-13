@@ -29,23 +29,23 @@
 		 El método match() devuelve un array con el texto coincidente y los grupos capturados, por lo que 
 		 match(/^\s*([^\d]+)/)[1] devuelve el nombre sin los espacios al principio y al final
 		 */
-		var nombreCafe = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
+		var producto = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
 		/*
 		La expresión regular /\d+(?:[.,]\d+)?/ busca cualquier secuencia de dígitos (\d+) seguida opcionalmente 
 		por un punto o una coma y más dígitos ((?:[.,]\d+)?), sin capturar el grupo. El método match() devuelve 
 		un array con todas las coincidencias, por lo que match(/\d+(?:[.,]\d+)?/)[0] devuelve el primer número 
 		que aparece en la cadena. 
 		*/
-		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		var precio = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
 		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/validarObjetosActuales/' + nombreCafe + '/' + precioCafe , function(resultadoString) {		
+		$.get('/Memphis_Cafe/validarObjetosActuales/' + producto + '/' + precio , function(resultadoString) {		
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-bebidas li').each(function() {
-				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
-				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
-				console.log(nombreCafeLista,precioCafeLista);
-				if(nombreCafe===nombreCafeLista){					
+				var nombreLista = $(this).find('#nombre-cafe-seleccionado').text();
+				var precioLista = $(this).find('.borrar-bebida-especifica').text().trim();
+				console.log(nombreLista,precioLista);
+				if(producto===nombreLista){					
 					if(resultadoString=== '0,0' || resultadoString=== '0'){
 						// Elimino este objeto de la lista
 						$(this).closest('ul').remove();

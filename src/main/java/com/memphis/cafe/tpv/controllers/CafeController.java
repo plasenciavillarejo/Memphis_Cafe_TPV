@@ -47,6 +47,7 @@ public class CafeController {
 			ListaBebidaAlmacenada b = new ListaBebidaAlmacenada();
 			b.setPrecio(precioCafe);
 			b.setNombreBebida(nombreCafe);
+			b.setNombreTabla("ListaBebidaAlmacenada");
 			bebidaAlmacenadaService.guardarBebida(b);
 			
 			bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
@@ -74,6 +75,7 @@ public class CafeController {
 				ListaBebidaAlmacenada aniadirBebida = new ListaBebidaAlmacenada();
 				aniadirBebida.setPrecio(precioCafe);
 				aniadirBebida.setNombreBebida(nombreCafe);
+				aniadirBebida.setNombreTabla("ListaBebidaAlmacenada");
 				bebidaAlmacenadaService.guardarBebida(aniadirBebida);
 			}
 		}

@@ -57,6 +57,7 @@ public class DesayunosController {
 			ListaComidaAlmacenada b = new ListaComidaAlmacenada();
 			b.setPrecio(precioDesayuno);
 			b.setNombreComida(nombre);
+			b.setNombreTabla("ListaComidaAlmacenada");
 			comidaAlmacenadaService.guardarComida(b);
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
 						
@@ -83,6 +84,7 @@ public class DesayunosController {
 				ListaComidaAlmacenada aniadirComida = new ListaComidaAlmacenada();
 				aniadirComida.setPrecio(precioDesayuno);
 				aniadirComida.setNombreComida(nombre);
+				aniadirComida.setNombreTabla("ListaComidaAlmacenada");
 				comidaAlmacenadaService.guardarComida(aniadirComida);
 			}
 		}
