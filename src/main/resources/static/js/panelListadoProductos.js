@@ -15,7 +15,7 @@
  
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
-		borrarAtributosSession();
+		borrarTodosAtributosSession();
 	});
 
 	// Cuando solo pulsamos en borrar (-) un solo producto en específico
@@ -65,17 +65,41 @@
 			}	
 		});
 	});
-
-
+	
 	// Función para borrar los productos
 	function borrarAtributosSession() {
-		$.get('/Memphis_Cafe/limpiarObjetosSesion', function() {
+		
+		var cantidadElementosBebida = $('#lista-bebidas li').length;
+		var canditdadElementosComida = $('#lista-comidas li').length;
+		
+		$.get('/Memphis_Cafe/limpiarObjetosSesion/' + cantidadElementosBebida + '/' + canditdadElementosComida, function() {
+			if (cantidadElementosBebida === 0 && canditdadElementosComida === 0) {
+				$('#lista-productos').empty();
+				$('#lista-comida').empty();
+				$('.texto-pagar').empty();
+				$('.borrar-productos').hide();
+			} else if (cantidadElementosBebida === 0) {
+				$('#lista-productos').empty();
+			} else if (canditdadElementosComida === 0) {
+				$('#lista-comida').empty();
+			}
+
+			
+		});
+	}
+	
+	// Función para borrar la comanda por completo.
+	
+	function borrarTodosAtributosSession() {
+		$.get('/Memphis_Cafe/limpiarComandaEntera', function() {
 			$('#lista-productos').empty();
 			$('#lista-comida').empty();
 			$('.texto-pagar').empty();
 			$('.borrar-productos').hide();
 		});
 	}
+	
+	
 	
 	// Cuando solo pulsamos en sumar (+) un solo producto en específico
 	$(document).on('click', '.aniadir-icono', function(event) {

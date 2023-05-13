@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -210,9 +211,38 @@ public class MemphisController {
 	}
 
 	// Almacenar la sesión dentro de un Jquery
-	@GetMapping("/limpiarObjetosSesion")
+	@GetMapping("/limpiarObjetosSesion/{elementosBebida}/{elementosComida}")
 	@ResponseBody
 	public String obtenerSesionAtributos(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model,
+			@PathVariable("elementosBebida") String elementosBebida,
+			@PathVariable("elementosComida") String elementosComida ) {
+		// Procedemos a borrar los atributos que existe en la sesión
+		logAplicacion.info("Se procede a borrar los atributos que hay en sesión.");
+		
+		if(elementosBebida.equalsIgnoreCase("0")) {
+			bebidaAlmacenada = new ArrayList<>();
+			bebidaAlmacenadaService.borrarListaCompleta();
+			model.addAttribute("listaProductos", bebidaAlmacenada);
+		} else if(elementosComida.equalsIgnoreCase("0")) {
+			comidaAlmacenada = new ArrayList<>();
+			comidaAlmacenadaService.borrarListaCompletaComida();
+			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+		} else {
+			bebidaAlmacenada = new ArrayList<>();
+			comidaAlmacenada = new ArrayList<>();
+			bebidaAlmacenadaService.borrarListaCompleta();
+			comidaAlmacenadaService.borrarListaCompletaComida();
+			model.addAttribute("listaProductos", bebidaAlmacenada);
+			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+		}
+		return "OK";
+	}
+	
+	// Almacenar la sesión dentro de un Jquery
+	@GetMapping("/limpiarComandaEntera")
+	@ResponseBody
+	public String borrarComandaEntera(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
 			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model) {
 		// Procedemos a borrar los atributos que existe en la sesión
 		logAplicacion.info("Se procede a borrar los atributos que hay en sesión.");
@@ -224,8 +254,6 @@ public class MemphisController {
 		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 		return "OK";
 	}
-	
-	
 	
 	
 }
