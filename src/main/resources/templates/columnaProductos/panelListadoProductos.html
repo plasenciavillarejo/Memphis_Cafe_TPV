@@ -20,6 +20,7 @@
 										<ion-icon class="borrar-icono-comida" name="remove-circle"></ion-icon> 
 												<span id="nombre-comida-seleccionado" th:text="${listaComida.nombreComida}"></span>
 												<span id="suma-comidas" th:text="${listaComida.precio}+ ' €'" class="borrar-comida-especifica"></span>
+												<span id="tipo-producto-comida" th:text="${productoComida}" hidden ></span>
 										<ion-icon class="aniadir-icono-comida" name="add-circle"></ion-icon>
 									</li>
 								</ul>
@@ -37,6 +38,7 @@
 										<ion-icon class="borrar-icono-bebida" name="remove-circle"></ion-icon> 
 												<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span>
 												<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span>
+												<span id="tipo-producto-bebida" th:text="${productoBebida}" hidden ></span>
 										<ion-icon class="aniadir-icono-bebida" name="add-circle"></ion-icon>
 									</li>
 								</ul>

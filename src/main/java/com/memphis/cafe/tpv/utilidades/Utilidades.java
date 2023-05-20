@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.memphis.cafe.constantes.sesion.ConstantesSesion;
+import com.memphis.cafe.tpv.service.ICafeService;
+import com.memphis.cafe.tpv.service.IDesayunosService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +18,12 @@ import jakarta.servlet.http.HttpSession;
 @Component
 public class Utilidades {
 
+	@Autowired
+	private IDesayunosService desayunoService;
+	
+	@Autowired
+	private ICafeService cafeService;
+	
 	// Clase que carga el listado principal.
 	public Map<Integer, String> logosIniciales() {
 		Map<Integer, String> logos = new HashMap<>();
@@ -66,13 +75,18 @@ public class Utilidades {
 	}
 	
 	
-	public String identificacionConsultas(String tablaIdentificacion) {
+	public String identificacionConsultas(String nombreComida, String tablaIdentificacion, boolean checked) {
+		String buscarPrecioBBDD = "";
 		
 		// Café
-		if(tablaIdentificacion.equalsIgnoreCase("1")) {
+		if(tablaIdentificacion.equalsIgnoreCase("cafes_carajillos_infusiones")) {
 			
-		} else if(tablaIdentificacion.equalsIgnoreCase("2")) {
-			
+		} else if(tablaIdentificacion.equalsIgnoreCase("Desayunos")) {
+			if (!checked) {
+				buscarPrecioBBDD = desayunoService.precioDesayunoMedia(nombreComida);
+			} else {
+				buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreComida);
+			}
 		} else if(tablaIdentificacion.equalsIgnoreCase("3")) {
 			
 		} else if(tablaIdentificacion.equalsIgnoreCase("4")) {
@@ -91,7 +105,7 @@ public class Utilidades {
 			
 		}
 		
-		return null;
+		return buscarPrecioBBDD;
 	}
 	
 }

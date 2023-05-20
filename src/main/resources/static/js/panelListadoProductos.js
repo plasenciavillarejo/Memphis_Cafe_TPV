@@ -164,6 +164,7 @@
 		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
 		var nombreComida = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
 		var precioComida = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		var tablaBBDD = $('#tipo-producto-comida')[0].textContent;
 		
 		// Verificamos si está o no seleccionado el switch
 		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
@@ -173,7 +174,8 @@
 			switchValue = false;
 		}
 		
-		$.get('/Memphis_Cafe/sumarPrecioComida/' + nombreComida + '/' + precioComida + '/' + switchValue, function(resultadoString) {		
+		$.get('/Memphis_Cafe/sumarPrecioComida/' + nombreComida + '/' + precioComida + '/' + switchValue + '/' + tablaBBDD,
+			 function(resultadoString) {		
 			// Recorro la lista para obtener el elemento seleccionado
 			$('#lista-comidas li').each(function() {
 				var nombreComidaLista = $(this).find('#nombre-comida-seleccionado').text();
@@ -209,9 +211,19 @@
 		que aparece en la cadena. 
 		*/
 		var precio = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		var tablaBBDD = $('#tipo-producto-bebida')[0].textContent;
+		
+		// Verificamos si está o no seleccionado el switch
+		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
+		
+		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
+		if (typeof switchValue === "undefined") {
+			switchValue = false;
+		}
 		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/validarObjetosActuales/' + producto + '/' + precio , function(resultadoString) {		
+		$.get('/Memphis_Cafe/validarObjetosActuales/' + producto + '/' + precio +  '/' + switchValue + '/' + tablaBBDD
+			, function(resultadoString) {		
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-bebidas li').each(function() {
 				var nombreLista = $(this).find('#nombre-cafe-seleccionado').text();
@@ -253,6 +265,7 @@
 		
 		// Verificamos si está o no seleccionado el switch
 		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
+		var tablaBBDD = $('#tipo-producto-comida')[0].textContent;
 		
 		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
 		if (typeof switchValue === "undefined") {
@@ -260,7 +273,8 @@
 		}
 		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/restarPrecioComida/' + producto + '/' + precio + '/' + switchValue, function(resultadoString) {		
+		$.get('/Memphis_Cafe/restarPrecioComida/' + producto + '/' + precio + '/' + switchValue + "/" + tablaBBDD,
+			 function(resultadoString) {		
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-comidas li').each(function() {
 				var nombreLista = $(this).find('#nombre-comida-seleccionado').text();

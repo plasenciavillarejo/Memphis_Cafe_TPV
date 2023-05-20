@@ -85,6 +85,10 @@ public class CafeController {
 			bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
 			model.addAttribute("listaProductos", bebidaAlmacenada);
 		}
+		
+		// Le indicamos la tabla de el producto para poder distinguir a la hora de añadir (+) o eliminar (-) un producto.
+		model.addAttribute("productoBebida", "cafes_carajillos_infusiones");
+		
 		return VALORPAGINAACTUAL;
 	}
 	
