@@ -306,24 +306,31 @@ public class MemphisController {
 					// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
 					String buscarPrecioBBDD = "";
 					
-					buscarPrecioBBDD = utilidades.identificacionConsultas(nombreComida, tablaBBDD, checked);
-					
-					// Relizamos la resta
-					resultadoString = utilidades.resta(precioComida, buscarPrecioBBDD);
-					// Actualizo el objeto 
-					comida.setPrecio(resultadoString);
-					
-					if(!resultadoString.equalsIgnoreCase("0")) {
-						comidaAlmacenadaService.guardarComida(comida);
-					} else {
+					if(!tablaBBDD.equalsIgnoreCase("Desayunos")) {
+						buscarPrecioBBDD = utilidades.identificacionConsultas(nombreComida, tablaBBDD, checked);
+						
+						// Relizamos la resta
+						resultadoString = utilidades.resta(precioComida, buscarPrecioBBDD);
+						// Actualizo el objeto 
+						comida.setPrecio(resultadoString);
+						
+						if(!resultadoString.equalsIgnoreCase("0")) {
+							comidaAlmacenadaService.guardarComida(comida);
+						}
+						else {
+							comidaAlmacenadaService.borrarComida(comida.getId());
+						}
+						model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+					}else {
+						// Cuando se trata de un desayuno se borra directamente.
 						comidaAlmacenadaService.borrarComida(comida.getId());
+						model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+						resultadoString = "0";
 					}
-					
 					// Lo guardo nuevamente
 					
 				}
 			}
-			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 			return resultadoString;
 		}
 	
