@@ -65,4 +65,33 @@ public class Utilidades {
 		return resultadoString;
 	}
 	
+	
+	public String identificacionConsultas(String tablaIdentificacion) {
+		
+		// Café
+		if(tablaIdentificacion.equalsIgnoreCase("1")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("2")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("3")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("4")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("5")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("6")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("7")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("8")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("9")) {
+			
+		} else if(tablaIdentificacion.equalsIgnoreCase("10")) {
+			
+		}
+		
+		return null;
+	}
+	
 }

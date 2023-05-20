@@ -89,7 +89,7 @@ public class CafeController {
 	}
 	
 	
-	// Restamos un precio a un objeto ya en la lista.
+		// Se encarga de que cuando exista un producto al pulsar en (-) reste su valor
 		@GetMapping("/validarObjetosActuales/{nombreCafe}/{precioCafe}")
 		@ResponseBody
 		public String validarObjetosDeSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,

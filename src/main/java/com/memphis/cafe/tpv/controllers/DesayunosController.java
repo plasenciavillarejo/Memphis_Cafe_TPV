@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
@@ -51,7 +53,6 @@ public class DesayunosController {
 		}else {
 			precioDesayuno = desayunoService.precioDesayunoEntera(nombre);
 		}
-		
 		
 		if (comidaAlmacenada.isEmpty()) {
 			ListaComidaAlmacenada b = new ListaComidaAlmacenada();
@@ -98,6 +99,79 @@ public class DesayunosController {
 		return VALORPAGINAACTUAL;
 	}
 	
-
+	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor
+	@GetMapping("/sumarPrecioComida/{nombreComida}/{precioCcomida}/{checked}")
+	@ResponseBody
+	public String sumarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+			@PathVariable("nombreComida") String nombreComida, 
+			@PathVariable("precioCcomida") String precioComida,
+			@PathVariable(value ="checked") boolean checked,
+			Model model) {
+		
+		String resultadoString = "";
+		
+		for(ListaComidaAlmacenada comida: comidaAlmacenada) {
+			if(comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
+				// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
+				String buscarPrecioBBDD = "";
+				
+				if(!checked) {
+					buscarPrecioBBDD = desayunoService.precioDesayunoMedia(nombreComida);
+				}else {
+					buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreComida);
+				}
+				
+				// Relizamos la resta
+				resultadoString = utilidades.suma(precioComida, buscarPrecioBBDD);
+				// Actualizo el objeto 
+				comida.setPrecio(resultadoString);
+				// Lo guardo nuevamente
+				comidaAlmacenadaService.guardarComida(comida);
+			}
+		}
+		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+		return resultadoString;
+	}
+	
+	// Se encarga de que cuando exista un producto al pulsar en (-) restar su valor
+	@GetMapping("/restarPrecioComida/{nombreComida}/{precioCcomida}/{checked}")
+	@ResponseBody
+	public String restarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+			@PathVariable("nombreComida") String nombreComida, 
+			@PathVariable("precioCcomida") String precioComida,
+			@PathVariable(value ="checked") boolean checked,
+			Model model) {
+		
+		String resultadoString = "";
+		
+		for(ListaComidaAlmacenada comida: comidaAlmacenada) {
+			if(comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
+				// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
+				String buscarPrecioBBDD = "";
+				
+				if(!checked) {
+					buscarPrecioBBDD = desayunoService.precioDesayunoMedia(nombreComida);
+				}else {
+					buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreComida);
+				}
+				
+				// Relizamos la resta
+				resultadoString = utilidades.resta(precioComida, buscarPrecioBBDD);
+				// Actualizo el objeto 
+				comida.setPrecio(resultadoString);
+				
+				if(!resultadoString.equalsIgnoreCase("0")) {
+					comidaAlmacenadaService.guardarComida(comida);
+				} else {
+					comidaAlmacenadaService.borrarComida(comida.getId());
+				}
+				
+				// Lo guardo nuevamente
+				
+			}
+		}
+		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+		return resultadoString;
+	}
 	
 }

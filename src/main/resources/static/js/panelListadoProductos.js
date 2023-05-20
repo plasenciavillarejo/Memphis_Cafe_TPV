@@ -17,9 +17,103 @@
 	$(document).on('click', '.borrar-productos', function() {
 		borrarTodosAtributosSession();
 	});
+	
+	// Función para borrar los productos
+	function borrarAtributosSession() {
+		
+		var cantidadElementosBebida = $('#lista-bebidas li').length;
+		var canditdadElementosComida = $('#lista-comidas li').length;
+		
+		$.get('/Memphis_Cafe/limpiarObjetosSesion/' + cantidadElementosBebida + '/' + canditdadElementosComida, function() {
+			if (cantidadElementosBebida === 0 && canditdadElementosComida === 0) {
+				$('#lista-productos').empty();
+				$('#lista-comida').empty();
+				$('.texto-pagar').empty();
+				$('.borrar-productos').hide();
+			} else if (cantidadElementosBebida === 0) {
+				$('#lista-productos').empty();
+			} else if (canditdadElementosComida === 0) {
+				$('#lista-comida').empty();
+			}
 
-	// Cuando solo pulsamos en borrar (-) un solo producto en específico
-	$(document).on('click', '.borrar-icono', function(event) {
+			
+		});
+	}
+	
+	// Función para borrar la comanda por completo.
+	
+	function borrarTodosAtributosSession() {
+		$.get('/Memphis_Cafe/limpiarComandaEntera', function() {
+			$('#lista-productos').empty();
+			$('#lista-comida').empty();
+			$('.texto-pagar').empty();
+			$('.borrar-productos').hide();
+		});
+	}
+	
+	
+	
+	// Cuando solo pulsamos en sumar (+) un solo producto en específico bebida
+	$(document).on('click', '.aniadir-icono-bebida', function(event) {
+		event.preventDefault(); // Evita que se recargue la página
+		var valorObjeto = $(this).parent().text();
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
+		var nombreCafe = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
+		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		
+		$.get('/Memphis_Cafe/sumarObjetosActuales/' + nombreCafe + '/' + precioCafe, function(resultadoString) {		
+			// Recorro la lista para obtener el elemento seleccionado
+			$('#lista-bebidas li').each(function() {
+				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
+				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
+				console.log(nombreCafeLista,precioCafeLista);
+				
+				if(nombreCafe===nombreCafeLista){					
+					// Actualizao el valor
+					//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+					$(this).find('.borrar-bebida-especifica').text(resultadoString)
+					actualizarInputTotal();
+				}
+			});
+		});
+	});
+	
+
+	// Cuando solo pulsamos en sumar (+) un solo producto en específico bebida
+	$(document).on('click', '.aniadir-icono-comida', function(event) {
+		event.preventDefault(); // Evita que se recargue la página
+		var valorObjeto = $(this).parent().text();
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
+		var nombreComida = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
+		var precioComida = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		
+		// Verificamos si está o no seleccionado el switch
+		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
+		
+		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
+		if (typeof switchValue === "undefined") {
+			switchValue = false;
+		}
+		
+		$.get('/Memphis_Cafe/sumarPrecioComida/' + nombreComida + '/' + precioComida + '/' + switchValue, function(resultadoString) {		
+			// Recorro la lista para obtener el elemento seleccionado
+			$('#lista-comidas li').each(function() {
+				var nombreComidaLista = $(this).find('#nombre-comida-seleccionado').text();
+				var precioComidaLista = $(this).find('.borrar-comida-especifica').text().trim();
+				console.log(nombreComidaLista,precioComidaLista);
+				
+				if(nombreComida===nombreComidaLista){					
+					// Actualizao el valor
+					$(this).find('.borrar-comida-especifica').text(resultadoString)
+					actualizarInputTotal();
+				}
+			});
+		});
+	});
+
+
+	// Cuando solo pulsamos en borrar (-) un solo producto en específico de la bebida
+	$(document).on('click', '.borrar-icono-bebida', function(event) {
 		// Busca el elemento padre correspondiente al producto que se va a eliminar
 		var valorObjeto = $(this).parent().text();
 		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
@@ -66,65 +160,51 @@
 		});
 	});
 	
-	// Función para borrar los productos
-	function borrarAtributosSession() {
-		
-		var cantidadElementosBebida = $('#lista-bebidas li').length;
-		var canditdadElementosComida = $('#lista-comidas li').length;
-		
-		$.get('/Memphis_Cafe/limpiarObjetosSesion/' + cantidadElementosBebida + '/' + canditdadElementosComida, function() {
-			if (cantidadElementosBebida === 0 && canditdadElementosComida === 0) {
-				$('#lista-productos').empty();
-				$('#lista-comida').empty();
-				$('.texto-pagar').empty();
-				$('.borrar-productos').hide();
-			} else if (cantidadElementosBebida === 0) {
-				$('#lista-productos').empty();
-			} else if (canditdadElementosComida === 0) {
-				$('#lista-comida').empty();
-			}
-
-			
-		});
-	}
 	
-	// Función para borrar la comanda por completo.
-	
-	function borrarTodosAtributosSession() {
-		$.get('/Memphis_Cafe/limpiarComandaEntera', function() {
-			$('#lista-productos').empty();
-			$('#lista-comida').empty();
-			$('.texto-pagar').empty();
-			$('.borrar-productos').hide();
-		});
-	}
-	
-	
-	
-	// Cuando solo pulsamos en sumar (+) un solo producto en específico
-	$(document).on('click', '.aniadir-icono', function(event) {
-		event.preventDefault(); // Evita que se recargue la página
+	// Cuando solo pulsamos en borrar (-) un solo producto en específico de la comida
+	$(document).on('click', '.borrar-icono-comida', function(event) {
+		// Busca el elemento padre correspondiente al producto que se va a eliminar
 		var valorObjeto = $(this).parent().text();
 		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
-		var nombreCafe = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
-		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		var producto = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre		
+		var precio = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
 		
-		$.get('/Memphis_Cafe/sumarObjetosActuales/' + nombreCafe + '/' + precioCafe, function(resultadoString) {		
-			// Recorro la lista para obtener el elemento seleccionado
-			$('#lista-bebidas li').each(function() {
-				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
-				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
-				console.log(nombreCafeLista,precioCafeLista);
-				
-				if(nombreCafe===nombreCafeLista){					
-					// Actualizao el valor
-					//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
-					$(this).find('.borrar-bebida-especifica').text(resultadoString)
-					actualizarInputTotal();
-				}
-			});
+		// Verificamos si está o no seleccionado el switch
+		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
+		
+		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
+		if (typeof switchValue === "undefined") {
+			switchValue = false;
+		}
+		
+		event.preventDefault(); // Evita que se recargue la página
+		$.get('/Memphis_Cafe/restarPrecioComida/' + producto + '/' + precio + '/' + switchValue, function(resultadoString) {		
+			// Recorro la lista para obtener el elemnto seleccionado
+			$('#lista-comidas li').each(function() {
+				var nombreLista = $(this).find('#nombre-comida-seleccionado').text();
+				var precioLista = $(this).find('.borrar-comida-especifica').text().trim();
+				console.log(nombreLista,precioLista);
+				if(producto===nombreLista){					
+					if(resultadoString=== '0,0' || resultadoString=== '0'){
+						// Elimino este objeto de la lista
+						$(this).closest('ul').remove();
+						actualizarInputTotal();
+					} else{
+						// Actualizao el valor
+						//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+						$(this).find('.borrar-comida-especifica').text(resultadoString)
+						actualizarInputTotal();
+					}
+				}		
+		});
+		var cantidadElementos = $('#lista-comidas li').length;
+		// Si ya no hay más datos en la lista, se borra todo y se oculta	
+		if (cantidadElementos === 0) {
+			borrarAtributosSession();
+			}	
 		});
 	});
+	
 	
 	
 	function actualizarInputTotal() {
@@ -147,9 +227,9 @@
 		precioPagarFinal = nuevoPrecio + nuevoPrecioComida;
 		if (isNaN(nuevoPrecioComida)) {
 				$('#suma-cuenta').val('0.00');
-			} else {
+		} else {
 				$('#suma-cuenta').val(precioPagarFinal.toFixed(2));
-			}
+		}
 		
 	}
 

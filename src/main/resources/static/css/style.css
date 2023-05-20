@@ -92,12 +92,20 @@ table {
 }
 
 
-.borrar-icono {
+.borrar-icono-bebida {
+  cursor: pointer;
+}
+
+.borrar-icono-comida {
   cursor: pointer;
 }
 
 
-.aniadir-icono {
+.aniadir-icono-bebida {
+  cursor: pointer;
+}
+
+.aniadir-icono-comida {
   cursor: pointer;
 }
 
