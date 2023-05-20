@@ -11,6 +11,9 @@
 		// Se llama a la fucion para verificar que se ha cambiado o no el switch
 		cambioSwitch();
 
+		// Validamos los elementos que contiene la lista
+		$("#lista-bebidas").trigger("DOMSubtreeModified");
+		$("#lista-comidas").trigger("DOMSubtreeModified");
 	});
  
 	// Cuando pulsamos en borrar todos los productos de la lista
@@ -32,7 +35,7 @@
 				$('.borrar-productos').hide();
 			} else if (cantidadElementosBebida === 0) {
 				$('#lista-productos').empty();
-			} else if (canditdadElementosComida === 0) {
+			} else if (canditdadElementosComida === 0 || canditdadElementosComida.indexOf('-')) {
 				$('#lista-comida').empty();
 			}
 
@@ -78,6 +81,81 @@
 		});
 	});
 	
+	// ### Ini - Funciones encargadas de escuchar los productos que se añade para mantener el "Card" o pasar a una lista ### //
+	// ##################################################################################################################### //
+	// Se dispara cuando se agrega un nuevo nodo a un elemento bebida. 
+	$("#lista-bebidas").on("DOMSubtreeModified", function() {
+	// Si el panel contiene más de 7 bebidas se cambia a una lista.
+		var cantidadBebidas = $('#lista-bebidas li').length;
+		
+		if (cantidadBebidas >= 1 && cantidadBebidas <=6) {
+			$("#convertir-lista ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista').removeClass("overflow-auto").removeAttr("style");			
+			});
+		} else {
+			$("#convertir-lista ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista').addClass("overflow-auto").css("height","250px");
+			});
+		}
+	});
+	
+	
+	// Se dispara cuando se agrega un nuevo nodo a un elemento comida. 
+	$("#lista-comidas").on("DOMSubtreeModified", function() {
+	// Si el panel contiene más de 7 comidas se cambia a una lista.
+		var cantidadComidas = $('#lista-comidas li').length;
+		
+		if (cantidadComidas >= 1 && cantidadComidas <=6) {
+			$("#convertir-lista-comida ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista').removeClass("overflow-auto").removeAttr("style");			
+			});
+		} else {
+			$("#convertir-lista-comida ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista-comida').addClass("overflow-auto").css("height","250px");
+			});
+		}
+	});
+	
+	function borrarEstilosBebida() {
+		// Si el panel contiene más de 7 bebidas se cambia a una lista.
+		var cantidadBebidas = $('#lista-bebidas li').length;
+		
+		if (cantidadBebidas >= 1 && cantidadBebidas <=6) {
+			$("#convertir-lista ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista').removeClass("overflow-auto").removeAttr("style");			
+			});
+		} else {
+			$("#convertir-lista ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista').addClass("overflow-auto").css("height","250px");
+			});
+		} 
+	}
+
+	function borrarEstilosComida() {
+		// Si el panel contiene más de 7 comidass se cambia a una lista.
+		var cantidadComidas = $('#lista-comidas li').length;
+		
+		if (cantidadComidas >= 1 && cantidadComidas <=6) {
+			$("#convertir-lista-comida ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista').removeClass("overflow-auto").removeAttr("style");			
+			});
+		} else {
+			$("#convertir-lista-comida ul").each(function() {
+				$(this).removeClass("list-group-flush");
+				$('#convertir-lista-comida').addClass("overflow-auto").css("height","250px");
+			});
+		}
+	}
+
+	// ### Fin - Funciones encargadas de escuchar los productos que se añade para mantener el "Card" o pasar a una lista ### //
+	// ##################################################################################################################### //
 
 	// Cuando solo pulsamos en sumar (+) un solo producto en específico bebida
 	$(document).on('click', '.aniadir-icono-comida', function(event) {
@@ -158,6 +236,10 @@
 			borrarAtributosSession();
 			}	
 		});
+		
+		// Verificamos la cantidad de elementos que hay en la lista para matener algunos estilos
+		borrarEstilosBebida();
+		
 	});
 	
 	
@@ -203,6 +285,10 @@
 			borrarAtributosSession();
 			}	
 		});
+		
+		// Verificamos la cantidad de elementos que hay en la lista para matener algunos estilos
+		borrarEstilosComida();
+		
 	});
 	
 	
@@ -230,6 +316,9 @@
 		} else {
 				$('#suma-cuenta').val(precioPagarFinal.toFixed(2));
 		}
+		
+		// Validamos los elementos que contiene la lista
+		$("#lista-bebidas").trigger("DOMSubtreeModified");
 		
 	}
 

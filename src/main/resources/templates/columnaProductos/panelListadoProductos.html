@@ -14,14 +14,16 @@
 				<div id="lista-comida" class="col-6">
 					<div th:if="${!comidaAlmacenada.isEmpty()}" class="card" style="width: 18rem;">
 						<div class="card-header">Comida</div>
-						<ul id="lista-comidas" th:each="listaComida: ${comidaAlmacenada}" class="list-group list-group-flush">
-							<li id="borrar-comidas" class="list-group-item contar-bebida">
-								<ion-icon class="borrar-icono-comida" name="remove-circle"></ion-icon> 
-										<span id="nombre-comida-seleccionado" th:text="${listaComida.nombreComida}"></span>
-										<span id="suma-comidas" th:text="${listaComida.precio}+ ' €'" class="borrar-comida-especifica"></span>
-								<ion-icon class="aniadir-icono-comida" name="add-circle"></ion-icon>
-							</li>
-						</ul>
+							<div id="convertir-lista-comida">
+								<ul id="lista-comidas" th:each="listaComida: ${comidaAlmacenada}" class="list-group list-group-flush">
+									<li id="borrar-comidas" class="list-group-item contar-bebida">
+										<ion-icon class="borrar-icono-comida" name="remove-circle"></ion-icon> 
+												<span id="nombre-comida-seleccionado" th:text="${listaComida.nombreComida}"></span>
+												<span id="suma-comidas" th:text="${listaComida.precio}+ ' €'" class="borrar-comida-especifica"></span>
+										<ion-icon class="aniadir-icono-comida" name="add-circle"></ion-icon>
+									</li>
+								</ul>
+							</div>
 					</div>
 
 				</div>
@@ -29,14 +31,16 @@
 				<div id="lista-productos" class="col-6">
 					<div th:if="${!listaProductos.isEmpty()}" class="card" style="width: 18rem;">
 						<div class="card-header">Bebida</div>
-						<ul id="lista-bebidas" th:each="productos: ${listaProductos}" class="list-group list-group-flush">
-							<li id="borrar-bebidas" class="list-group-item contar-bebida">
-								<ion-icon class="borrar-icono-bebida" name="remove-circle"></ion-icon> 
-										<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span>
-										<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span>
-								<ion-icon class="aniadir-icono-bebida" name="add-circle"></ion-icon>
-							</li>
-						</ul>
+							<div id="convertir-lista">
+								<ul id="lista-bebidas" th:each="productos: ${listaProductos}" class="list-group list-group-flush">
+									<li id="borrar-bebidas" class="list-group-item contar-bebida">
+										<ion-icon class="borrar-icono-bebida" name="remove-circle"></ion-icon> 
+												<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span>
+												<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span>
+										<ion-icon class="aniadir-icono-bebida" name="add-circle"></ion-icon>
+									</li>
+								</ul>
+							</div>
 					</div>
 				</div>
 			</div>
