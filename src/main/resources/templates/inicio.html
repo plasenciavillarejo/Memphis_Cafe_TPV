@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout/layout :: head">
+<head th:replace="~{layout/layout :: head}">
 
 </head>
 
@@ -21,7 +21,7 @@
 				<div class="contenedor">
 					
 					<!--  Columnma Listado Productos -->
-						<div th:replace="columnaProductos/panelListadoProductos"></div>
+						<div th:replace="~{columnaProductos/panelListadoProductos}"></div>
 						
 					<!-- Aplicacion -->
 					<div class="columna">
@@ -109,7 +109,7 @@
 
 		<!-- FOOTER -->
 		<!-- ###### -->
-		<footer th:replace="layout/layout :: footer"> </footer>
+		<footer th:replace="~{layout/layout :: footer}"> </footer> 
 	</div>
 
 </body>

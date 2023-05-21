@@ -13,13 +13,15 @@
 
 		// Validamos los elementos que contiene la lista
 		$("#lista-bebidas").trigger("DOMSubtreeModified");
-		$("#lista-comidas").trigger("DOMSubtreeModified");
+		$("#lista-comidas").trigger("DOMSubtreeModified");		
 	});
  
  	
  
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
+		// Actualizamos el color de el botón de sweet alert.
+		$('.swal-button swal-button--confirm').css("background-color", "#43b39b");
 		swal({
 			title: "Estás seguro de que desea borrar la comanda?",
 			text: "Al borrarla, desaparecerá todos los productos",
