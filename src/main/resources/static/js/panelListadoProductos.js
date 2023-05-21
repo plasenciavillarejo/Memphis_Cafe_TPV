@@ -21,7 +21,6 @@
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
 		// Actualizamos el color de el botón de sweet alert.
-		$('.swal-button swal-button--confirm').css("background-color", "#43b39b");
 		swal({
 			title: "Estás seguro de que desea borrar la comanda?",
 			text: "Al borrarla, desaparecerá todos los productos",
@@ -34,6 +33,7 @@
 					borrarTodosAtributosSession();
 					swal("La comanda ha sido eliminada con éxito!", {
 						icon: "success",
+						
 					});
 				} /*else {
 					swal("Your imaginary file is safe!");
