@@ -124,17 +124,15 @@
 
 		
 
-		<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+		<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+		<script th:src="@{/js/sweetalert.min.js}"></script>
 		<!-- <script th:src="@{/js/popper.min.js}"></script> -->
 		<!-- Comenta está versión ya que en los navegaodres de IOS no funciona el PopOver al desplegarlo. Lo cambio por bootstrap.bundle.min.js
 		<script th:src="@{/js/bootstrap.min.js}"></script>  -->
-		
-		
 		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 		
 		<!-- Liberería de Jquery.js -->
 		<script th:src="@{/js/jquery-ui.min.js}"></script>
-		<script th:src="@{/js/jquery.tipsy.js}"></script>
 		<script th:src="@{/js/jquery.tipsy.min.js}"></script>
 
 		 
@@ -145,9 +143,9 @@
 		
 		// Activa los tooltips
 		$(function() {
-			$('[data-toggle="tooltip"]').tooltip()
+			$('[data-bs-toggle="tooltip"]').tooltip()
 		})
-
+		
 		
 		// Abre el popover al pulsar sobre el.
 			$(function() {

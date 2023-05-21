@@ -90,63 +90,6 @@ public class CafeController {
 		model.addAttribute("productoBebida", "cafes_carajillos_infusiones");
 		
 		return VALORPAGINAACTUAL;
-	}
-	
-	
-		// Se encarga de que cuando exista un producto al pulsar en (-) reste su valor
-		@GetMapping("/validarObjetosActuales/{nombreCafe}/{precioCafe}")
-		@ResponseBody
-		public String validarObjetosDeSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
-				@PathVariable("nombreCafe") String nombreCafe, @PathVariable("precioCafe") String precioCafe, Model model) {
-
-			String resultadoString = "";
-			for(ListaBebidaAlmacenada bebida: bebidaAlmacenada) {
-				if(bebida.getNombreBebida().trim().equalsIgnoreCase(nombreCafe)) {
-					
-					// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
-					String buscarPrecioBBDD = cafeService.precioCafe(nombreCafe.trim());
-					
-					// Relizamos la resta
-					resultadoString = utilidades.resta(precioCafe, buscarPrecioBBDD);
-					
-					// Actualizo el objeto 
-					bebida.setPrecio(resultadoString);
-					// Lo guardo nuevamente
-					
-					
-					if(!resultadoString.equalsIgnoreCase("0")) {
-						bebidaAlmacenadaService.guardarBebida(bebida);
-					} else {
-						bebidaAlmacenadaService.borrarBebida(bebida.getId());
-					}
-				}
-			}
-			model.addAttribute("listaProductos", bebidaAlmacenada);
-			return resultadoString;
-		}
-
-		// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor
-		@GetMapping("/sumarObjetosActuales/{nombreCafe}/{precioCafe}")
-		@ResponseBody
-		public String sumarPrecioEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
-				@PathVariable("nombreCafe") String nombreCafe, @PathVariable("precioCafe") String precioCafe, Model model) {
-			
-			String resultadoString = "";
-			for(ListaBebidaAlmacenada bebida: bebidaAlmacenada) {
-				if(bebida.getNombreBebida().trim().equalsIgnoreCase(nombreCafe)) {
-					// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
-					String buscarPrecioBBDD = cafeService.precioCafe(nombreCafe.trim());
-					// Relizamos la resta
-					resultadoString = utilidades.suma(precioCafe, buscarPrecioBBDD);
-					// Actualizo el objeto 
-					bebida.setPrecio(resultadoString);
-					// Lo guardo nuevamente
-					bebidaAlmacenadaService.guardarBebida(bebida);
-				}
-			}
-			model.addAttribute("listaProductos", bebidaAlmacenada);
-			return resultadoString;
-		}
-		
+	}		
 	
 }

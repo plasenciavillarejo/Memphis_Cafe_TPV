@@ -290,48 +290,107 @@ public class MemphisController {
 	}
 	
 	// Se encarga de que cuando exista un producto al pulsar en (-) restar su valor
-		@GetMapping("/restarPrecioComida/{nombreComida}/{precioComida}/{checked}/{tablaBBDD}")
-		@ResponseBody
-		public String restarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
-				@PathVariable("nombreComida") String nombreComida, 
-				@PathVariable("precioComida") String precioComida,
-				@PathVariable(value ="checked") boolean checked,
-				@PathVariable(value = "tablaBBDD") String tablaBBDD,
-				Model model) {
-			
-			String resultadoString = "";
-			
-			for(ListaComidaAlmacenada comida: comidaAlmacenada) {
-				if(comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
-					// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
-					String buscarPrecioBBDD = "";
-					
-					if(!tablaBBDD.equalsIgnoreCase("Desayunos")) {
-						buscarPrecioBBDD = utilidades.identificacionConsultas(nombreComida, tablaBBDD, checked);
-						
-						// Relizamos la resta
-						resultadoString = utilidades.resta(precioComida, buscarPrecioBBDD);
-						// Actualizo el objeto 
-						comida.setPrecio(resultadoString);
-						
-						if(!resultadoString.equalsIgnoreCase("0")) {
-							comidaAlmacenadaService.guardarComida(comida);
-						}
-						else {
-							comidaAlmacenadaService.borrarComida(comida.getId());
-						}
-						model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-					}else {
-						// Cuando se trata de un desayuno se borra directamente.
+	@GetMapping("/restarPrecioComida/{nombreComida}/{precioComida}/{checked}/{tablaBBDD}")
+	@ResponseBody
+	public String restarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+			@PathVariable("nombreComida") String nombreComida, @PathVariable("precioComida") String precioComida,
+			@PathVariable(value = "checked") boolean checked, @PathVariable(value = "tablaBBDD") String tablaBBDD,
+			Model model) {
+
+		String resultadoString = "";
+
+		for (ListaComidaAlmacenada comida : comidaAlmacenada) {
+			if (comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
+				// Buscamos el precio que vale el café para restarlo al precio total que hay en
+				// la cuenta.
+				String buscarPrecioBBDD = "";
+
+				if (!tablaBBDD.equalsIgnoreCase("Desayunos")) {
+					buscarPrecioBBDD = utilidades.identificacionConsultas(nombreComida, tablaBBDD, checked);
+
+					// Relizamos la resta
+					resultadoString = utilidades.resta(precioComida, buscarPrecioBBDD);
+					// Actualizo el objeto
+					comida.setPrecio(resultadoString);
+
+					if (!resultadoString.equalsIgnoreCase("0")) {
+						comidaAlmacenadaService.guardarComida(comida);
+					} else {
 						comidaAlmacenadaService.borrarComida(comida.getId());
-						model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-						resultadoString = "0";
 					}
-					// Lo guardo nuevamente
-					
+					model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+				} else {
+					// Cuando se trata de un desayuno se borra directamente.
+					comidaAlmacenadaService.borrarComida(comida.getId());
+					model.addAttribute("comidaAlmacenada", comidaAlmacenada);
+					resultadoString = "0";
+				}
+				// Lo guardo nuevamente
+
+			}
+		}
+		return resultadoString;
+	}
+	
+	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor bebida
+	@GetMapping("/sumarPrecioBebida/{nombreBebida}/{precioBebida}/{tablaBBDD}")
+	@ResponseBody
+	public String sumarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
+			@PathVariable("nombreBebida") String nombreBebida, 
+			@PathVariable("precioBebida") String precioBebida,
+			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
+
+		String resultadoString = "";
+		for (ListaBebidaAlmacenada bebida : bebidaAlmacenada) {
+			if (bebida.getNombreBebida().trim().equalsIgnoreCase(nombreBebida)) {
+				// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
+				String buscarPrecioBBDD = utilidades.identificacionConsultas(nombreBebida,tablaBBDD, false);
+				// Relizamos la resta
+				resultadoString = utilidades.suma(precioBebida, buscarPrecioBBDD);
+				// Actualizo el objeto
+				bebida.setPrecio(resultadoString);
+				// Lo guardo nuevamente
+				bebidaAlmacenadaService.guardarBebida(bebida);
+			}
+		}
+		model.addAttribute("listaProductos", bebidaAlmacenada);
+		return resultadoString;
+	}
+	
+	// Se encarga de que cuando exista un producto al pulsar en (-) reste su valor bebida
+	@GetMapping("/restarPrecioBebida/{nombreBebida}/{precioBebida}/{tablaBBDD}")
+	@ResponseBody
+	public String restarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
+			@PathVariable("nombreBebida") String nombreBebida, 
+			@PathVariable("precioBebida") String precioBebida, 
+			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
+
+		String resultadoString = "";
+		for (ListaBebidaAlmacenada bebida : bebidaAlmacenada) {
+			if (bebida.getNombreBebida().trim().equalsIgnoreCase(nombreBebida)) {
+
+				// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
+				String buscarPrecioBBDD = utilidades.identificacionConsultas(nombreBebida,tablaBBDD, false);
+
+				// Relizamos la resta
+				resultadoString = utilidades.resta(precioBebida, buscarPrecioBBDD);
+
+				// Actualizo el objeto
+				bebida.setPrecio(resultadoString);
+				// Lo guardo nuevamente
+
+				if (!resultadoString.equalsIgnoreCase("0")) {
+					bebidaAlmacenadaService.guardarBebida(bebida);
+				} else {
+					bebidaAlmacenadaService.borrarBebida(bebida.getId());
 				}
 			}
-			return resultadoString;
 		}
+		model.addAttribute("listaProductos", bebidaAlmacenada);
+		return resultadoString;
+	}
+
+
+	
 	
 }

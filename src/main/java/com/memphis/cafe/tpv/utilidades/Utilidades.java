@@ -75,17 +75,17 @@ public class Utilidades {
 	}
 	
 	
-	public String identificacionConsultas(String nombreComida, String tablaIdentificacion, boolean checked) {
+	public String identificacionConsultas(String nombreProducto, String tablaIdentificacion, boolean checked) {
 		String buscarPrecioBBDD = "";
 		
 		// Café
 		if(tablaIdentificacion.equalsIgnoreCase("cafes_carajillos_infusiones")) {
-			
+			buscarPrecioBBDD =  cafeService.precioCafe(nombreProducto.trim());
 		} else if(tablaIdentificacion.equalsIgnoreCase("Desayunos")) {
 			if (!checked) {
-				buscarPrecioBBDD = desayunoService.precioDesayunoMedia(nombreComida);
+				buscarPrecioBBDD = desayunoService.precioDesayunoMedia(nombreProducto);
 			} else {
-				buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreComida);
+				buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreProducto);
 			}
 		} else if(tablaIdentificacion.equalsIgnoreCase("3")) {
 			

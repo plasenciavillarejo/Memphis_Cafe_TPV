@@ -16,9 +16,30 @@
 		$("#lista-comidas").trigger("DOMSubtreeModified");
 	});
  
+ 	
+ 
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
-		borrarTodosAtributosSession();
+		swal({
+			title: "Estás seguro de que desea borrar la comanda?",
+			text: "Al borrarla, desaparecerá todos los productos",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+			.then((willDelete) => {
+				if (willDelete) {
+					borrarTodosAtributosSession();
+					swal("La comanda ha sido eliminada con éxito!", {
+						icon: "success",
+					});
+				} /*else {
+					swal("Your imaginary file is safe!");
+				} */
+			});
+		
+		
+		
 	});
 	
 	// Función para borrar los productos
@@ -54,32 +75,6 @@
 		});
 	}
 	
-	
-	
-	// Cuando solo pulsamos en sumar (+) un solo producto en específico bebida
-	$(document).on('click', '.aniadir-icono-bebida', function(event) {
-		event.preventDefault(); // Evita que se recargue la página
-		var valorObjeto = $(this).parent().text();
-		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
-		var nombreCafe = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
-		var precioCafe = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
-		
-		$.get('/Memphis_Cafe/sumarObjetosActuales/' + nombreCafe + '/' + precioCafe, function(resultadoString) {		
-			// Recorro la lista para obtener el elemento seleccionado
-			$('#lista-bebidas li').each(function() {
-				var nombreCafeLista = $(this).find('#nombre-cafe-seleccionado').text();
-				var precioCafeLista = $(this).find('.borrar-bebida-especifica').text().trim();
-				console.log(nombreCafeLista,precioCafeLista);
-				
-				if(nombreCafe===nombreCafeLista){					
-					// Actualizao el valor
-					//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
-					$(this).find('.borrar-bebida-especifica').text(resultadoString)
-					actualizarInputTotal();
-				}
-			});
-		});
-	});
 	
 	// ### Ini - Funciones encargadas de escuchar los productos que se añade para mantener el "Card" o pasar a una lista ### //
 	// ##################################################################################################################### //
@@ -157,7 +152,36 @@
 	// ### Fin - Funciones encargadas de escuchar los productos que se añade para mantener el "Card" o pasar a una lista ### //
 	// ##################################################################################################################### //
 
+
+
 	// Cuando solo pulsamos en sumar (+) un solo producto en específico bebida
+	$(document).on('click', '.aniadir-icono-bebida', function(event) {
+		event.preventDefault(); // Evita que se recargue la página
+		var valorObjeto = $(this).parent().text();
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
+		var nombreComida = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
+		var precioComida = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		var tablaBBDD = $('#tipo-producto-bebida')[0].textContent;
+		
+		$.get('/Memphis_Cafe/sumarPrecioBebida/' + nombreComida + '/' + precioComida +  '/' + tablaBBDD, function(resultadoString) {		
+			// Recorro la lista para obtener el elemento seleccionado
+			$('#lista-bebidas li').each(function() {
+				var nombreComidaLista = $(this).find('#nombre-cafe-seleccionado').text();
+				var precioComidaLista = $(this).find('.borrar-bebida-especifica').text().trim();
+				console.log(nombreComidaLista,precioComidaLista);
+				
+				if(nombreComida===nombreComidaLista){					
+					// Actualizao el valor
+					//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
+					$(this).find('.borrar-bebida-especifica').text(resultadoString)
+					actualizarInputTotal();
+				}
+			});
+		});
+	});
+
+
+	// Cuando solo pulsamos en sumar (+) un solo producto en específico comida
 	$(document).on('click', '.aniadir-icono-comida', function(event) {
 		event.preventDefault(); // Evita que se recargue la página
 		var valorObjeto = $(this).parent().text();
@@ -213,17 +237,8 @@
 		var precio = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
 		var tablaBBDD = $('#tipo-producto-bebida')[0].textContent;
 		
-		// Verificamos si está o no seleccionado el switch
-		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
-		
-		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
-		if (typeof switchValue === "undefined") {
-			switchValue = false;
-		}
-		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/validarObjetosActuales/' + producto + '/' + precio +  '/' + switchValue + '/' + tablaBBDD
-			, function(resultadoString) {		
+		$.get('/Memphis_Cafe/restarPrecioBebida/' + producto + '/' + precio +  '/' + tablaBBDD, function(resultadoString) {		
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-bebidas li').each(function() {
 				var nombreLista = $(this).find('#nombre-cafe-seleccionado').text();
