@@ -92,9 +92,6 @@ public class MemphisController {
 	private IRefrescoService refrescoService;
 
 	@Autowired
-	private HttpServletRequest request;
-
-	@Autowired
 	private IListaBebidaAlmacenadaService bebidaAlmacenadaService;
 	
 	@Autowired
