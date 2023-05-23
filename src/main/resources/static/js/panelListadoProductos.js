@@ -226,7 +226,8 @@
 				
 				if(nombreComida===nombreComidaLista){					
 					// Actualizao el valor
-					$(this).find('.borrar-comida-especifica').text(resultadoString)
+					$(this).find('#totalComida').text(resultadoString.aumentoTotal)
+					$(this).find('.borrar-comida-especifica').text(resultadoString.aumentoPrecio)
 					actualizarInputTotal();
 				}
 			});
@@ -318,14 +319,14 @@
 				var precioComidaLista = $(this).find('.borrar-comida-especifica').text().trim();
 				console.log(nombreComidaLista,precioComidaLista);
 				if(nombreComida===nombreComidaLista){					
-					if(resultadoString=== '0,0' || resultadoString=== '0'){
+					if(resultadoString.aumentoPrecio == '0,0' || resultadoString.aumentoPrecio == '0'){
 						// Elimino este objeto de la lista
 						$(this).closest('ul').remove();
 						actualizarInputTotal();
 					} else{
 						// Actualizao el valor
-						//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
-						$(this).find('.borrar-comida-especifica').text(resultadoString)
+						$(this).find('#totalComida').text(resultadoString.aumentoTotal)
+						$(this).find('.borrar-comida-especifica').text(resultadoString.aumentoPrecio)
 						actualizarInputTotal();
 					}
 				}		

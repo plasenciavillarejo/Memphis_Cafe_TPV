@@ -221,7 +221,8 @@ public class MemphisController {
 			bebidaAlmacenada = new ArrayList<>();
 			bebidaAlmacenadaService.borrarListaCompleta();
 			model.addAttribute("listaProductos", bebidaAlmacenada);
-		} else if(elementosComida.equalsIgnoreCase("0")) {
+		} 
+		if(elementosComida.equalsIgnoreCase("0")) {
 			comidaAlmacenada = new ArrayList<>();
 			comidaAlmacenadaService.borrarListaCompletaComida();
 			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
@@ -257,7 +258,7 @@ public class MemphisController {
 	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor
 	@GetMapping("/sumarPrecioComida/{nombreComida}/{precioComida}/{checked}/{tablaBBDD}")
 	@ResponseBody
-	public String sumarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+	public Map<String, Object> sumarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
 			@PathVariable("nombreComida") String nombreComida, 
 			@PathVariable("precioComida") String precioComida,
 			@PathVariable(value = "checked") boolean checked,
@@ -265,7 +266,8 @@ public class MemphisController {
 			Model model) {
 
 		String resultadoString = "";
-
+		int totalIncrementado = -1;
+		Map<String, Object> resultadoFinal = new HashMap<>();
 		for (ListaComidaAlmacenada comida : comidaAlmacenada) {
 			if (comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
 				// Buscamos el precio que vale el café para restarlo al precio total que hay en
@@ -278,24 +280,30 @@ public class MemphisController {
 				resultadoString = utilidades.suma(precioComida, buscarPrecioBBDD);
 				// Actualizo el objeto
 				comida.setPrecio(resultadoString);
+				totalIncrementado = utilidades.aumentarProductos(comida.getTotal());
+				comida.setTotal(totalIncrementado);
 				// Lo guardo nuevamente
+				
 				comidaAlmacenadaService.guardarComida(comida);
+				resultadoFinal.put("aumentoPrecio", resultadoString);
+				resultadoFinal.put("aumentoTotal", totalIncrementado);
 			}
 		}
 		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-		return resultadoString;
+		return resultadoFinal;
 	}
 	
 	// Se encarga de que cuando exista un producto al pulsar en (-) restar su valor
 	@GetMapping("/restarPrecioComida/{nombreComida}/{precioComida}/{checked}/{tablaBBDD}")
 	@ResponseBody
-	public String restarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+	public Map<String, Object> restarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
 			@PathVariable("nombreComida") String nombreComida, @PathVariable("precioComida") String precioComida,
 			@PathVariable(value = "checked") boolean checked, @PathVariable(value = "tablaBBDD") String tablaBBDD,
 			Model model) {
 
 		String resultadoString = "";
-
+		int totalIncrementado = -1;
+		Map<String, Object> resultadoFinal = new HashMap<>();
 		for (ListaComidaAlmacenada comida : comidaAlmacenada) {
 			if (comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
 				// Buscamos el precio que vale el café para restarlo al precio total que hay en
@@ -309,24 +317,30 @@ public class MemphisController {
 					resultadoString = utilidades.resta(precioComida, buscarPrecioBBDD);
 					// Actualizo el objeto
 					comida.setPrecio(resultadoString);
-
+					totalIncrementado = utilidades.aumentarProductos(comida.getTotal());
+					comida.setTotal(totalIncrementado);
+					
 					if (!resultadoString.equalsIgnoreCase("0")) {
 						comidaAlmacenadaService.guardarComida(comida);
+						resultadoFinal.put("aumentoPrecio", resultadoString);
+						resultadoFinal.put("aumentoTotal", totalIncrementado);
 					} else {
 						comidaAlmacenadaService.borrarComida(comida.getId());
+						resultadoFinal.put("aumentoPrecio", 0);
+						resultadoFinal.put("aumentoTotal", 0);
 					}
 					model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 				} else {
 					// Cuando se trata de un desayuno se borra directamente.
 					comidaAlmacenadaService.borrarComida(comida.getId());
-					model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-					resultadoString = "0";
+					resultadoFinal.put("aumentoPrecio", 0);
+					resultadoFinal.put("aumentoTotal", 0);
 				}
 				// Lo guardo nuevamente
 
 			}
 		}
-		return resultadoString;
+		return resultadoFinal;
 	}
 	
 	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor bebida

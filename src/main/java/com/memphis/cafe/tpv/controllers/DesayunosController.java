@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
@@ -59,6 +57,7 @@ public class DesayunosController {
 			b.setPrecio(precioDesayuno);
 			b.setNombreComida(nombre);
 			b.setNombreTabla("ListaComidaAlmacenada");
+			b.setTotal(1);
 			comidaAlmacenadaService.guardarComida(b);
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
 						
@@ -76,6 +75,9 @@ public class DesayunosController {
 					resultadoString = String.valueOf(utilidades.redondearDecimales(resultado)).replace('.', ',');
 					
 					b.setPrecio(resultadoString);
+					// Aumentamos en 1 la cantidad de producto
+					int totalIncrementado = utilidades.aumentarProductos(b.getTotal());
+					b.setTotal(totalIncrementado);
 					comidaAlmacenadaService.guardarComida(b);
 					encontrado = true;
 					break;
@@ -86,6 +88,8 @@ public class DesayunosController {
 				aniadirComida.setPrecio(precioDesayuno);
 				aniadirComida.setNombreComida(nombre);
 				aniadirComida.setNombreTabla("ListaComidaAlmacenada");
+				// Aumentamos en 1 la cantidad de producto
+				aniadirComida.setTotal(1);
 				comidaAlmacenadaService.guardarComida(aniadirComida);
 			}
 		}
