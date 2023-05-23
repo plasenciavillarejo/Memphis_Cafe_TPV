@@ -74,6 +74,16 @@ public class Utilidades {
 		return resultadoString;
 	}
 	
+	// Función encargada de aumentar +1 en el valor
+	public int aumentarProductos(int totalCantidad) {
+		int count = ++totalCantidad;
+		return count;
+	}
+	
+	public int disminuirProductos(int totalCantidad) {
+		int count = --totalCantidad;
+		return count;
+	}
 	
 	public String identificacionConsultas(String nombreProducto, String tablaIdentificacion, boolean checked) {
 		String buscarPrecioBBDD = "";

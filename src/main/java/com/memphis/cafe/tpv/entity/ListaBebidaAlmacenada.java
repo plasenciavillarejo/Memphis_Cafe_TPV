@@ -31,6 +31,17 @@ public class ListaBebidaAlmacenada implements Serializable{
 	@Column(name = "nombreTabla")
 	private String nombreTabla;
 	
+	@Column(name = "total")
+	private int total;
+	
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
 	public String getPrecio() {
 		return precio;
 	}

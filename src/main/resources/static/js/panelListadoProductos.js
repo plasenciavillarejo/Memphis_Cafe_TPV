@@ -156,26 +156,34 @@
 
 
 
-	// Cuando solo pulsamos en sumar (+) un solo producto en específico bebida
+	// Cuando solo pulsamos en sumar (+) un solo producto en específico - bebida
 	$(document).on('click', '.aniadir-icono-bebida', function(event) {
 		event.preventDefault(); // Evita que se recargue la página
 		var valorObjeto = $(this).parent().text();
-		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
-		var nombreComida = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
-		var precioComida = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
-		var tablaBBDD = $('#tipo-producto-bebida')[0].textContent;
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '')
+			.replace('x','').replace(' ','')
+			.replace(/[\t]/g,'')
+			.replace('€','')
+			.split(' - ');
+			
+		var nombreBebida = nuevaCadena[1].match(/^\s*([^\d]+)/)[1].trim();
+		var regex = /\d+(?:,\d+)?/;
+		var resultado = nuevaCadena[1].match(regex);
+		var precioBebida = parseFloat(resultado[0].replace(",", "."));
+		var obtenerTablaBBDD = nuevaCadena[1].split(' ');
+		var tablaBBDD = obtenerTablaBBDD[obtenerTablaBBDD.length - 1]; // Obtener el último campo
 		
-		$.get('/Memphis_Cafe/sumarPrecioBebida/' + nombreComida + '/' + precioComida +  '/' + tablaBBDD, function(resultadoString) {		
+		$.get('/Memphis_Cafe/sumarPrecioBebida/' + nombreBebida + '/' + precioBebida +  '/' + tablaBBDD, function(resultadoString) {		
 			// Recorro la lista para obtener el elemento seleccionado
 			$('#lista-bebidas li').each(function() {
-				var nombreComidaLista = $(this).find('#nombre-cafe-seleccionado').text();
-				var precioComidaLista = $(this).find('.borrar-bebida-especifica').text().trim();
-				console.log(nombreComidaLista,precioComidaLista);
+				var nombreBebidaLista = $(this).find('#nombre-cafe-seleccionado').text();
+				var precioBebidaLista = $(this).find('.borrar-bebida-especifica').text().trim();
+				console.log(nombreBebidaLista,precioBebidaLista);
 				
-				if(nombreComida===nombreComidaLista){					
+				if(nombreBebida===nombreBebidaLista){					
 					// Actualizao el valor
-					//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
-					$(this).find('.borrar-bebida-especifica').text(resultadoString)
+					$(this).find('#totalBebida').text(resultadoString.aumentoTotal)
+					$(this).find('.borrar-bebida-especifica').text(resultadoString.aumentoPrecio)
 					actualizarInputTotal();
 				}
 			});
@@ -183,14 +191,22 @@
 	});
 
 
-	// Cuando solo pulsamos en sumar (+) un solo producto en específico comida
+	// Cuando solo pulsamos en sumar (+) un solo producto en específico - comida
 	$(document).on('click', '.aniadir-icono-comida', function(event) {
 		event.preventDefault(); // Evita que se recargue la página
 		var valorObjeto = $(this).parent().text();
-		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
-		var nombreComida = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
-		var precioComida = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
-		var tablaBBDD = $('#tipo-producto-comida')[0].textContent;
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '')
+			.replace('x','').replace(' ','')
+			.replace(/[\t]/g,'')
+			.replace('€','')
+			.split(' - ');
+			
+		var nombreComida = nuevaCadena[1].match(/^\s*([^\d]+)/)[1].trim();
+		var regex = /\d+(?:,\d+)?/;
+		var resultado = nuevaCadena[1].match(regex);
+		var precioComida = parseFloat(resultado[0].replace(",", "."));
+		var obtenerTablaBBDD = nuevaCadena[1].split(' ');
+		var tablaBBDD = obtenerTablaBBDD[obtenerTablaBBDD.length - 1]; // Obtener el último campo
 		
 		// Verificamos si está o no seleccionado el switch
 		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
@@ -218,43 +234,39 @@
 	});
 
 
-	// Cuando solo pulsamos en borrar (-) un solo producto en específico de la bebida
+	// Cuando solo pulsamos en borrar (-) un solo producto en específico - bebida
 	$(document).on('click', '.borrar-icono-bebida', function(event) {
 		// Busca el elemento padre correspondiente al producto que se va a eliminar
 		var valorObjeto = $(this).parent().text();
-		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
-		/* La expresión regular /^\s*([^\d]+)/ busca al inicio de la cadena (^) cualquier cantidad de espacios
-		 (\s*) seguida de cualquier cantidad de caracteres que no sean dígitos ([^\d]+) y captura ese 
-		 grupo de caracteres ((...)) 
-		 El método match() devuelve un array con el texto coincidente y los grupos capturados, por lo que 
-		 match(/^\s*([^\d]+)/)[1] devuelve el nombre sin los espacios al principio y al final
-		 */
-		var producto = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre
-		/*
-		La expresión regular /\d+(?:[.,]\d+)?/ busca cualquier secuencia de dígitos (\d+) seguida opcionalmente 
-		por un punto o una coma y más dígitos ((?:[.,]\d+)?), sin capturar el grupo. El método match() devuelve 
-		un array con todas las coincidencias, por lo que match(/\d+(?:[.,]\d+)?/)[0] devuelve el primer número 
-		que aparece en la cadena. 
-		*/
-		var precio = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
-		var tablaBBDD = $('#tipo-producto-bebida')[0].textContent;
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '')
+			.replace('x','').replace(' ','')
+			.replace(/[\t]/g,'')
+			.replace('€','')
+			.split(' - ');
+			
+		var nombreBebida = nuevaCadena[1].match(/^\s*([^\d]+)/)[1].trim();
+		var regex = /\d+(?:,\d+)?/;
+		var resultado = nuevaCadena[1].match(regex);
+		var precioBebida = parseFloat(resultado[0].replace(",", "."));
+		var obtenerTablaBBDD = nuevaCadena[1].split(' ');
+		var tablaBBDD = obtenerTablaBBDD[obtenerTablaBBDD.length - 1]; // Obtener el último campo
 		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/restarPrecioBebida/' + producto + '/' + precio +  '/' + tablaBBDD, function(resultadoString) {		
+		$.get('/Memphis_Cafe/restarPrecioBebida/' + nombreBebida + '/' + precioBebida +  '/' + tablaBBDD, function(resultadoString) {		
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-bebidas li').each(function() {
-				var nombreLista = $(this).find('#nombre-cafe-seleccionado').text();
-				var precioLista = $(this).find('.borrar-bebida-especifica').text().trim();
-				console.log(nombreLista,precioLista);
-				if(producto===nombreLista){					
+				var nombreBebidaLista = $(this).find('#nombre-cafe-seleccionado').text();
+				var precioBebidaLista = $(this).find('.borrar-bebida-especifica').text().trim();
+				console.log(nombreBebidaLista,precioBebidaLista);
+				if(nombreBebida===nombreBebidaLista){					
 					if(resultadoString=== '0,0' || resultadoString=== '0'){
 						// Elimino este objeto de la lista
 						$(this).closest('ul').remove();
 						actualizarInputTotal();
 					} else{
 						// Actualizao el valor
-						//$(this).find('.borrar-bebida-especifica').text(resultadoString).toFixed(2)
-						$(this).find('.borrar-bebida-especifica').text(resultadoString)
+						$(this).find('#totalBebida').text(resultadoString.aumentoTotal)
+						$(this).find('.borrar-bebida-especifica').text(resultadoString.aumentoPrecio)
 						actualizarInputTotal();
 					}
 				}		
@@ -272,17 +284,25 @@
 	});
 	
 	
-	// Cuando solo pulsamos en borrar (-) un solo producto en específico de la comida
+	// Cuando solo pulsamos en borrar (-) un solo producto en específico - comida
 	$(document).on('click', '.borrar-icono-comida', function(event) {
 		// Busca el elemento padre correspondiente al producto que se va a eliminar
 		var valorObjeto = $(this).parent().text();
-		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '');	
-		var producto = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim(); // Extrae el nombre		
-		var precio = nuevaCadena.match(/\d+(?:[.,]\d+)?/)[0].replace(",", "."); // Extrae el precio
+		var nuevaCadena = valorObjeto.replace(/[\n\t]/g, '')
+			.replace('x','').replace(' ','')
+			.replace(/[\t]/g,'')
+			.replace('€','')
+			.split(' - ');
+			
+		var nombreComida = nuevaCadena[1].match(/^\s*([^\d]+)/)[1].trim();
+		var regex = /\d+(?:,\d+)?/;
+		var resultado = nuevaCadena[1].match(regex);
+		var precioComida = parseFloat(resultado[0].replace(",", "."));
+		var obtenerTablaBBDD = nuevaCadena[1].split(' ');
+		var tablaBBDD = obtenerTablaBBDD[obtenerTablaBBDD.length - 1]; // Obtener el último campo
 		
 		// Verificamos si está o no seleccionado el switch
 		var switchValue = $("#flexSwitchCheckDefault").prop("checked");
-		var tablaBBDD = $('#tipo-producto-comida')[0].textContent;
 		
 		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
 		if (typeof switchValue === "undefined") {
@@ -290,14 +310,14 @@
 		}
 		
 		event.preventDefault(); // Evita que se recargue la página
-		$.get('/Memphis_Cafe/restarPrecioComida/' + producto + '/' + precio + '/' + switchValue + "/" + tablaBBDD,
+		$.get('/Memphis_Cafe/restarPrecioComida/' + nombreComida + '/' + precioComida + '/' + switchValue + "/" + tablaBBDD,
 			 function(resultadoString) {		
 			// Recorro la lista para obtener el elemnto seleccionado
 			$('#lista-comidas li').each(function() {
-				var nombreLista = $(this).find('#nombre-comida-seleccionado').text();
-				var precioLista = $(this).find('.borrar-comida-especifica').text().trim();
-				console.log(nombreLista,precioLista);
-				if(producto===nombreLista){					
+				var nombreComidaLista = $(this).find('#nombre-comida-seleccionado').text();
+				var precioComidaLista = $(this).find('.borrar-comida-especifica').text().trim();
+				console.log(nombreComidaLista,precioComidaLista);
+				if(nombreComida===nombreComidaLista){					
 					if(resultadoString=== '0,0' || resultadoString=== '0'){
 						// Elimino este objeto de la lista
 						$(this).closest('ul').remove();

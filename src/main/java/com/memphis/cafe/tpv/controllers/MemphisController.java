@@ -332,12 +332,14 @@ public class MemphisController {
 	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor bebida
 	@GetMapping("/sumarPrecioBebida/{nombreBebida}/{precioBebida}/{tablaBBDD}")
 	@ResponseBody
-	public String sumarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
+	public Map<String, Object> sumarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
 			@PathVariable("nombreBebida") String nombreBebida, 
 			@PathVariable("precioBebida") String precioBebida,
 			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
 
 		String resultadoString = "";
+		int totalIncrementado = -1;
+		Map<String, Object> resultadoFinal = new HashMap<>();
 		for (ListaBebidaAlmacenada bebida : bebidaAlmacenada) {
 			if (bebida.getNombreBebida().trim().equalsIgnoreCase(nombreBebida)) {
 				// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
@@ -346,23 +348,31 @@ public class MemphisController {
 				resultadoString = utilidades.suma(precioBebida, buscarPrecioBBDD);
 				// Actualizo el objeto
 				bebida.setPrecio(resultadoString);
+				totalIncrementado = utilidades.aumentarProductos(bebida.getTotal());
+				bebida.setTotal(totalIncrementado);
 				// Lo guardo nuevamente
 				bebidaAlmacenadaService.guardarBebida(bebida);
+				
+				resultadoFinal.put("aumentoPrecio", resultadoString);
+				resultadoFinal.put("aumentoTotal", totalIncrementado);
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);
-		return resultadoString;
+		
+		return resultadoFinal;
 	}
 	
 	// Se encarga de que cuando exista un producto al pulsar en (-) reste su valor bebida
 	@GetMapping("/restarPrecioBebida/{nombreBebida}/{precioBebida}/{tablaBBDD}")
 	@ResponseBody
-	public String restarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
+	public Map<String, Object> restarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
 			@PathVariable("nombreBebida") String nombreBebida, 
 			@PathVariable("precioBebida") String precioBebida, 
 			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
 
 		String resultadoString = "";
+		int restarIncrementado = -1;
+		Map<String, Object> resultadoFinal = new HashMap<>();
 		for (ListaBebidaAlmacenada bebida : bebidaAlmacenada) {
 			if (bebida.getNombreBebida().trim().equalsIgnoreCase(nombreBebida)) {
 
@@ -375,16 +385,24 @@ public class MemphisController {
 				// Actualizo el objeto
 				bebida.setPrecio(resultadoString);
 				// Lo guardo nuevamente
-
+				
+				// Restamos en 1 la cantidad de producto
+				restarIncrementado = utilidades.disminuirProductos(bebida.getTotal());
+				bebida.setTotal(restarIncrementado);
+				
 				if (!resultadoString.equalsIgnoreCase("0")) {
 					bebidaAlmacenadaService.guardarBebida(bebida);
 				} else {
 					bebidaAlmacenadaService.borrarBebida(bebida.getId());
 				}
+				
+				resultadoFinal.put("aumentoPrecio", resultadoString);
+				resultadoFinal.put("aumentoTotal", restarIncrementado);
+				
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);
-		return resultadoString;
+		return resultadoFinal;
 	}
 
 

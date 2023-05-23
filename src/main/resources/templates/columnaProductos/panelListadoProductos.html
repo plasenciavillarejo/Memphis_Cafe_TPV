@@ -18,8 +18,9 @@
 								<ul id="lista-comidas" th:each="listaComida: ${comidaAlmacenada}" class="list-group list-group-flush">
 									<li id="borrar-comidas" class="list-group-item contar-bebida">
 										<ion-icon class="borrar-icono-comida" name="remove-circle"></ion-icon> 
-												<span id="nombre-comida-seleccionado" th:text="${listaComida.nombreComida}"></span>
-												<span id="suma-comidas" th:text="${listaComida.precio}+ ' €'" class="borrar-comida-especifica"></span>
+												<span id="totalComida" th:text="${listaComida.total}" ></span> - 
+												<span id="nombre-comida-seleccionado" th:text="${listaComida.nombreComida}"></span> x 
+												<span id="suma-comidas" th:text="${listaComida.precio}+ ' €'" class="borrar-comida-especifica"></span> 
 												<span id="tipo-producto-comida" th:text="${productoComida}" hidden ></span>
 										<ion-icon class="aniadir-icono-comida" name="add-circle"></ion-icon>
 									</li>
@@ -36,8 +37,9 @@
 								<ul id="lista-bebidas" th:each="productos: ${listaProductos}" class="list-group list-group-flush">
 									<li id="borrar-bebidas" class="list-group-item contar-bebida">
 										<ion-icon class="borrar-icono-bebida" name="remove-circle"></ion-icon> 
-												<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span>
-												<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span>
+												<span id="totalBebida" th:text="${productos.total}" ></span> - 
+												<span id="nombre-cafe-seleccionado" th:text="${productos.nombreBebida}"></span> x 
+												<span id="suma-bebidas" th:text="${productos.precio}+ ' €'" class="borrar-bebida-especifica"></span> 
 												<span id="tipo-producto-bebida" th:text="${productoBebida}" hidden ></span>
 										<ion-icon class="aniadir-icono-bebida" name="add-circle"></ion-icon>
 									</li>

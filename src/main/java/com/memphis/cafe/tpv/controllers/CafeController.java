@@ -38,27 +38,29 @@ public class CafeController {
 	
 	@GetMapping(value = "/cafe/{nombreCafe}")
 	public String aniadirProductoCafe(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
-			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model, @PathVariable(name = "nombreCafe") String nombreCafe) {
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL, Model model, 
+			@PathVariable(name = "nombreCafe") String nombreCafe) {
 		
 		model.addAttribute("listaCafes", cafeService.listaCafes());
 		String precioCafe = cafeService.precioCafe(nombreCafe);		
-				
+		
 		if (bebidaAlmacenada.isEmpty()) {
 			ListaBebidaAlmacenada b = new ListaBebidaAlmacenada();
 			b.setPrecio(precioCafe);
 			b.setNombreBebida(nombreCafe);
 			b.setNombreTabla("ListaBebidaAlmacenada");
+			b.setTotal(1);
 			bebidaAlmacenadaService.guardarBebida(b);
 			
 			bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
 			
-			// Si ya hay algo en sesión se procede a verificar que es lo que se ha recibido
-			// y si existe en la tabla de bebidas existentes.
 		} else {
+			// Si ya hay algo en sesión se procede a verificar que es lo que se ha recibido y si existe en la tabla de bebidas existentes.
 			boolean encontrado = false;
 			for (ListaBebidaAlmacenada b: bebidaAlmacenada) {
 				String resultadoString = "";
 				if (b.getNombreBebida().equalsIgnoreCase(nombreCafe)) {
+					
 					// Sumo el nuevo valor
 					double resultado = Double.parseDouble(precioCafe.replace(',', '.')) + Double.parseDouble(b.getPrecio().replace(',', '.'));
 					
@@ -66,6 +68,9 @@ public class CafeController {
 					resultadoString = String.valueOf(utilidades.redondearDecimales(resultado)).replace('.', ',');
 					
 					b.setPrecio(resultadoString);
+					// Aumentamos en 1 la cantidad de producto
+					int totalIncrementado = utilidades.aumentarProductos(b.getTotal());
+					b.setTotal(totalIncrementado);
 					bebidaAlmacenadaService.guardarBebida(b);
 					encontrado = true;
 					break;
@@ -76,6 +81,8 @@ public class CafeController {
 				aniadirBebida.setPrecio(precioCafe);
 				aniadirBebida.setNombreBebida(nombreCafe);
 				aniadirBebida.setNombreTabla("ListaBebidaAlmacenada");
+				// Aumentamos en 1 la cantidad de producto
+				aniadirBebida.setTotal(1);
 				bebidaAlmacenadaService.guardarBebida(aniadirBebida);
 			}
 		}
