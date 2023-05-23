@@ -392,13 +392,13 @@ public class MemphisController {
 				
 				if (!resultadoString.equalsIgnoreCase("0")) {
 					bebidaAlmacenadaService.guardarBebida(bebida);
+					resultadoFinal.put("aumentoPrecio", resultadoString);
+					resultadoFinal.put("aumentoTotal", restarIncrementado);
 				} else {
 					bebidaAlmacenadaService.borrarBebida(bebida.getId());
+					resultadoFinal.put("aumentoPrecio", 0);
+					resultadoFinal.put("aumentoTotal", 0);
 				}
-				
-				resultadoFinal.put("aumentoPrecio", resultadoString);
-				resultadoFinal.put("aumentoTotal", restarIncrementado);
-				
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);

@@ -259,7 +259,7 @@
 				var precioBebidaLista = $(this).find('.borrar-bebida-especifica').text().trim();
 				console.log(nombreBebidaLista,precioBebidaLista);
 				if(nombreBebida===nombreBebidaLista){					
-					if(resultadoString=== '0,0' || resultadoString=== '0'){
+					if(resultadoString.aumentoPrecio == '0,0' || resultadoString.aumentoPrecio == '0'){
 						// Elimino este objeto de la lista
 						$(this).closest('ul').remove();
 						actualizarInputTotal();
