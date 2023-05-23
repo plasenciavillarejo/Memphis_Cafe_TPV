@@ -47,7 +47,7 @@ public class CafeController {
 			ListaBebidaAlmacenada b = new ListaBebidaAlmacenada();
 			b.setPrecio(precioCafe);
 			b.setNombreBebida(nombreCafe);
-			b.setNombreTabla("ListaBebidaAlmacenada");
+			b.setNombreTabla("cafes_carajillos_infusiones");
 			b.setTotal(1);
 			bebidaAlmacenadaService.guardarBebida(b);
 			
@@ -79,7 +79,7 @@ public class CafeController {
 				ListaBebidaAlmacenada aniadirBebida = new ListaBebidaAlmacenada();
 				aniadirBebida.setPrecio(precioCafe);
 				aniadirBebida.setNombreBebida(nombreCafe);
-				aniadirBebida.setNombreTabla("ListaBebidaAlmacenada");
+				aniadirBebida.setNombreTabla("cafes_carajillos_infusiones");
 				// Aumentamos en 1 la cantidad de producto
 				aniadirBebida.setTotal(1);
 				bebidaAlmacenadaService.guardarBebida(aniadirBebida);

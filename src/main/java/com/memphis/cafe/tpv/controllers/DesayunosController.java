@@ -56,7 +56,7 @@ public class DesayunosController {
 			ListaComidaAlmacenada b = new ListaComidaAlmacenada();
 			b.setPrecio(precioDesayuno);
 			b.setNombreComida(nombre);
-			b.setNombreTabla("ListaComidaAlmacenada");
+			b.setNombreTabla("Desayunos");
 			b.setTotal(1);
 			comidaAlmacenadaService.guardarComida(b);
 			comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
@@ -87,7 +87,7 @@ public class DesayunosController {
 				ListaComidaAlmacenada aniadirComida = new ListaComidaAlmacenada();
 				aniadirComida.setPrecio(precioDesayuno);
 				aniadirComida.setNombreComida(nombre);
-				aniadirComida.setNombreTabla("ListaComidaAlmacenada");
+				aniadirComida.setNombreTabla("Desayunos");
 				// Aumentamos en 1 la cantidad de producto
 				aniadirComida.setTotal(1);
 				comidaAlmacenadaService.guardarComida(aniadirComida);
@@ -100,10 +100,6 @@ public class DesayunosController {
 			model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 			model.addAttribute("listaDesayunos", desayunoService.listaDesayunos());
 		}
-		
-		// Le indicamos la tabla de el producto para poder distinguir a la hora de añadir (+) o eliminar (-) un producto.
-		model.addAttribute("productoComida", "Desayunos");
-		
 		return VALORPAGINAACTUAL;
 	}
 		
