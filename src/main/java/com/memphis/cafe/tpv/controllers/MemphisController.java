@@ -128,31 +128,19 @@ public class MemphisController {
 		logAplicacion.info("Entrando por la redireccionComidas");
 		
 		if(valorBoton.equalsIgnoreCase("Café")) {
-			if (!bebidaAlmacenada.isEmpty()) {
-				bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
-				model.addAttribute("listaProductos", bebidaAlmacenada);
-			}else {
-				model.addAttribute("listaProductos", bebidaAlmacenada);
-			}
  			model.addAttribute("listaCafes", cafeService.listaCafes());
  			VALORPAGINAACTUAL = PAGINACAFE;
  			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINACAFE;
 		} else if(valorBoton.equalsIgnoreCase("Desayunos")) {
-			if (!comidaAlmacenada.isEmpty()) {
-				comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
-				model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-			}else {
-				model.addAttribute("comidaAlmacenada", comidaAlmacenada);
-			}
 			// Cargamos todos los desayunos
 			model.addAttribute("listaDesayunos", desayunoService.listaDesayunos());
 			VALORPAGINAACTUAL = PAGINADESAYUNOS;
  			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINADESAYUNOS;
 		} else if(valorBoton.equalsIgnoreCase("Bebidas")) {
-			// La pagina bebidas se incluyen los botones dentro de la vista, no se llama a ninguna tabla en BBDD.
 			VALORPAGINAACTUAL = PAGINABEBIDAS;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINABEBIDAS;
 		} else if(valorBoton.equalsIgnoreCase("Comidas")) {
 			// La pagina comidas se incluyen los botones dentro de la vista, no se llama a ninguna tabla en BBDD.

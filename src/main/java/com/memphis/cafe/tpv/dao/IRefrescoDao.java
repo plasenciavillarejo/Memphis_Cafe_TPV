@@ -11,4 +11,7 @@ public interface IRefrescoDao extends CrudRepository<Refresco, Integer> {
 
 	@Query(value = "select c from #{#entityName} c")
 	public List<Refresco> listaRefrescos();
+	
+	@Query(value = "SELECT c.precio FROM #{#entityName} c WHERE c.nombre = ?1 ")
+	public String precioRefresco(String nombre);
 }

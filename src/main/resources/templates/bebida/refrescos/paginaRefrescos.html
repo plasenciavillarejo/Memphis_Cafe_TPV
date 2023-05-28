@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head}">
+
+</head>
+
+<body>
+
+<div id="ivPrincipal" class="container py-4">
+		<div class="card bg-light">
+			
+			<!-- Cabecera header -->
+			<!-- ############### -->
+			<div class="card-header" style="text-align: center;">
+				<span id="tituloPanel">Café &#x26; Copas - Memphis</span>
+			</div>
+
+			<div id="tablaAlimentos" class="card-body col text-center">
+				<div class="contenedor">
+					<!--  Columnma Listado Productos -->
+					<div th:replace="~{columnaProductos/panelListadoProductos}"></div>
+
+					<!-- Aplicacion -->
+					
+					<div class="columna">
+						<div class="row">
+							<div th:each="refrescos: ${listaRefrescos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+								<a id="tamanioButtonPrincipal" th:href="@{'/Memphis_Cafe/aniadirRefresco/' + ${refrescos.nombre}}" type="button" class="btn btn-success rounded-pill border-0" 
+									th:text="${refrescos.nombre}" ></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Botón para retroceder -->
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<a id="modalBoton" th:href="@{/Memphis_Cafe/inicio}" class="btn btn-primary me-md-2 border-0 rounded-pill" style="width: 10%;" type="button">&laquo; Atrás</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		<!-- ###### -->
+		<footer th:replace="~{layout/layout :: footer}"> </footer> 
+	</div>
+</body>
+</html>

@@ -20,6 +20,11 @@ public class RefrescoServiceImpl implements IRefrescoService{
 		return refrescoDao.listaRefrescos();
 	}
 
+	@Override
+	public String precioRefresco(String nombre) {
+		return refrescoDao.precioRefresco(nombre);
+	}
+
 	
 	
 }

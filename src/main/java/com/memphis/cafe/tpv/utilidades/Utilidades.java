@@ -97,7 +97,7 @@ public class Utilidades {
 			} else {
 				buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreProducto);
 			}
-		} else if(tablaIdentificacion.equalsIgnoreCase("3")) {
+		} else if(tablaIdentificacion.equalsIgnoreCase("Refrescos")) {
 			
 		} else if(tablaIdentificacion.equalsIgnoreCase("4")) {
 			

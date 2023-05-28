@@ -35,7 +35,7 @@ public class DesayunosController {
 	
 	@GetMapping(value = "/desayuno")
 	//@ResponseBody 
-	public String aniadirDesayno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+	public String aniadirDesayuno(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
 			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
 			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
 			@RequestParam(value ="checked", required = false) boolean checked,
