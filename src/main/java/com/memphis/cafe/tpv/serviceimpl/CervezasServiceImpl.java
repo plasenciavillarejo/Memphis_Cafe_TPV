@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.memphis.cafe.tpv.dao.ICervezasDao;
 import com.memphis.cafe.tpv.entity.Cerveza;
+import com.memphis.cafe.tpv.entity.CervezaBarril;
 import com.memphis.cafe.tpv.service.ICervezasService;
 
 @Service

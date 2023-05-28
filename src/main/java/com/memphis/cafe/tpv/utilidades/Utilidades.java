@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.memphis.cafe.constantes.sesion.ConstantesSesion;
 import com.memphis.cafe.tpv.service.ICafeService;
+import com.memphis.cafe.tpv.service.ICervezasBarrilService;
 import com.memphis.cafe.tpv.service.ICervezasService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
 import com.memphis.cafe.tpv.service.IRefrescoService;
@@ -32,7 +33,8 @@ public class Utilidades {
 	@Autowired
 	private ICervezasService cervezasService;
 	
-	
+	@Autowired
+	private ICervezasBarrilService cerverzasBarrilService;
 	
 	
 	// Clase que carga el listado principal.
@@ -112,8 +114,8 @@ public class Utilidades {
 			buscarPrecioBBDD = refrescoService.precioRefresco(nombreProducto);
 		} else if(tablaIdentificacion.equalsIgnoreCase("Cervezas")) {
 			buscarPrecioBBDD = cervezasService.precioCervezas(nombreProducto);
-		} else if(tablaIdentificacion.equalsIgnoreCase("5")) {
-			
+		} else if(tablaIdentificacion.equalsIgnoreCase("Cervezas_Barril")) {
+			buscarPrecioBBDD = cerverzasBarrilService.precioCervezasBarril(nombreProducto);
 		} else if(tablaIdentificacion.equalsIgnoreCase("6")) {
 			
 		} else if(tablaIdentificacion.equalsIgnoreCase("7")) {

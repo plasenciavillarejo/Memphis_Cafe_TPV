@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
 import com.memphis.cafe.tpv.entity.ListaComidaAlmacenada;
+import com.memphis.cafe.tpv.service.ICervezasBarrilService;
 import com.memphis.cafe.tpv.service.ICervezasService;
 import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
 import com.memphis.cafe.tpv.service.IRefrescoService;
@@ -36,8 +37,12 @@ public class BebidaController {
 	@Autowired
 	private ICervezasService cervezaService;
 	
+	@Autowired
+	private ICervezasBarrilService cervezaBarrilService;
+	
 	private static final String PAGINAREFRESCOS = "/bebida/refrescos/paginaRefrescos";
 	private static final String PAGINACERVEZAS = "/bebida/cervezas/paginaCervezas";
+	private static final String PAGINACERVEZASBARRIL = "/bebida/barril/paginaCervezasBarril";
 	
 	@GetMapping(value = "/refrescos")
 	public String listadoRefrescos(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
@@ -190,9 +195,81 @@ public class BebidaController {
 	}
 	
 	
+	@GetMapping(value = "/cervezasBarril")
+	public String listadoCervezasBarril(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
+			Model model) {
+		
+		model.addAttribute("listaCervezasBarril", cervezaBarrilService.listaCervezasBarril());
+		VALORPAGINAACTUAL = PAGINACERVEZASBARRIL;
+		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
+		
+		return PAGINACERVEZASBARRIL;
+	}
 	
 	
-	
-	
+	@GetMapping(value = "/aniadirCervezaBarril/{nombreCervezaBarril}")
+	public String aniadirCervezaBarril(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
+			@PathVariable(value= "nombreCervezaBarril") String nombreCervezaBarril, Model model) {
+
+		model.addAttribute("listaCervezasBarril", cervezaBarrilService.listaCervezasBarril());
+		String precioCerveza = cervezaBarrilService.precioCervezasBarril(nombreCervezaBarril);		
+		
+		if (bebidaAlmacenada.isEmpty()) {
+			ListaBebidaAlmacenada b = new ListaBebidaAlmacenada();
+			b.setPrecio(precioCerveza);
+			b.setNombreBebida(nombreCervezaBarril);
+			b.setNombreTabla("Cervezas_Barril");
+			b.setTotal(1);
+			bebidaAlmacenadaService.guardarBebida(b);
+			
+			bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+		} else {
+			// Si ya hay algo en sesión se procede a verificar que es lo que se ha recibido y si existe en la tabla de bebidas existentes.
+			boolean encontrado = false;
+			for (ListaBebidaAlmacenada b: bebidaAlmacenada) {
+				String resultadoString = "";
+				if (b.getNombreBebida().equalsIgnoreCase(nombreCervezaBarril)) {
+					
+					// Sumo el nuevo valor
+					double resultado = Double.parseDouble(precioCerveza.replace(',', '.')) + Double.parseDouble(b.getPrecio().replace(',', '.'));
+					
+					// Función para redondear decimales
+					resultadoString = String.valueOf(utilidades.redondearDecimales(resultado)).replace('.', ',');
+					
+					b.setPrecio(resultadoString);
+					
+					// Aumentamos en 1 la cantidad de producto
+					int totalIncrementado = utilidades.aumentarProductos(b.getTotal());
+					b.setTotal(totalIncrementado);
+					
+					bebidaAlmacenadaService.guardarBebida(b);
+					
+					encontrado = true;
+					break;
+				}	
+			}
+			if(!encontrado) {
+				ListaBebidaAlmacenada aniadirBebida = new ListaBebidaAlmacenada();
+				aniadirBebida.setPrecio(precioCerveza);
+				aniadirBebida.setNombreBebida(nombreCervezaBarril);
+				aniadirBebida.setNombreTabla("Cervezas_Barril");
+				// Aumentamos en 1 la cantidad de producto
+				aniadirBebida.setTotal(1);
+				bebidaAlmacenadaService.guardarBebida(aniadirBebida);
+			}
+		}
+		// Empezamos a guardar todo en sesión
+		if (!bebidaAlmacenada.isEmpty()) {
+			bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+			model.addAttribute("listaProductos", bebidaAlmacenada);
+		}
+		// Le indicamos la tabla de el producto para poder distinguir a la hora de añadir (+) o eliminar (-) un producto.
+		model.addAttribute("productoBebida", "Cervezas_Barril");
+		
+		return VALORPAGINAACTUAL;
+	}
+
 	
 }
