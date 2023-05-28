@@ -183,7 +183,7 @@
 				if(nombreBebida===nombreBebidaLista){					
 					// Actualizao el valor
 					$(this).find('#totalBebida').text(resultadoString.aumentoTotal)
-					$(this).find('.borrar-bebida-especifica').text(resultadoString.aumentoPrecio)
+					$(this).find('.borrar-bebida-especifica').text(resultadoString.aumentoPrecio + ' €')
 					actualizarInputTotal();
 				}
 			});
@@ -227,7 +227,7 @@
 				if(nombreComida===nombreComidaLista){					
 					// Actualizao el valor
 					$(this).find('#totalComida').text(resultadoString.aumentoTotal)
-					$(this).find('.borrar-comida-especifica').text(resultadoString.aumentoPrecio)
+					$(this).find('.borrar-comida-especifica').text(resultadoString.aumentoPrecio + ' €')
 					actualizarInputTotal();
 				}
 			});
@@ -267,7 +267,7 @@
 					} else{
 						// Actualizao el valor
 						$(this).find('#totalBebida').text(resultadoString.aumentoTotal)
-						$(this).find('.borrar-bebida-especifica').text(resultadoString.aumentoPrecio)
+						$(this).find('.borrar-bebida-especifica').text(resultadoString.aumentoPrecio + ' €')
 						actualizarInputTotal();
 					}
 				}		
@@ -326,7 +326,7 @@
 					} else{
 						// Actualizao el valor
 						$(this).find('#totalComida').text(resultadoString.aumentoTotal)
-						$(this).find('.borrar-comida-especifica').text(resultadoString.aumentoPrecio)
+						$(this).find('.borrar-comida-especifica').text(resultadoString.aumentoPrecio + ' €')
 						actualizarInputTotal();
 					}
 				}		

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 import com.memphis.cafe.constantes.sesion.ConstantesSesion;
 import com.memphis.cafe.tpv.service.ICafeService;
+import com.memphis.cafe.tpv.service.ICervezasService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
+import com.memphis.cafe.tpv.service.IRefrescoService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +25,15 @@ public class Utilidades {
 	
 	@Autowired
 	private ICafeService cafeService;
+	
+	@Autowired
+	private IRefrescoService refrescoService;
+	
+	@Autowired
+	private ICervezasService cervezasService;
+	
+	
+	
 	
 	// Clase que carga el listado principal.
 	public Map<Integer, String> logosIniciales() {
@@ -98,9 +109,9 @@ public class Utilidades {
 				buscarPrecioBBDD = desayunoService.precioDesayunoEntera(nombreProducto);
 			}
 		} else if(tablaIdentificacion.equalsIgnoreCase("Refrescos")) {
-			
-		} else if(tablaIdentificacion.equalsIgnoreCase("4")) {
-			
+			buscarPrecioBBDD = refrescoService.precioRefresco(nombreProducto);
+		} else if(tablaIdentificacion.equalsIgnoreCase("Cervezas")) {
+			buscarPrecioBBDD = cervezasService.precioCervezas(nombreProducto);
 		} else if(tablaIdentificacion.equalsIgnoreCase("5")) {
 			
 		} else if(tablaIdentificacion.equalsIgnoreCase("6")) {

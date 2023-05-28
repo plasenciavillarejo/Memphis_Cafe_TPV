@@ -183,18 +183,6 @@ public class MemphisController {
 		return null;
 	}
 	
-	
-	@GetMapping(value = "/bebidas")
-	public String listaBebidas(Model model, @RequestParam(value = "valorBoton", required = false) String valorBoton) {
-		String salidaPagina = "";
-		
-		if(valorBoton.equalsIgnoreCase("Refrescos")) {
- 			model.addAttribute("listaRefrescos", refrescoService.listaRefrescos());
- 			salidaPagina = "";
-		}
-		return salidaPagina;
-	}
-
 	// Almacenar la sesión dentro de un Jquery
 	@GetMapping("/limpiarObjetosSesion/{elementosBebida}/{elementosComida}")
 	@ResponseBody
