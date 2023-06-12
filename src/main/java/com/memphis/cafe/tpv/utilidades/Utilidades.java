@@ -116,7 +116,7 @@ public class Utilidades {
 			buscarPrecioBBDD = cervezasService.precioCervezas(nombreProducto);
 		} else if(tablaIdentificacion.equalsIgnoreCase("Cervezas_Barril")) {
 			buscarPrecioBBDD = cerverzasBarrilService.precioCervezasBarril(nombreProducto);
-		} else if(tablaIdentificacion.equalsIgnoreCase("6")) {
+		} else if(tablaIdentificacion.equalsIgnoreCase("Vinos")) {
 			
 		} else if(tablaIdentificacion.equalsIgnoreCase("7")) {
 			

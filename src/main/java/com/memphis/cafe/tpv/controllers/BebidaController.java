@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
@@ -18,6 +17,7 @@ import com.memphis.cafe.tpv.service.ICervezasBarrilService;
 import com.memphis.cafe.tpv.service.ICervezasService;
 import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
 import com.memphis.cafe.tpv.service.IRefrescoService;
+import com.memphis.cafe.tpv.service.IVinoService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller
@@ -40,9 +40,13 @@ public class BebidaController {
 	@Autowired
 	private ICervezasBarrilService cervezaBarrilService;
 	
+	@Autowired
+	private IVinoService vinoService;
+	
 	private static final String PAGINAREFRESCOS = "/bebida/refrescos/paginaRefrescos";
 	private static final String PAGINACERVEZAS = "/bebida/cervezas/paginaCervezas";
 	private static final String PAGINACERVEZASBARRIL = "/bebida/barril/paginaCervezasBarril";
+	private static final String PAGINAVINOS = "/bebida/vinos/paginaVinos";
 	
 	@GetMapping(value = "/refrescos")
 	public String listadoRefrescos(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
@@ -271,5 +275,16 @@ public class BebidaController {
 		return VALORPAGINAACTUAL;
 	}
 
+	@GetMapping(value = "/vinos")
+	public String listadoVinos(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
+			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
+			Model model) {
+		
+		model.addAttribute("listaVinos", vinoService.listarVinos());
+		VALORPAGINAACTUAL = PAGINAVINOS;
+		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
+		return PAGINAVINOS;
+	}
+	
 	
 }
