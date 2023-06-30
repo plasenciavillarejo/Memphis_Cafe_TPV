@@ -27,20 +27,20 @@
 					<!-- Aplicacion -->
 						<div class="columna">
 							<form th:action="@{'/Memphis_Cafe/desayuno'}" method="get">
-							<div class="row">
-								<div th:each="desayunos: ${listaDesayunos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
-									<button id="tamanioButtonPrincipal" name="nombreDesayuno" th:value="${desayunos.nombre}" 
-									type="submit" class="btn btn-success rounded-pill border-0 boton-desayuno"  th:text="${desayunos.nombre}" ></button>
+								<div class="row">
+									<div th:each="desayunos: ${listaDesayunos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+										<button id="tamanioButtonPrincipal" name="nombreDesayuno" th:value="${desayunos.nombre}" 
+										type="submit" class="btn btn-success rounded-pill border-0 boton-desayuno"  th:text="${desayunos.nombre}" ></button>
+									</div>
+		
+									<div class="form-check form-switch d-grid gap-2 d-md-flex justify-content-md-center border-0">
+										<input id="flexSwitchCheckDefault" name="checked" class="form-check-input color-boton" type="checkbox" role="switch"> 
+											<label id="switch-desayunos" class="form-check-label" for="flexSwitchCheckDefault">
+												Media
+											</label>
+									</div>
+								
 								</div>
-	
-								<div class="form-check form-switch d-grid gap-2 d-md-flex justify-content-md-center border-0">
-									<input id="flexSwitchCheckDefault" name="checked" class="form-check-input color-boton" type="checkbox" role="switch"> 
-										<label id="switch-desayuno" class="form-check-label" for="flexSwitchCheckDefault">
-											Media
-										</label>
-								</div>
-							
-							</div>
 							</form>
 						</div>
 					

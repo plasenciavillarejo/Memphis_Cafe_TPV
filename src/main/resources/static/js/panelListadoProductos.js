@@ -10,6 +10,9 @@
 		
 		// Se llama a la fucion para verificar que se ha cambiado o no el switch
 		cambioSwitch();
+		
+		// Función para validar el check de los vinos
+		cambioSwitchVinos();
 
 		// Validamos los elementos que contiene la lista
 		$("#lista-bebidas").trigger("DOMSubtreeModified");
@@ -387,17 +390,36 @@
 				"background-color": "#43b39b",
 				"border": "none"
 			});
-			$('#switch-desayuno').text('Entera');
+			$('#switch-desayunos').text('Entera');	
 		} else {
 			$('#flexSwitchCheckDefault').css({
 				"background-color": "#FFF",
 				"border": "1px solid #43b39b"
 				});
-			$('#switch-desayuno').text('Media');
+			$('#switch-desayunos').text('Media');	
 		}
 	});
 	}
 	
+
+	function cambioSwitchVinos() {
+	$("#flexSwitchCheckDefault-Vinos").change(function() {
+		if ($(this).is(":checked")) {
+			$('#flexSwitchCheckDefault-Vinos').css({
+				"background-color": "#43b39b",
+				"border": "none"
+			});
+			$('#switch-vinos').text('Botella');	
+		} else {
+			$('#flexSwitchCheckDefault-Vinos').css({
+				"background-color": "#FFF",
+				"border": "1px solid #43b39b"
+				});
+			$('#switch-vinos').text('Copa');
+		}
+	});
+	}
+
 	
 	/*
 	// Función encargada de aniadir el desayuno. -> Por ahora está comentada ya que inicilamente no crea el div

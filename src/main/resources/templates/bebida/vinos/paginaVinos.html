@@ -24,12 +24,21 @@
 					<!-- Aplicacion -->
 					
 					<div class="columna">
-						<div class="row">
-							<div th:each="vinos: ${listaVinos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
-								<a id="tamanioButtonPrincipal" th:href="@{'/Memphis_Cafe/aniadirRefresco/' + ${vinos.nombre}}" type="button" class="btn btn-success rounded-pill border-0" 
-									th:text="${vinos.nombre}" ></a>
+						<form th:action="@{'/Memphis_Cafe/aniadirVino'}">
+							<div class="row">
+								<div th:each="vinos: ${listaVinos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
+									<button id="tamanioButtonPrincipal" name="nombreVino" th:value="${vinos.nombre}" type="submit" 
+										class="btn btn-success rounded-pill border-0" th:text="${vinos.nombre}"></button>
+								</div>
+								
+								<div class="form-check form-switch d-grid gap-2 d-md-flex justify-content-md-center border-0">
+										<input id="flexSwitchCheckDefault-Vinos" name="checked" class="form-check-input color-boton" type="checkbox" role="switch"> 
+											<label id="switch-vinos" class="form-check-label" for="flexSwitchCheckDefault">
+												Copa
+											</label>
+								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 				<!-- Botón para retroceder -->

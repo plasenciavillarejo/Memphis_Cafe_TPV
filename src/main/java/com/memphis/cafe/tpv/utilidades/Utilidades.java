@@ -14,6 +14,7 @@ import com.memphis.cafe.tpv.service.ICervezasBarrilService;
 import com.memphis.cafe.tpv.service.ICervezasService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
 import com.memphis.cafe.tpv.service.IRefrescoService;
+import com.memphis.cafe.tpv.service.IVinoService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -36,6 +37,8 @@ public class Utilidades {
 	@Autowired
 	private ICervezasBarrilService cerverzasBarrilService;
 	
+	@Autowired
+	private IVinoService vinoService;
 	
 	// Clase que carga el listado principal.
 	public Map<Integer, String> logosIniciales() {
@@ -117,7 +120,11 @@ public class Utilidades {
 		} else if(tablaIdentificacion.equalsIgnoreCase("Cervezas_Barril")) {
 			buscarPrecioBBDD = cerverzasBarrilService.precioCervezasBarril(nombreProducto);
 		} else if(tablaIdentificacion.equalsIgnoreCase("Vinos")) {
-			
+			if(checked) {
+				buscarPrecioBBDD = vinoService.precioVino(nombreProducto);
+			} else {
+				buscarPrecioBBDD = vinoService.precioCopaVino(nombreProducto);
+			}
 		} else if(tablaIdentificacion.equalsIgnoreCase("7")) {
 			
 		} else if(tablaIdentificacion.equalsIgnoreCase("8")) {
