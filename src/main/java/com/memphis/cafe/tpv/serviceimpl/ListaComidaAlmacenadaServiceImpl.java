@@ -37,7 +37,7 @@ public class ListaComidaAlmacenadaServiceImpl implements IListaComidaAlmacenadaS
 	@Transactional
 	@Override
 	public void borrarListaCompletaComida() {
-		comidaAlmacendaDao.borrarListaCompletaComida();
+		comidaAlmacendaDao.deleteAll();
 		}
 
 }

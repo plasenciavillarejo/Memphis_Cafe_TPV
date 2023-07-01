@@ -273,17 +273,17 @@ public class MemphisController {
 	@GetMapping("/restarPrecioComida/{nombreComida}/{precioComida}/{checked}/{tablaBBDD}")
 	@ResponseBody
 	public Map<String, Object> restarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
-			@PathVariable("nombreComida") String nombreComida, @PathVariable("precioComida") String precioComida,
-			@PathVariable(value = "checked") boolean checked, @PathVariable(value = "tablaBBDD") String tablaBBDD,
-			Model model) {
+			@PathVariable("nombreComida") String nombreComida, 
+			@PathVariable("precioComida") String precioComida,
+			@PathVariable(value = "checked") boolean checked, 
+			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
 
 		String resultadoString = "";
 		int totalIncrementado = -1;
 		Map<String, Object> resultadoFinal = new HashMap<>();
 		for (ListaComidaAlmacenada comida : comidaAlmacenada) {
 			if (comida.getNombreComida().trim().equalsIgnoreCase(nombreComida)) {
-				// Buscamos el precio que vale el café para restarlo al precio total que hay en
-				// la cuenta.
+				// Buscamos el precio que vale el producto para restarlo al precio total que hay en la cuenta.
 				String buscarPrecioBBDD = "";
 
 				if (!tablaBBDD.equalsIgnoreCase("Desayunos")) {
@@ -320,11 +320,12 @@ public class MemphisController {
 	}
 	
 	// Se encarga de que cuando exista un producto al pulsar en (+) sume su valor bebida
-	@GetMapping("/sumarPrecioBebida/{nombreBebida}/{precioBebida}/{tablaBBDD}")
+	@GetMapping("/sumarPrecioBebida/{nombreBebida}/{precioBebida}/{checked}/{tablaBBDD}")
 	@ResponseBody
 	public Map<String, Object> sumarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
 			@PathVariable("nombreBebida") String nombreBebida, 
 			@PathVariable("precioBebida") String precioBebida,
+			@PathVariable(value = "checked") boolean checked,
 			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
 
 		String resultadoString = "";
@@ -365,8 +366,9 @@ public class MemphisController {
 		Map<String, Object> resultadoFinal = new HashMap<>();
 		for (ListaBebidaAlmacenada bebida : bebidaAlmacenada) {
 			if (bebida.getNombreBebida().trim().equalsIgnoreCase(nombreBebida)) {
-
-				// Buscamos el precio que vale el café para restarlo al precio total que hay en la cuenta.
+				// Cuando se trata de los vinos al tener un checked de 'Copa o Botella' mejor borrar todo de una vez.
+				if(!tablaBBDD.equalsIgnoreCase("Vinos")) {
+				// Buscamos el precio que vale el producto para restarlo al precio total que hay en la cuenta.
 				String buscarPrecioBBDD = utilidades.identificacionConsultas(nombreBebida,tablaBBDD, false);
 
 				// Relizamos la resta
@@ -385,6 +387,12 @@ public class MemphisController {
 					resultadoFinal.put("aumentoPrecio", resultadoString);
 					resultadoFinal.put("aumentoTotal", restarIncrementado);
 				} else {
+					bebidaAlmacenadaService.borrarBebida(bebida.getId());
+					resultadoFinal.put("aumentoPrecio", 0);
+					resultadoFinal.put("aumentoTotal", 0);
+				}
+				}else {
+					// Cuando se trata de un vino se borra directamente.
 					bebidaAlmacenadaService.borrarBebida(bebida.getId());
 					resultadoFinal.put("aumentoPrecio", 0);
 					resultadoFinal.put("aumentoTotal", 0);
