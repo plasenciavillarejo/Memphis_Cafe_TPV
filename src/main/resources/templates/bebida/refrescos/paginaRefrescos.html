@@ -28,6 +28,7 @@
 							<div th:each="refrescos: ${listaRefrescos}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
 								<a id="tamanioButtonPrincipal" th:href="@{'/Memphis_Cafe/aniadirRefresco/' + ${refrescos.nombre}}" type="button" class="btn btn-success rounded-pill border-0" 
 									th:text="${refrescos.nombre}" ></a>
+								<span id="tipo-bebida-refresco" th:text="${refrescos.id}" hidden ></span>	
 							</div>
 						</div>
 					</div>

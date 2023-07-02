@@ -83,9 +83,9 @@ public class Utilidades {
 		return resultadoString;
 	}
 	
-	public String suma(String precioCafe, String buscarPrecioBBDD ) {
+	public String suma(String precioBebida, String buscarPrecioBBDD ) {
 		String resultadoString = "";
-		double resultado = Double.parseDouble(precioCafe.replace(',', '.')) + Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
+		double resultado = Double.parseDouble(precioBebida.replace(',', '.')) + Double.parseDouble(buscarPrecioBBDD.replace(',', '.'));
 		resultadoString = String.valueOf(redondearDecimales(resultado)).replace('.', ',');
 		return resultadoString;
 	}

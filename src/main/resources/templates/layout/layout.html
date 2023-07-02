@@ -17,7 +17,9 @@
 <link rel="stylesheet" th:href="@{/css/jquery.tipsy.css}">
 <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" >
-<!-- <link rel="stylesheet" href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" > -->
+
+<!-- Css que contiene los estilos de SweetAlert -->
+<link rel="stylesheet" th:href="@{/css/sweetalert/sweetalert2.min.css}" >
 
 <!-- ### Fichero Css Externo ### -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -125,7 +127,8 @@
 		
 
 		<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
-		<script th:src="@{/js/sweetalert.min.js}"></script>
+		<!-- Librería SweetAlert para los PopUp con alertas personalizadas -->
+		<script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
 		<!-- <script th:src="@{/js/popper.min.js}"></script> -->
 		<!-- Comenta está versión ya que en los navegaodres de IOS no funciona el PopOver al desplegarlo. Lo cambio por bootstrap.bundle.min.js
 		<script th:src="@{/js/bootstrap.min.js}"></script>  -->

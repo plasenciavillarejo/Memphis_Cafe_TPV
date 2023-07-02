@@ -26,7 +26,7 @@ table {
 	margin:0 auto;
 }
 
-#modalBoton{
+#modalBoton, #btnPagar{
 	margin-top: 2%;
 	background-color: #43b39b;
 	border-color: #43b39b;

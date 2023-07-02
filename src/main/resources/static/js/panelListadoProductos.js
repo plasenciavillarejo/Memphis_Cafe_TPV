@@ -24,27 +24,26 @@
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
 		// Actualizamos el color de el botón de sweet alert.
-		swal({
-			title: "Estás seguro de que desea borrar la comanda?",
-			text: "Al borrarla, desaparecerá todos los productos",
-			icon: "warning",
-			buttons: true,
-			dangerMode: true,
-		})
-			.then((willDelete) => {
-				if (willDelete) {
-					borrarTodosAtributosSession();
-					swal("La comanda ha sido eliminada con éxito!", {
-						icon: "success",
-						
-					});
-				} /*else {
-					swal("Your imaginary file is safe!");
-				} */
-			});
-		
-		
-		
+		Swal.fire({
+		  title: "Estás seguro de que desea borrar la comanda?",
+		  text: "Al borrarla, desaparecerá todos los productos",	
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#43b39b',
+		  cancelButtonColor: 'salmon',
+		  confirmButtonText: 'Ok',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    borrarTodosAtributosSession();
+		    Swal.fire({
+				//title: 'Your work has been saved',
+				text: 'Cobro realizado correctamente!',
+				icon: 'success',
+				confirmButtonColor: '#43b39b'
+			})
+		  }
+		})	
 	});
 	
 	// Función para borrar los productos
@@ -59,6 +58,7 @@
 				$('#lista-comida').empty();
 				$('.texto-pagar').empty();
 				$('.borrar-productos').hide();
+				$('#btnPagar').hide();
 			} else if (cantidadElementosBebida === 0) {
 				$('#lista-productos').empty();
 			} else if (canditdadElementosComida === 0 || canditdadElementosComida.indexOf('-')) {
@@ -77,6 +77,7 @@
 			$('#lista-comida').empty();
 			$('.texto-pagar').empty();
 			$('.borrar-productos').hide();
+			$('#btnPagar').hide();
 		});
 	}
 	
@@ -169,14 +170,29 @@
 			.replace('€','')
 			.split(' - ');
 			
-		var nombreBebida = nuevaCadena[1].match(/^\s*([^\d]+)/)[1].trim();
+		var nombreBebida = "";
+		var precioBebida = "";
 		var regex = /\d+(?:,\d+)?/;
 		var resultado = nuevaCadena[1].match(regex);
-		var precioBebida = parseFloat(resultado[0].replace(",", "."));
+		
+		// Función para el AGUA
+		var resultadoFuncion = buscarPatronAgua(nombreBebida,precioBebida,nuevaCadena[1],resultado);
+			
+		nombreBebida = resultadoFuncion.nombre;
+		precioBebida = resultadoFuncion.precio;
+		
 		var obtenerTablaBBDD = nuevaCadena[1].split(' ');
 		var tablaBBDD = obtenerTablaBBDD[obtenerTablaBBDD.length - 1]; // Obtener el último campo
+
+		// Verificamos si está o no seleccionado el switch
+		var switchValue = $("#flexSwitchCheckDefault-Vinos").prop("checked");
 		
-		$.get('/Memphis_Cafe/sumarPrecioBebida/' + nombreBebida + '/' + precioBebida +  '/' + tablaBBDD, function(resultadoString) {		
+		// Si está fuera de la página de desayuno este objeto es indefinido por tanto debe ir a false.
+		if (typeof switchValue === "undefined") {
+			switchValue = false;
+		}
+		
+		$.get('/Memphis_Cafe/sumarPrecioBebida/' + nombreBebida + '/' + precioBebida +  '/' + switchValue +  '/' + tablaBBDD, function(resultadoString) {		
 			// Recorro la lista para obtener el elemento seleccionado
 			$('#lista-bebidas li').each(function() {
 				var nombreBebidaLista = $(this).find('#nombre-cafe-seleccionado').text();
@@ -248,10 +264,17 @@
 			.replace('€','')
 			.split(' - ');
 			
-		var nombreBebida = nuevaCadena[1].match(/^\s*([^\d]+)/)[1].trim();
+		var nombreBebida = "";
+		var precioBebida = "";
 		var regex = /\d+(?:,\d+)?/;
 		var resultado = nuevaCadena[1].match(regex);
-		var precioBebida = parseFloat(resultado[0].replace(",", "."));
+		
+		// Función para el AGUA
+		var resultadoFuncion = buscarPatronAgua(nombreBebida,precioBebida,nuevaCadena[1],resultado);
+			
+		nombreBebida = resultadoFuncion.nombre;
+		precioBebida = resultadoFuncion.precio;
+		
 		var obtenerTablaBBDD = nuevaCadena[1].split(' ');
 		var tablaBBDD = obtenerTablaBBDD[obtenerTablaBBDD.length - 1]; // Obtener el último campo
 		
@@ -287,6 +310,26 @@
 		
 	});
 	
+	
+	function buscarPatronAgua(nombreBebida,precioBebida,nuevaCadena,resultado) {
+		// Cuando la bebida se trata de agua debemos de buscar un patron para verificar que es agua 0,33cl o 1,5L
+		var patronAgua = "Agua";
+			
+		if (nuevaCadena.indexOf(patronAgua) >= 0) {
+			nombreBebida = nuevaCadena.split("  ")[0];
+			arrayPrecio = nuevaCadena.split("  ")[1]
+			precioBebida = parseFloat(arrayPrecio.replace(",", "."));
+		} else {
+			//nombreBebida = nuevaCadena.match(/^\s*([^\d]+)/)[1].trim();
+		  	nombreBebida = nuevaCadena.split("  ")[0];
+		  	arrayPrecio = nuevaCadena.split("  ")[1]
+			precioBebida = parseFloat(arrayPrecio.replace(",", "."));
+		  	//precioBebida = parseFloat(resultado[0].replace(",", "."));
+		}
+		return { 
+			nombre: nombreBebida, precio: precioBebida 
+		};
+	}
 	
 	// Cuando solo pulsamos en borrar (-) un solo producto en específico - comida
 	$(document).on('click', '.borrar-icono-comida', function(event) {
@@ -420,6 +463,77 @@
 	});
 	}
 
+	// ###### LÓGICA PARA EL PAGO DE LA CUENTA #######
+    $("#btnPagar").click(function() {
+		Swal.fire({
+			  title: "Se va a realizar el cobro de la comanda",
+			  text: "Puedes almacenar la comanda para consultarla más tarde",	
+			  icon: 'warning',
+			  showDenyButton: true,
+			  showCancelButton: true,
+			  confirmButtonColor: '#43b39b',
+		  	  cancelButtonColor: 'salmon',
+			  denyButtonColor: 'cornflowerblue',
+			  confirmButtonText: 'Ok',
+			  denyButtonText: 'Cobrar Comanda',
+			}).then((result) => {
+			  /* Read more about isConfirmed, isDenied below */
+			  if (result.isConfirmed) {
+			    Swal.fire({
+				  title: "Comanda almacenda correctamente",
+				  text: "Finalizar el cobro de la comanda.",	
+				  icon: 'info',
+				  showCancelButton: true,
+				  confirmButtonColor: '#43b39b',
+			  	  cancelButtonColor: 'salmon',
+				  confirmButtonText: 'Cobrar Comanda',
+				}).then((result) => {
+					// Una vez almacenado en BBDD se debe borrar los atributos en sesión.
+					if (result.isConfirmed) {
+						borrarTodosAtributosSession();
+						Swal.fire({
+							text: 'Cobro realizado correctamente!',
+							icon: 'success',
+							confirmButtonColor: '#43b39b'
+						}) 
+					} else {
+						Swal.fire({
+						  title: "Estás seguro de cancelar el cobro?",
+						  text: "La comanda ya está almacenada, si cancelas posteriormente solo deberás de realizar el cobro.",	
+						  icon: 'info',
+						  showCancelButton: true,
+						  confirmButtonColor: '#43b39b',
+					  	  cancelButtonColor: 'salmon',
+						  confirmButtonText: 'Cobrar Comanda',
+						}).then((result) => {
+							// Una vez almacenado en BBDD se debe borrar los atributos en sesión.
+							if (result.isConfirmed) {
+								borrarTodosAtributosSession();
+								Swal.fire({
+									title: 'Your work has been saved',
+									text: 'Cobro realizado correctamente!',
+									icon: 'success',
+									confirmButtonColor: '#43b39b'
+								})
+							}
+						})
+						
+					}
+				})
+				// Una vez almacenado en BBDD se debe borrar los atributos en sesión.
+			  } else if (result.isDenied) {
+				borrarTodosAtributosSession();
+			    Swal.fire({
+					text: 'Cobro realizado correctamente!',
+					icon: 'success',
+					confirmButtonColor: '#43b39b'
+				}) 
+			  }
+			})
+	});
+
+	// ##### FIN LÓGICA PARA EL PAGO DE LA CUENTA #####
+	
 	
 	/*
 	// Función encargada de aniadir el desayuno. -> Por ahora está comentada ya que inicilamente no crea el div

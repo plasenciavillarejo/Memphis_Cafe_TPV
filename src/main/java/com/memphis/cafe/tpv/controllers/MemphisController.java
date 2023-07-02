@@ -237,7 +237,7 @@ public class MemphisController {
 	public Map<String, Object> sumarPrecioEnSesion(@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
 			@PathVariable("nombreComida") String nombreComida, 
 			@PathVariable("precioComida") String precioComida,
-			@PathVariable(value = "checked") boolean checked,
+			@PathVariable(value = "checked", required = false) boolean checked,
 			@PathVariable(value = "tablaBBDD") String tablaBBDD,
 			Model model) {
 
