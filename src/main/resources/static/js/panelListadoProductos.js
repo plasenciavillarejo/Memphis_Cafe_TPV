@@ -412,7 +412,7 @@
 		if (isNaN(nuevoPrecioComida)) {
 				$('#suma-cuenta').val('0.00');
 		} else {
-				$('#suma-cuenta').val(precioPagarFinal.toFixed(2));
+				$('#suma-cuenta').val(precioPagarFinal.toFixed(2) + ' €');
 		}
 		
 		// Validamos los elementos que contiene la lista
@@ -467,69 +467,66 @@
     $("#btnPagar").click(function() {
 		Swal.fire({
 			  title: "Se va a realizar el cobro de la comanda",
-			  text: "Puedes almacenar la comanda para consultarla más tarde",	
+			  text: "Total de la cuenta:",	
 			  icon: 'warning',
-			  showDenyButton: true,
 			  showCancelButton: true,
 			  confirmButtonColor: '#43b39b',
 		  	  cancelButtonColor: 'salmon',
-			  denyButtonColor: 'cornflowerblue',
-			  confirmButtonText: 'Ok',
-			  denyButtonText: 'Cobrar Comanda',
+			  confirmButtonText: 'Cobrar'
 			}).then((result) => {
 			  /* Read more about isConfirmed, isDenied below */
 			  if (result.isConfirmed) {
-			    Swal.fire({
-				  title: "Comanda almacenda correctamente",
-				  text: "Finalizar el cobro de la comanda.",	
-				  icon: 'info',
-				  showCancelButton: true,
-				  confirmButtonColor: '#43b39b',
-			  	  cancelButtonColor: 'salmon',
-				  confirmButtonText: 'Cobrar Comanda',
-				}).then((result) => {
-					// Una vez almacenado en BBDD se debe borrar los atributos en sesión.
-					if (result.isConfirmed) {
-						borrarTodosAtributosSession();
-						Swal.fire({
-							text: 'Cobro realizado correctamente!',
-							icon: 'success',
-							confirmButtonColor: '#43b39b'
-						}) 
-					} else {
-						Swal.fire({
-						  title: "Estás seguro de cancelar el cobro?",
-						  text: "La comanda ya está almacenada, si cancelas posteriormente solo deberás de realizar el cobro.",	
-						  icon: 'info',
-						  showCancelButton: true,
-						  confirmButtonColor: '#43b39b',
-					  	  cancelButtonColor: 'salmon',
-						  confirmButtonText: 'Cobrar Comanda',
-						}).then((result) => {
-							// Una vez almacenado en BBDD se debe borrar los atributos en sesión.
-							if (result.isConfirmed) {
-								borrarTodosAtributosSession();
-								Swal.fire({
-									title: 'Your work has been saved',
-									text: 'Cobro realizado correctamente!',
-									icon: 'success',
-									confirmButtonColor: '#43b39b'
-								})
-							}
-						})
-						
+			var listaBebida = [];
+			var listaComida = [];
+			
+			/*  Seleccionamos todos los elementos con id="nombre-comida-seleccionado" que están dentro del elemento con 
+			id="lista-comidas". Dentro del bucle each(), estamos obteniendo el texto de cada elemento seleccionado
+			 ($(this).text()) y lo estamos almacenando en un arreglo nombresBebida. 
+			*/	
+			
+			$('#lista-bebidas #nombre-cafe-seleccionado').each(function() {
+			    var nombreBebida = $(this).text();
+			    listaBebida.push(nombreBebida);
+			});
+
+			$('#lista-comidas #nombre-comida-seleccionado').each(function() {
+			    var nombreComida = $(this).text();
+			    listaComida.push(nombreComida);
+			});
+					
+			$.ajax({
+				contentType : "application/json",
+				async:	false,
+			    processData: false,
+			    url: '/Memphis_Cafe/guardarHistorico',
+			    data: JSON.stringify(
+					{
+						bebidaAlmacenada: listaBebida,
+        				comidaAlmacenada: listaComida
 					}
-				})
-				// Una vez almacenado en BBDD se debe borrar los atributos en sesión.
-			  } else if (result.isDenied) {
-				borrarTodosAtributosSession();
-			    Swal.fire({
-					text: 'Cobro realizado correctamente!',
-					icon: 'success',
-					confirmButtonColor: '#43b39b'
-				}) 
-			  }
-			})
+				),
+			    dataType:"json",
+			    type: 'POST',
+			    traditional: true,
+			    success: function() {
+			        Swal.fire({
+						title: 'Cobro realizado correctamente',
+						text: 'La cuenta ha sido almacenada para poder consultarla posteriormente si usted desea!',
+						icon: 'success',
+						confirmButtonColor: '#43b39b'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							borrarTodosAtributosSession();
+						}
+					})	
+			    },
+			    error: function(error) {
+			        // Manejar el error
+			        console.log(error);
+			    }
+			});
+			}
+		})
 	});
 
 	// ##### FIN LÓGICA PARA EL PAGO DE LA CUENTA #####

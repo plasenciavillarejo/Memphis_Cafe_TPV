@@ -1,6 +1,8 @@
 package com.memphis.cafe.tpv.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +15,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.memphis.cafe.tpv.entity.Combinado;
+import com.memphis.cafe.tpv.entity.DatosGuardados;
+import com.memphis.cafe.tpv.entity.Historico;
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
 import com.memphis.cafe.tpv.entity.ListaComidaAlmacenada;
 import com.memphis.cafe.tpv.entity.Lotes;
@@ -26,6 +33,7 @@ import com.memphis.cafe.tpv.service.ICafeService;
 import com.memphis.cafe.tpv.service.ICarneService;
 import com.memphis.cafe.tpv.service.ICombinadoService;
 import com.memphis.cafe.tpv.service.IDesayunosService;
+import com.memphis.cafe.tpv.service.IHistoricoService;
 import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
 import com.memphis.cafe.tpv.service.IListaComidaAlmacenadaService;
 import com.memphis.cafe.tpv.service.ILoteService;
@@ -34,8 +42,6 @@ import com.memphis.cafe.tpv.service.IRacionService;
 import com.memphis.cafe.tpv.service.IRefrescoService;
 import com.memphis.cafe.tpv.service.IReposteriaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "/Memphis_Cafe")
@@ -96,6 +102,9 @@ public class MemphisController {
 	
 	@Autowired
 	private IListaComidaAlmacenadaService comidaAlmacenadaService;
+	
+	@Autowired
+	private IHistoricoService historicoService;
 	
 	
 	@GetMapping(value={"/inicio", "/"})
@@ -403,7 +412,50 @@ public class MemphisController {
 		return resultadoFinal;
 	}
 
-
-	
+	@PostMapping("/guardarHistorico")
+	@ResponseBody
+	public void guardarCuenta(@RequestBody DatosGuardados datos) {
+		
+		List<String> listaBebida = datos.getBebidaAlmacenada();
+	    List<String> listaComida = datos.getComidaAlmacenada();
+		
+		logAplicacion.info("Se procede almacenar la cuenta");
+		
+		Historico historico = new Historico();
+		
+		Date date = new Date();
+		SimpleDateFormat formatoDia = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+		
+		String fechaDia = formatoDia.format(date);
+		String hora = formatoHora.format(date);
+		
+		
+		historico.setDia(fechaDia);
+		historico.setHora(hora);
+		
+		
+		// Creamos un objeto json para almacenar la lista en BBDD.
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		String formatoJsonListaBebida = "";
+		String formatoJsonListaComida = "";
+		try {
+			formatoJsonListaBebida = objectMapper.writeValueAsString(listaBebida).replace("[", "").replace("]", "").replace("\"", "");
+			formatoJsonListaComida = objectMapper.writeValueAsString(listaComida);
+		}catch (Exception e) {
+			logAplicacion.error("Ha sucedido un problema a la hora de transformar la lista en un objeto json.", e.getMessage(),e);
+		}
+		
+		historico.setListaBebidasHistorico(formatoJsonListaBebida);
+		historico.setListaComidasHistorico(formatoJsonListaComida);
+		historico.setMesa(0);
+		historico.setMesero("Jose Plasencia");
+		
+		historicoService.guardarCuenta(historico);
+		
+		logAplicacion.info("Se ha almacenado correctamente la mesa con el id {}");
+		
+	}
 	
 }

@@ -11,7 +11,7 @@
 		<div class="container">
 			<div class="row">
 				<!-- Div para la lista de la comida -->
-				<div id="lista-comida" class="col-6">
+				<div id="lista-comida" class="col-12 col-md-6 col-lg-6 col-xl-6">
 					<div th:if="${!comidaAlmacenada.isEmpty()}" class="card" style="width: 21rem; right: 6%">
 						<div class="card-header">Comida</div>
 							<div id="convertir-lista-comida">
@@ -30,8 +30,8 @@
 
 				</div>
 				<!-- Div para la lista de la bebida -->
-				<div id="lista-productos" class="col-6">
-					<div th:if="${!listaProductos.isEmpty()}" class="card" style="width: 22rem; right: 6%">
+				<div id="lista-productos" class="col-12 col-md-6 col-lg-6 col-xl-6">
+					<div th:if="${!listaProductos.isEmpty()}" class="card ms-5" style="width: 21rem; right: 15%">
 						<div class="card-header">Bebida</div>
 							<div id="convertir-lista">
 								<ul id="lista-bebidas" th:each="bebidas: ${listaProductos}" class="list-group list-group-flush">
