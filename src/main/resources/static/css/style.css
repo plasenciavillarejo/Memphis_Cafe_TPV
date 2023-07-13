@@ -154,3 +154,16 @@ width: 11%;
 .custom-tooltip .tooltip-inner {
   background-color:  #43b39b;
 }
+
+/* Cambio de color, tamanio de letra para el título de el modal*/
+.parametros-cabecerea-modal {
+	background-color: #43b39b;
+	color: white;
+}
+
+#cerrar-modal-historico {
+	background-color: aqua;
+}
+
+
+
