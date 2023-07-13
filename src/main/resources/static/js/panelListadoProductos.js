@@ -478,9 +478,10 @@
 
 	// ###### LÓGICA PARA EL PAGO DE LA CUENTA #######
     $("#btnPagar").click(function() {
+	var totalPagar = $('#suma-cuenta').val();
 		Swal.fire({
 			  title: "Se va a realizar el cobro de la comanda",
-			  text: "Total de la cuenta:",	
+			  text: "Total de la cuenta: " + totalPagar,	
 			  icon: 'warning',
 			  showCancelButton: true,
 			  confirmButtonColor: '#43b39b',
