@@ -1,4 +1,4 @@
-package com.memphis.cafe.constantes.sesion;
+package com.memphis.cafe.tpv.constantes.sesion;
 
 import java.util.ArrayList;
 import java.util.List;

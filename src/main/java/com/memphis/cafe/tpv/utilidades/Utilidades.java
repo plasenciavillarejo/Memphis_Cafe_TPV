@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.memphis.cafe.constantes.sesion.ConstantesSesion;
+import com.memphis.cafe.tpv.constantes.sesion.ConstantesSesion;
 import com.memphis.cafe.tpv.service.ICafeService;
 import com.memphis.cafe.tpv.service.ICervezasBarrilService;
 import com.memphis.cafe.tpv.service.ICervezasService;

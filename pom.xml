@@ -9,7 +9,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.curso</groupId>
+	<groupId>com.memphis</groupId>
 	<artifactId>Memphis_Cafe_TPV</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Memphis_Cafe_TPV</name>
