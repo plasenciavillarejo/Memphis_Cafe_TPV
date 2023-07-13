@@ -155,18 +155,22 @@ public class MemphisController {
 		} else if(valorBoton.equalsIgnoreCase("Comidas")) {
 			// La pagina comidas se incluyen los botones dentro de la vista, no se llama a ninguna tabla en BBDD.
 			VALORPAGINAACTUAL = PAGINACOMIDAS;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINACOMIDAS;
 		} else if(valorBoton.equalsIgnoreCase("Raciones")) {
 			model.addAttribute("listaRaciones", racionService.listaRaciones());
 			VALORPAGINAACTUAL = PAGINARACIONES;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINARACIONES;
 		} else if(valorBoton.equalsIgnoreCase("Carnes")) {
 			model.addAttribute("listaCarnes", carneService.listaCarnes());
 			VALORPAGINAACTUAL = PAGINACARNES;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINACARNES;
 		} else if(valorBoton.equalsIgnoreCase("Pescados")) {
 			model.addAttribute("listaPescados", pescadoService.listaPescado());
 			VALORPAGINAACTUAL = PAGINAPESCADOS;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINAPESCADOS;
 		} else if(valorBoton.equalsIgnoreCase("Combinados")) {
 
@@ -183,10 +187,12 @@ public class MemphisController {
 
 			model.addAttribute("listaCombinados", listaCompleta);
 			VALORPAGINAACTUAL = PAGINACOMBINADOS;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINACOMBINADOS;
 		} else if(valorBoton.equalsIgnoreCase("Reposteria")) {
 			model.addAttribute("listaReposteria", reposteriaService.listaReposteria());
 			VALORPAGINAACTUAL = PAGINAREPOSTERIA;
+			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 			return PAGINAREPOSTERIA;
 		} 
 		
