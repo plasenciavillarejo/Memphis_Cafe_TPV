@@ -121,3 +121,36 @@ table {
 height: 96%;
 width: 11%;
 }
+
+/* Ini: Colores para los botones de el paginador. */
+/* ############################################## */
+.page-item.active .page-link {
+	background-color: #43b39b;
+}
+
+.page-link {
+  color: #43b39b;
+}
+/* Fin: Colores para los botones de el paginador. */
+/* ############################################## */
+
+
+#consulta-historico {
+	border-color: #43b39b !important;
+	background-color: #eeeee4;	
+}
+
+.boton-color-historico {
+	color: #c1a676;
+}
+
+.boton-color-historico:hover{
+	color: #c1a676 !important;
+	text-shadow: 0px 0px 10px;
+	font-family: Trebuchet MS;
+}
+
+/* Cambio de color para los tooltips */
+.custom-tooltip .tooltip-inner {
+  background-color:  #43b39b;
+}

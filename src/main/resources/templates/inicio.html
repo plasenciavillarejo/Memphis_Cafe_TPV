@@ -9,6 +9,11 @@
 
 	<!-- Py-4 : Nos da un margen de anchura. -->
 	<div id="ivPrincipal" class="container-fluid py-4">
+	
+		<!-- HEADER -->
+		<!-- ###### -->
+		<header th:replace="~{layout/layout :: header}"> </header> 
+	
 		<div class="card bg-light">
 
 			<!-- Cabecera header -->
@@ -34,21 +39,20 @@
 								</div>
 								<div th:if="${logosPrincipales.empty}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
 									<img alt="N/A" class="rounded mx-auto d-block pb-3" width="57px">
-	
 								</div>
 							</div>
 						</div>
 					</div>
 			</div>
 		</div>
-
-		<!-- FOOTER -->
-		<!-- ###### -->
-		<footer th:replace="~{layout/layout :: footer}"> </footer> 
 	</div>
 
 </body>
-
+	
+	<!-- FOOTER -->
+	<!-- ###### -->
+	<footer th:replace="~{layout/layout :: footer}"> </footer> 
+	
 <!-- Modal de alerta pasado 3 segundos -->
 <!--  
 <script type="text/javascript">

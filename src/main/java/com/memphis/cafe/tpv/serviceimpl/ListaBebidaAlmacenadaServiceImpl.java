@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.memphis.cafe.tpv.dao.IListaBebidaAlmacenadaDao;
 import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
 import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class ListaBebidaAlmacenadaServiceImpl implements IListaBebidaAlmacenadaService{
@@ -18,24 +18,25 @@ public class ListaBebidaAlmacenadaServiceImpl implements IListaBebidaAlmacenadaS
 	private IListaBebidaAlmacenadaDao bebidaAlmacendaDao;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<ListaBebidaAlmacenada> listaBebidaAlmacenada() {
 		return bebidaAlmacendaDao.listaBebidaAlmacenada();
 	}
-
-	@Transactional
+	
 	@Override
+	@Transactional
 	public void guardarBebida(ListaBebidaAlmacenada bebidaAlmacenada) {
 		bebidaAlmacendaDao.save(bebidaAlmacenada);
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public void borrarBebida(int id) {
 		bebidaAlmacendaDao.deleteById(id);
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public void borrarListaCompleta() {
 		bebidaAlmacendaDao.deleteAll();
 	}

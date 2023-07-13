@@ -16,7 +16,20 @@
 
 		// Validamos los elementos que contiene la lista
 		$("#lista-bebidas").trigger("DOMSubtreeModified");
-		$("#lista-comidas").trigger("DOMSubtreeModified");		
+		$("#lista-comidas").trigger("DOMSubtreeModified");
+		
+		/*
+		// Cambio de formato en al situarse en lo alto de el boton de historico
+		$('.boton-historico').hover(
+			function() {
+				$(this).attr('id','tituloPanel');
+			},
+			function() {
+				$(this).removeAttr('id');
+			}
+		)
+		*/
+		
 	});
  
  	
@@ -38,7 +51,7 @@
 		    borrarTodosAtributosSession();
 		    Swal.fire({
 				//title: 'Your work has been saved',
-				text: 'Cobro realizado correctamente!',
+				text: 'Se ha borrado la comanda correcamente!',
 				icon: 'success',
 				confirmButtonColor: '#43b39b'
 			})
@@ -505,7 +518,7 @@
         				comidaAlmacenada: listaComida
 					}
 				),
-			    dataType:"json",
+			    //dataType:"json", -> Se indica que la respuesta será devuelta en formato json
 			    type: 'POST',
 			    traditional: true,
 			    success: function() {
@@ -521,14 +534,12 @@
 					})	
 			    },
 			    error: function(error) {
-			        // Manejar el error
 			        console.log(error);
 			    }
 			});
 			}
 		})
 	});
-
 	// ##### FIN LÓGICA PARA EL PAGO DE LA CUENTA #####
 	
 	

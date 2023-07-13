@@ -10,6 +10,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -115,17 +119,14 @@ public class MemphisController {
 		model.addAttribute("logosPrincipales", localizarNombre.values());
 		logAplicacion.info("Mostrando la carta para el Cafe Bar - Memphis");
 		
-		
+		VALORPAGINAACTUAL = INICIO;
 		// Se mete en sesión la listaBebida
 		model.addAttribute("listaProductos", bebidaAlmacenadaService.listaBebidaAlmacenada());
-		
 		// Se mete en sesión la listComida
 		model.addAttribute("comidaAlmacenada", comidaAlmacenadaService.listaComidaAlmacenada());
-		
 		// Se mete en sesión la página actual
 		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
-		
-		VALORPAGINAACTUAL = INICIO; 
+
 		return INICIO;
 	}
 
@@ -442,7 +443,7 @@ public class MemphisController {
 		String formatoJsonListaComida = "";
 		try {
 			formatoJsonListaBebida = objectMapper.writeValueAsString(listaBebida).replace("[", "").replace("]", "").replace("\"", "");
-			formatoJsonListaComida = objectMapper.writeValueAsString(listaComida);
+			formatoJsonListaComida = objectMapper.writeValueAsString(listaComida).replace("[", "").replace("]", "").replace("\"", "");
 		}catch (Exception e) {
 			logAplicacion.error("Ha sucedido un problema a la hora de transformar la lista en un objeto json.", e.getMessage(),e);
 		}
@@ -456,6 +457,14 @@ public class MemphisController {
 		
 		logAplicacion.info("Se ha almacenado correctamente la mesa con el id {}");
 		
+		/*
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+		return ResponseEntity.ok()
+                .headers(headers)
+                .body("Cobro realizado correctamente");
+        */
 	}
 	
 }

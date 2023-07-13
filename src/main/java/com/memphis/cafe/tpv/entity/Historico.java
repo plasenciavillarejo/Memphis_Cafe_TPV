@@ -1,7 +1,6 @@
 package com.memphis.cafe.tpv.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(schema = "Memphis_Cafe", name = "Historico")
@@ -36,6 +36,7 @@ public class Historico implements Serializable{
 	@Column(name = "Hora")
 	private String hora;
 	
+	@NotEmpty
 	@Column(name = "Mesero")
 	private String mesero;
 

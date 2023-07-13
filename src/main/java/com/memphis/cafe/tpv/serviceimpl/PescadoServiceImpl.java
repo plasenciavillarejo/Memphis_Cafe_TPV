@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.memphis.cafe.tpv.dao.IPescadoDao;
 import com.memphis.cafe.tpv.entity.Pescado;
@@ -23,6 +24,7 @@ public class PescadoServiceImpl implements IPescadoService{
 	private IPescadoDao pescadoDao;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<Pescado> listaPescado() {
 		
 		LOGGER.info("Se procece a listar la carta de pescado");
@@ -35,7 +37,6 @@ public class PescadoServiceImpl implements IPescadoService{
 			LOGGER.error("Se producido un error a la hora de listar los pescados.", e.getMessage());
 			listaPescado = null;
 		}
-		
 		return listaPescado;
 	}
 
