@@ -39,21 +39,15 @@
 					<!--  collapse-->
 				<div class=" navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
-						
 						<li th:if="${paginaActual == 'inicio'}" class="nav-item rounded-pill border border-success boton-historico">
 							<a class="nav-link active fst-italic boton-color-historico" aria-current="page" th:href="@{/Memphis_Cafe/historicoVentas}">Consulta Histórico de ventas</a>
 						</li>
 						<li th:if="${paginaActual == 'historico' || paginaActual != 'inicio'}" class="nav-item rounded-pill border border-success boton-historico">
 							<a class="nav-link active fst-italic boton-color-historico" aria-current="page" th:href="@{/Memphis_Cafe/inicio}">Inicio</a>
 						</li>
-						<!--  
-						<li class="nav-item">
-							<a class="nav-link" href="#">#</a>
+						<li class="nav-item rounded-pill border border-success listado-cuentas ms-2">
+							<a class="nav-link active fst-italic boton-color-historico" aria-current="page" th:href="@{/Memphis_Cafe/inicio}">Listado de Cuentas</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">#</a>
-						</li>
-						-->
 					</ul>
 				</div>
 			</div>

@@ -1,6 +1,27 @@
 
 $(document).ready(function() {
 	$('#staticBackdrop').modal('hide');
+	
+	// Validar fecha de busqueda - Ejemplo realizado para posteriores validaciones.
+	/*
+	$('#filtrado-fecha').change(function(event) {
+    	var fecha = $(this).val(); // Obtener el valor del campo de fecha
+
+	    // Validar la fecha
+	    if (fecha) {
+	      var fechaActual = new Date(); // Obtener la fecha actual
+	      var fechaSeleccionada = new Date(fecha); // Convertir la fecha seleccionada en un objeto Date
+	
+	      // Comparar la fecha seleccionada con la fecha actual
+	      if (fechaSeleccionada < fechaActual) {
+			event.preventDefault();
+			$('#filtrado-fecha').val('');
+	        alert('La fecha no puede ser menor que la actual');
+	      }
+	    }
+  	});
+	*/
+	
 });
 
 	// ##### Función que captura el click cuando se pulsa una fila en la tabla de histórico.
@@ -30,7 +51,7 @@ $(document).ready(function() {
 
     
     function mostrarModalHistorico(elementos) {
-		// Array(6) [ "0", "Té", "", "07-07-2023", "20:21:12", "Jose Plasencia" ]
+		// Array(7) [ "0", "Té", "", "07-07-2023", "20:21:12", "Jose Plasencia", "1,30€"]
 		$('#staticBackdrop').modal('show');
 		// Le pasamos los datos a el modal de forma directa
 		$('#detalle-mesa').text(elementos[0]);
@@ -39,9 +60,23 @@ $(document).ready(function() {
 		$('#detalle-dia').text(elementos[3]);
 		$('#detalle-hora').text(elementos[4]);
 		$('#detalle-mesero').text(elementos[5]);
+		$('#detalle-cuenta').text(elementos[6]);
 	};
 	
 	// Evitar que se ejecute el script al hacer clic dentro del modal
 	$('.modal-dialog').on('click', function(event) {
   		event.stopPropagation();
 	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

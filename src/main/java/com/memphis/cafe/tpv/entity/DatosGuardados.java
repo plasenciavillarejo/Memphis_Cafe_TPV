@@ -8,7 +8,8 @@ import java.util.List;
 	data: JSON.stringify(
 			{
 				bebidaAlmacenada: listaBebida,
-				comidaAlmacenada: listaComida
+				comidaAlmacenada: listaComida,
+				cuenta: cuenta
 			}
 		)
 */
@@ -19,6 +20,16 @@ public class DatosGuardados implements Serializable{
 	private List<String> bebidaAlmacenada;
 	
 	private List<String> comidaAlmacenada;
+
+	private String cuenta;
+	
+	public String getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(String cuenta) {
+		this.cuenta = cuenta;
+	}
 
 	public List<String> getBebidaAlmacenada() {
 		return bebidaAlmacenada;

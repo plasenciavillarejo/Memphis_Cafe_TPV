@@ -35,6 +35,11 @@ public class HistoricoServiceImpl implements IHistoricoService{
 		return historicoDao.findAllByName(nombre);
 	}
 
+	@Override
+	public List<Historico> findAllByDate(String dia) {
+		return historicoDao.findAllByDate(dia);
+	}
+
 
 	
 }

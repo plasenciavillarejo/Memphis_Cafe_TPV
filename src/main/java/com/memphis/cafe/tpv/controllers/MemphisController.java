@@ -454,10 +454,12 @@ public class MemphisController {
 			logAplicacion.error("Ha sucedido un problema a la hora de transformar la lista en un objeto json.", e.getMessage(),e);
 		}
 		
+		// ***** NOTA: Debo cambiar algunos parámetros como la mesa o el mesero por los que se indique desde la aplicación de PDA utilizando los roles de spring security. *****
 		historico.setListaBebidasHistorico(formatoJsonListaBebida);
 		historico.setListaComidasHistorico(formatoJsonListaComida);
 		historico.setMesa(0);
 		historico.setMesero("Jose Plasencia");
+		historico.setCuenta(datos.getCuenta());
 		
 		historicoService.guardarCuenta(historico);
 		

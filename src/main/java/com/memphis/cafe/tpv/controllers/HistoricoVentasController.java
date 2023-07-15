@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.memphis.cafe.tpv.entity.Historico;
 import com.memphis.cafe.tpv.paginador.PageRender;
 import com.memphis.cafe.tpv.service.IHistoricoService;
+import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 import jakarta.validation.Valid;
 
@@ -33,6 +34,9 @@ public class HistoricoVentasController {
 
 	@Autowired
 	private IHistoricoService historicoService;
+	
+	@Autowired
+	private Utilidades utilidades;
 	
 	private static String HISTORICOVENTAS = "/historicoVentas/historico";
 	private static String REDIRECTHISTORICOVENTAS = "/Memphis_Cafe/historicoVentas";
@@ -79,7 +83,7 @@ public class HistoricoVentasController {
 		}
 		
 		// Busqueda epécifia
-		busquedaPageableGenerica(page, pageRequest, listaConsutaHistorico, paginador, model);
+		busquedaPageableEspecifica(historico, page, pageRequest, listaConsutaHistorico, paginador, model);
 				
 		return HISTORICOVENTAS;
 	}
@@ -91,6 +95,7 @@ public class HistoricoVentasController {
 			PageRender<Historico> paginador,Model model) {
 		// PageRequest.of(page, 4) -> page='Número de Página', 10='Número de registros por página' 
 		pageRequest = PageRequest.of(page, 10,Sort.by("dia").and(Sort.by("hora")).descending());
+		
 		listaConsutaHistorico = historicoService.findAllPaginable(pageRequest);
 		
 		// Llamamos a nuestro PageRender para realizar el paginador creado a mano
@@ -100,18 +105,29 @@ public class HistoricoVentasController {
 		model.addAttribute("listaHistorico", listaConsutaHistorico);
 	}
 	
-	// Función específica para el paginador en busqueda específica
+	// Función para el paginador en busqueda específica
 	public void busquedaPageableEspecifica(Historico historico,int page, Pageable pageRequest,Page<Historico> listaConsutaHistorico,
 			PageRender<Historico> paginador,Model model) {
-		List<Historico> busquedaPersonalizada = historicoService.findAllByName(historico.getMesero());
+		
+		List<Historico> busquedaPersonalizada = null;
+		
+		if(!historico.getMesero().isEmpty()) {
+			busquedaPersonalizada = historicoService.findAllByName(historico.getMesero());
+		} else if(!historico.getDia().isEmpty()) {
+			busquedaPersonalizada = historicoService.findAllByDate(utilidades.formatoFecha(historico.getDia()));
+		}
+		
 		pageRequest= PageRequest.of(page, 10,Sort.by("dia").and(Sort.by("hora")).descending());
+		
 		int startIndex = (int) pageRequest.getOffset();
 		int endIndex = Math.min((startIndex + pageRequest.getPageSize()), busquedaPersonalizada.size());
 
 		List<Historico> sublista = busquedaPersonalizada.subList(startIndex, endIndex);
 		listaConsutaHistorico = new PageImpl<>(sublista,pageRequest,busquedaPersonalizada.size());
+		
 		// Llamamos a nuestro PageRender para realizar el paginador creado a mano
 		paginador = new PageRender<>("/Memphis_Cafe/historicoVentas", listaConsutaHistorico);
+		
 		model.addAttribute("pagina", paginador);
 		model.addAttribute("listaPersonalizada", listaConsutaHistorico);
 	}

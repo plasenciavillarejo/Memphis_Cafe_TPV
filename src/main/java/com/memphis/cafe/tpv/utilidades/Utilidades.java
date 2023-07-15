@@ -1,6 +1,8 @@
 package com.memphis.cafe.tpv.utilidades;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.memphis.cafe.tpv.constantes.sesion.ConstantesSesion;
+import com.memphis.cafe.tpv.entity.Historico;
 import com.memphis.cafe.tpv.service.ICafeService;
 import com.memphis.cafe.tpv.service.ICervezasBarrilService;
 import com.memphis.cafe.tpv.service.ICervezasService;
@@ -137,5 +140,21 @@ public class Utilidades {
 		
 		return buscarPrecioBBDD;
 	}
+
+	// Convertir formato fecha
+	
+	public String formatoFecha(String fechaDia) {
+		
+		// Convertir la cadena de fecha en un objeto LocalDate
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    LocalDate fecha = LocalDate.parse(fechaDia, formatter);
+
+	    // Formatear la fecha en el formato deseado
+	    DateTimeFormatter nuevoFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    String fechaFormateada = fecha.format(nuevoFormatter);
+	    
+	    return fechaFormateada;
+	}
+	
 	
 }

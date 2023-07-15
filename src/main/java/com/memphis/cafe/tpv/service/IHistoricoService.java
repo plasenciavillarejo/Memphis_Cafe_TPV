@@ -15,4 +15,7 @@ public interface IHistoricoService {
 	public Page<Historico> findAllPaginable(Pageable pageable);
 	
 	public List<Historico> findAllByName(String nombre);
+	
+	public List<Historico> findAllByDate(String dia);
+
 }

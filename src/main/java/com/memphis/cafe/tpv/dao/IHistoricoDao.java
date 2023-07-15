@@ -12,4 +12,8 @@ public interface IHistoricoDao extends JpaRepository<Historico, Integer>{
 
 	@Query(value = "select c from #{#entityName} c where c.mesero like :nombre%")
 	public List<Historico> findAllByName(@Param("nombre") String nombre);
+	
+	@Query(value = "select c from #{#entityName} c where c.dia = :dia")
+	public List<Historico> findAllByDate(@Param("dia") String dia);
+
 }

@@ -493,11 +493,6 @@
 			var listaBebida = [];
 			var listaComida = [];
 			
-			/*  Seleccionamos todos los elementos con id="nombre-comida-seleccionado" que están dentro del elemento con 
-			id="lista-comidas". Dentro del bucle each(), estamos obteniendo el texto de cada elemento seleccionado
-			 ($(this).text()) y lo estamos almacenando en un arreglo nombresBebida. 
-			*/	
-			
 			$('#lista-bebidas #nombre-cafe-seleccionado').each(function() {
 			    var nombreBebida = $(this).text();
 			    listaBebida.push(nombreBebida);
@@ -508,6 +503,7 @@
 			    listaComida.push(nombreComida);
 			});
 					
+			var cuentaTotal = $('#suma-cuenta').val();		
 			$.ajax({
 				contentType : "application/json",
 				async:	false,
@@ -516,7 +512,8 @@
 			    data: JSON.stringify(
 					{
 						bebidaAlmacenada: listaBebida,
-        				comidaAlmacenada: listaComida
+        				comidaAlmacenada: listaComida,
+        				cuenta: cuentaTotal
 					}
 				),
 			    //dataType:"json", -> Se indica que la respuesta será devuelta en formato json

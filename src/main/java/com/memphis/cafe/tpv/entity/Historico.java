@@ -2,13 +2,16 @@ package com.memphis.cafe.tpv.entity;
 
 import java.io.Serializable;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(schema = "Memphis_Cafe", name = "Historico")
@@ -31,15 +34,21 @@ public class Historico implements Serializable{
 	private String listaComidasHistorico;
 	
 	@Column(name = "Dia")
+	// Se le indica que deberá de almacenar en BBDD la patron (año,mes,día) sin la información de tiempo.
+	@Temporal(TemporalType.TIME)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private String dia;
 	
 	@Column(name = "Hora")
 	private String hora;
 	
-	@NotEmpty
+	//@NotEmpty
 	@Column(name = "Mesero")
 	private String mesero;
 
+	@Column(name = "Cuenta")
+	private String cuenta;
+	
 	public int getIdCuenta() {
 		return idCuenta;
 	}
@@ -94,6 +103,14 @@ public class Historico implements Serializable{
 
 	public void setMesero(String mesero) {
 		this.mesero = mesero;
+	}
+
+	public String getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(String cuenta) {
+		this.cuenta = cuenta;
 	}
 	
 	
