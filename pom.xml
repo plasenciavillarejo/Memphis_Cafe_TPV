@@ -103,7 +103,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-		<!-- Resuelve el problema: /application.properties failed with MalformedInputException -->
+		<!-- Resuelve el problema: /application.properties failed with MalformedInputException-->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
