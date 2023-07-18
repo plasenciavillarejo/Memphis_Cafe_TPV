@@ -23,27 +23,46 @@
 				    </h2>
 				    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
 				      <div class="accordion-body">
+				      		<!--     -->
 				     		<form th:action="@{/Memphis_Cafe/buscarHistorico}" th:object="${historico}" method="post">
-								<div class="form-group row py-2">
+
+								<div id="inputVisible" data-input-visible="${inputVisible}" style="display: none"></div>
+
+								<!-- Selección de búsqueda -->
+								<div class="col-md-4">
+									<select id="busqueda-seleccion" class="form-select" aria-label="Default select example">
+										<option selected>Selecciona la busqueda</option>
+										<option value="1">Nombre</option>
+										<option value="2">Fecha</option>
+									</select>
+								</div>
+
+								<div id="input-nombre" class="form-group row py-2" style="display: none">
 									<div class="form-floating col-md-2">
-									  <input type="text" class="form-control" id="floatingInput" placeholder="Nombre" th:field="*{mesero}" th:errorsclass="'form-control alert-danger'">
+									  <input id="floatingInput" type="text" class="form-control" placeholder="Nombre" th:field="*{mesero}" 
+									  	th:errorsclass="'form-control alert-danger'">
 									  <label class="ms-2" for="floatingInput">Nombre</label>
 									  <!-- Mostramos el mensaje de eror en caso de que falle -->
 										<small class="form-text text-danger " th:if="${#fields.hasErrors('mesero')}" th:errors="*{mesero}"></small>
 									</div>
 								</div>
 							
-								<div class="form-group row py-2">
+								<div id="input-fecha" class="form-group row py-2" style="display: none">
 									<div class="form-floating col-md-2">
-									  <input id="filtrado-fecha" type="date" class="form-control" placeholder="Fecha" th:field="*{dia}" th:errorsclass="'form-control alert-danger'"
-									  	value="12/02/2022">
+									  <input id="filtrado-fecha" type="date" class="form-control" placeholder="Fecha" th:field="*{dia}" 
+									  	th:errorsclass="'form-control alert-danger'">
 									  <label class="ms-2" for="filtrado-fecha">Fecha</label>
 									  <small class="form-text text-danger " th:if="${#fields.hasErrors('dia')}" th:errors="*{dia}"></small>
 									</div>
 								</div>
-							
+
+								<!-- Input hidden para obtener el input visualizado para mantenerlo una vez que se recibe los datos desde el controlador -->
+								<span id="input-visible" th:text="${inputVisible}" hidden ></span>
+				
 								<div class="col-sm-6">
-									<input id="modalBoton" type="submit" value="Buscar" class="btn btn-secondary" />
+									
+									<input id="modalBoton" type="submit" value="Buscar" class="btn btn-secondary busqueda-historico" />
+									
 									<a id="modalBoton" th:href="@{/Memphis_Cafe/historicoVentas}" type="button" class="btn btn-secondary"
 										th:text="Reestablecer"></a>
 								</div>

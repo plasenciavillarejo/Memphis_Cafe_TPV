@@ -1,6 +1,32 @@
-
 $(document).ready(function() {
 	$('#staticBackdrop').modal('hide');
+	
+	
+	//$('#input-nombre').hide();	
+	//$('#input-fecha').hide();
+	
+	if ($('#input-visible').text() === 'nombre') {
+		$('#input-nombre').css('display','');
+		$('#input-fecha').css('display','none');	 	
+	} else if ($('#input-visible').text() === 'fecha') {
+		$('#input-fecha').css('display','');
+		$('#input-nombre').css('display','none');
+	}
+	
+
+	// Muestra el input según lo que sea seleccionado
+	$('#busqueda-seleccion').change(function(){
+		var seleccionCampo = $(this).val();
+		if(seleccionCampo === '1'){
+			$('#input-nombre').css('display','');
+			$('#input-fecha').css('display','none');
+			$('#floatingInput').val('');
+		} else if(seleccionCampo === '2') {
+			$('#input-fecha').css('display','');
+			$('#input-nombre').css('display','none');
+			$('#filtrado-fecha').val('');
+		}
+	});
 	
 	// Validar fecha de busqueda - Ejemplo realizado para posteriores validaciones.
 	/*

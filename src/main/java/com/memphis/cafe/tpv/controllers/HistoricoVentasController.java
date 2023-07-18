@@ -45,6 +45,8 @@ public class HistoricoVentasController {
 	
 	private String HISTORICO = "historico";
 	
+	private static final String INPUTVISIBLE = "inputVisible";
+	
 	@GetMapping(value="/historicoVentas")
 	public String consultaHistorico(@RequestParam(name="pagina", defaultValue = "0") int page, Model model,
 			Historico historico) {
@@ -113,8 +115,10 @@ public class HistoricoVentasController {
 		
 		if(!historico.getMesero().isEmpty()) {
 			busquedaPersonalizada = historicoService.findAllByName(historico.getMesero());
+			model.addAttribute(INPUTVISIBLE, "nombre");
 		} else if(!historico.getDia().isEmpty()) {
 			busquedaPersonalizada = historicoService.findAllByDate(utilidades.formatoFecha(historico.getDia()));
+			model.addAttribute(INPUTVISIBLE, "fecha");
 		}
 		
 		pageRequest= PageRequest.of(page, 10,Sort.by("dia").and(Sort.by("hora")).descending());
