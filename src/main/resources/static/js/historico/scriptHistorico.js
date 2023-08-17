@@ -25,6 +25,9 @@ $(document).ready(function() {
 			$('#input-fecha').css('display','');
 			$('#input-nombre').css('display','none');
 			$('#filtrado-fecha').val('');
+		} else {
+			$('#input-fecha').css('display','none');
+			$('#input-nombre').css('display','none');
 		}
 	});
 	
