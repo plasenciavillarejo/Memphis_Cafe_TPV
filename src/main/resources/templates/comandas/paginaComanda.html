@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head}">
+
+</head>
+
+<body>
+
+<div id="ivPrincipal" class="container py-4">
+		
+		<!-- HEADER -->
+		<!-- ###### -->
+		<header th:replace="~{layout/layout :: header}"> </header> 
+		<div class="card bg-light">
+			
+			<!-- Cabecera header -->
+			<!-- ############### -->
+			<div class="card-header" style="text-align: center;">
+				<span id="tituloPanel">Comandas Actuales</span>
+			</div>
+
+			<div id="tablaAlimentos" class="card-body col text-center">
+				<div class="contenedor">
+				
+				
+				<!-- Se debe mantener solo un 'card' y replicar por tantas comandas exista. Borrar la 
+				Comanda ejemplo 2 -->
+					<div class="card mx-2">
+						<h5 class="card-header">Comanda Ejemplo 1</h5>
+						<div class="card-body">
+							<h5 class="card-title">Mesa 1</h5>
+							<p class="card-text">
+							Lista de productos en formato table
+							</p>
+							
+							<a id="modalBoton" href="#" class="btn btn-primary">Cobrar Comanda</a>
+						</div>
+					</div>
+					
+					<div class="card">
+						<h5 class="card-header">Comanda Ejemplo 2</h5>
+						<div class="card-body">
+							<h5 class="card-title">Mesa 1</h5>
+							<p class="card-text">
+							Lista de productos en formato table
+							</p>
+							
+							<a href="#" class="btn btn-primary">Cobrar Comanda</a>
+						</div>
+					</div>
+			</div>
+								<!-- Botón para retroceder -->
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<a id="modalBoton" th:href="@{/Memphis_Cafe/inicio}" class="btn btn-primary me-md-2 border-0 rounded-pill" 
+						style="width: 10%;" type="button">&laquo; Atrás</a>
+				</div>
+		</div>
+
+		
+		<!-- FOOTER -->
+		<!-- ###### -->
+		<footer th:replace="~{layout/layout :: footer}"> </footer>
+	</div>
+</div>
+</body>
+
+	<!-- Importación Script para lógica agrupada -->
+	<!-- ####################################### -->
+	<script th:src="@{/js/historico/scriptHistorico.js}"></script>
+
+</html>
