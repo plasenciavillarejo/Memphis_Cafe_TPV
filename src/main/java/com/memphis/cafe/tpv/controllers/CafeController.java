@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
-import com.memphis.cafe.tpv.service.ICafeService;
-import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
+import com.memphis.cafe.tpv.models.entity.ListaBebidaAlmacenada;
+import com.memphis.cafe.tpv.models.service.ICafeService;
+import com.memphis.cafe.tpv.models.service.IListaBebidaAlmacenadaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller

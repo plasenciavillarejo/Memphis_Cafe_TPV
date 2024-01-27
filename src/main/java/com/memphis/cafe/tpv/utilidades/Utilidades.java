@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.memphis.cafe.tpv.constantes.sesion.ConstantesSesion;
-import com.memphis.cafe.tpv.entity.Historico;
-import com.memphis.cafe.tpv.service.ICafeService;
-import com.memphis.cafe.tpv.service.ICervezasBarrilService;
-import com.memphis.cafe.tpv.service.ICervezasService;
-import com.memphis.cafe.tpv.service.IDesayunosService;
-import com.memphis.cafe.tpv.service.IRefrescoService;
-import com.memphis.cafe.tpv.service.IVinoService;
+import com.memphis.cafe.tpv.models.entity.Historico;
+import com.memphis.cafe.tpv.models.service.ICafeService;
+import com.memphis.cafe.tpv.models.service.ICervezasBarrilService;
+import com.memphis.cafe.tpv.models.service.ICervezasService;
+import com.memphis.cafe.tpv.models.service.IDesayunosService;
+import com.memphis.cafe.tpv.models.service.IRefrescoService;
+import com.memphis.cafe.tpv.models.service.IVinoService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

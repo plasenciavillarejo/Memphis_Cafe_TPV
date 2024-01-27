@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
-import com.memphis.cafe.tpv.entity.ListaComidaAlmacenada;
-import com.memphis.cafe.tpv.service.ICervezasBarrilService;
-import com.memphis.cafe.tpv.service.ICervezasService;
-import com.memphis.cafe.tpv.service.IListaBebidaAlmacenadaService;
-import com.memphis.cafe.tpv.service.IRefrescoService;
-import com.memphis.cafe.tpv.service.IVinoService;
+import com.memphis.cafe.tpv.models.entity.ListaBebidaAlmacenada;
+import com.memphis.cafe.tpv.models.entity.ListaComidaAlmacenada;
+import com.memphis.cafe.tpv.models.service.ICervezasBarrilService;
+import com.memphis.cafe.tpv.models.service.ICervezasService;
+import com.memphis.cafe.tpv.models.service.IListaBebidaAlmacenadaService;
+import com.memphis.cafe.tpv.models.service.IRefrescoService;
+import com.memphis.cafe.tpv.models.service.IVinoService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller

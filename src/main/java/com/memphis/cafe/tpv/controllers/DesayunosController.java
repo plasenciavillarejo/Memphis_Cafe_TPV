@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.memphis.cafe.tpv.entity.ListaBebidaAlmacenada;
-import com.memphis.cafe.tpv.entity.ListaComidaAlmacenada;
-import com.memphis.cafe.tpv.service.IDesayunosService;
-import com.memphis.cafe.tpv.service.IListaComidaAlmacenadaService;
+import com.memphis.cafe.tpv.models.entity.ListaBebidaAlmacenada;
+import com.memphis.cafe.tpv.models.entity.ListaComidaAlmacenada;
+import com.memphis.cafe.tpv.models.service.IDesayunosService;
+import com.memphis.cafe.tpv.models.service.IListaComidaAlmacenadaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 import jakarta.servlet.http.HttpServletRequest;

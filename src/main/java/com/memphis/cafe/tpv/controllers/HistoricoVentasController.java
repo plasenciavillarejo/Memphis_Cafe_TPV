@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.memphis.cafe.tpv.entity.Historico;
+import com.memphis.cafe.tpv.models.entity.Historico;
+import com.memphis.cafe.tpv.models.service.IHistoricoService;
 import com.memphis.cafe.tpv.paginador.PageRender;
-import com.memphis.cafe.tpv.service.IHistoricoService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 import jakarta.validation.Valid;
