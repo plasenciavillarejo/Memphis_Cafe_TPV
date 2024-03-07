@@ -178,13 +178,14 @@ public class MemphisController {
 			List<Lotes> listaLotes = loteService.listaLotes();
 			List<String> listaCompleta = new ArrayList<>();
 			
-			for (Combinado c : listaCombinados) {
-				listaCompleta.add(c.getNombre());
-			}
-			for (Lotes l : listaLotes) {
-				listaCompleta.add(l.getNombre());
-			}
-
+			listaCombinados.forEach(list -> {
+				listaCompleta.add(list.getNombre());
+			});
+			
+			listaLotes.forEach(listLot -> {
+				listaCompleta.add(listLot.getNombre());
+			});
+			
 			model.addAttribute("listaCombinados", listaCompleta);
 			VALORPAGINAACTUAL = PAGINACOMBINADOS;
 			model.addAttribute("paginaActual", VALORPAGINAACTUAL);
