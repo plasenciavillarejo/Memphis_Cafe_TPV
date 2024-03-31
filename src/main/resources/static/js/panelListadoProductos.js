@@ -18,6 +18,8 @@
 		$("#lista-bebidas").trigger("DOMSubtreeModified");
 		$("#lista-comidas").trigger("DOMSubtreeModified");
 		
+		// función encargada de visualizar las mesas iniciales
+		
 		/*
 		// Cambio de formato en al situarse en lo alto de el boton de historico
 		$('.boton-historico').hover(
@@ -32,7 +34,13 @@
 		
 	});
  
- 	
+ 	function mesasVisibles() {
+		
+		var iconMesas = document.getElementById("listadoMesas");
+		
+		iconMesas.setAttribute("hidden", "hidden");
+		
+	}
  
 	// Cuando pulsamos en borrar todos los productos de la lista
 	$(document).on('click', '.borrar-productos', function() {
@@ -91,6 +99,9 @@
 			$('.texto-pagar').empty();
 			$('.borrar-productos').hide();
 			$('#btnPagar').hide();
+			let element = document.getElementById("listadoMesas");
+			console.log(element);
+			
 		});
 	}
 	
