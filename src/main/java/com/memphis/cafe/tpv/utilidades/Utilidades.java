@@ -4,7 +4,9 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,7 +144,6 @@ public class Utilidades {
 	}
 
 	// Convertir formato fecha
-	
 	public String formatoFecha(String fechaDia) {
 		
 		// Convertir la cadena de fecha en un objeto LocalDate
@@ -154,6 +155,14 @@ public class Utilidades {
 	    String fechaFormateada = fecha.format(nuevoFormatter);
 	    
 	    return fechaFormateada;
+	}
+	
+	public Map<Integer, String> listadoMesas() {
+		Map<Integer, String> mesas = new HashMap<>();
+		for(int i = 1; i <= 8; i++ ) {
+			mesas.put(i, "Mesa ".concat(String.valueOf(i)));
+		}
+		return mesas;
 	}
 	
 	

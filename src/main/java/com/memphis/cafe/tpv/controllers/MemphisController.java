@@ -45,7 +45,7 @@ import com.memphis.cafe.tpv.utilidades.Utilidades;
 
 @Controller
 @RequestMapping(value = "/Memphis_Cafe")
-@SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada"})
+@SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada", "mesaSeleccionada"})
 public class MemphisController {
 
 	private static final String INICIO = "inicio";
@@ -119,15 +119,30 @@ public class MemphisController {
 		model.addAttribute("listaProductos", bebidaAlmacenadaService.listaBebidaAlmacenada());
 		// Se mete en sesión la listComida
 		model.addAttribute("comidaAlmacenada", comidaAlmacenadaService.listaComidaAlmacenada());
+		// Se mete en sesión las mesas
+		model.addAttribute("listadoMesas", utilidades.listadoMesas());
+		
+		model.addAttribute("mesaSeleccionada", "Mesa 0");
+		
 		// Se mete en sesión la página actual
 		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 		return INICIO;
 	}
 
+	@GetMapping(value = "/mesaSeleccion")
+	@ResponseBody
+	public void mesaSeleccion(Model model,
+			@RequestParam("mesa") String mesa,
+			@ModelAttribute("mesaSeleccionada") String mesaSeleccionada) {
+		model.addAttribute("mesaSeleccionada", mesa);
+	}
+	
 	@GetMapping(value = "/redireccionComidas")
 	public String redireccioneComidas(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
 			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
-			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada, Model model, 
+			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
+			@ModelAttribute("listadoMesas") String mesaSeleccionada,
+			Model model, 
 			@RequestParam(value = "valorBoton", required = false) String valorBoton) {
 		logAplicacion.info("Entrando por la redireccionComidas");
 		
@@ -469,5 +484,7 @@ public class MemphisController {
                 .body("Cobro realizado correctamente");
         */
 	}
+	
+	
 	
 }

@@ -32,6 +32,7 @@
 		)
 		*/
 		
+		mesaSeleccion();
 	});
  
  
@@ -105,7 +106,7 @@
 			$('#btnPagar').hide();
 			$('#listadoMesas').show();
 			// Una vez que limpio todo, envío la petición nuevamente al listado principal de las mesas
-			redirigirPaginaInicio();
+			//redirigirPaginaInicio();
 		});
 	}
 	
@@ -555,10 +556,26 @@
 	// ##### FIN LÓGICA PARA EL PAGO DE LA CUENTA #####
 	
 	
+	/** Función que redirige a la página principal
+	 */
 	function redirigirPaginaInicio() {
 		// Redirigir después de que el usuario cierre el mensaje de éxito
 		window.location.href = "/Memphis_Cafe/inicio";
 	}
+	
+	/** Función que captura el valor de la mesa seleccionada
+	 */
+	function mesaSeleccion() {
+		$(document).on('click', '.mesaSeleccionada', function() {
+			var mesaValue = $(this).text().trim();
+			console.log("Mesa seleccionada: " + mesaValue);
+			$('.mesaSeleccionada').removeClass('active');
+			$(this).addClass('active');
+			// Indicamos la mesa que está seleccionada
+			$.get('/Memphis_Cafe/mesaSeleccion?mesa=' + mesaValue);
+		});
+	}
+	
 	
 	/*
 	// Función encargada de aniadir el desayuno. -> Por ahora está comentada ya que inicilamente no crea el div

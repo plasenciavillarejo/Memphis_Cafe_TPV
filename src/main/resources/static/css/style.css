@@ -33,6 +33,13 @@ table {
 	color:white;
 }
 
+/* Seleccion de mesa */
+.mesaSeleccionada:hover,
+.mesaSeleccionada.active {
+	background-color: #43b39b;
+	color: white;
+}
+
 .btn-outline-success:hover{
 	background-color: #43b39b;	
 }
