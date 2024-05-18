@@ -90,8 +90,6 @@
 			} else if (canditdadElementosComida === 0 || canditdadElementosComida.indexOf('-')) {
 				$('#lista-comida').empty();
 			}
-
-			
 		});
 	}
 	
