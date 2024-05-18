@@ -10,10 +10,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -118,7 +114,6 @@ public class MemphisController {
 		localizarNombre = utilidades.logosIniciales();
 		model.addAttribute("logosPrincipales", localizarNombre.values());
 		logAplicacion.info("Mostrando la carta para el Cafe Bar - Memphis");
-		
 		VALORPAGINAACTUAL = INICIO;
 		// Se mete en sesión la listaBebida
 		model.addAttribute("listaProductos", bebidaAlmacenadaService.listaBebidaAlmacenada());
@@ -126,7 +121,6 @@ public class MemphisController {
 		model.addAttribute("comidaAlmacenada", comidaAlmacenadaService.listaComidaAlmacenada());
 		// Se mete en sesión la página actual
 		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
-
 		return INICIO;
 	}
 

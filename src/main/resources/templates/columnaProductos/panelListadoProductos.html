@@ -10,9 +10,9 @@
 	<div class="col">
 		<div class="container">
 		
-		<!-- Se tiene que mostrar siempre las mesas y cuando se seleccione una se visualizará  -->
-			<div class ="row" th:if="${comidaAlmacenada.isEmpty() && listaProductos.isEmpty()}">
-				<span id="listadoMesas">Listado de mesas para seleccionar</span>
+			<!-- Se tiene que mostrar siempre las mesas y cuando se seleccione una se visualizará  -->
+			<div id="listadoMesas" class="row" th:if="${comidaAlmacenada.isEmpty() && listaProductos.isEmpty()}">
+				<div th:replace="~{mesas/listadoMesas}"></div>
 			</div>
 		
 			<div class="row">

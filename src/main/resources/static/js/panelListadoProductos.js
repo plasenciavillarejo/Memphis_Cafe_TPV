@@ -2,7 +2,7 @@
  
  	// Cuando se inicia la aplicacíón se verifica que haya alguna cuenta existente
 	$(document).ready(function() {	
-		
+			
 		actualizarInputTotal();
 		
 		// Cuando se añade cualquier comida desde el button se cargará automaticamente el precio
@@ -34,12 +34,15 @@
 		
 	});
  
+ 
+ 	/** 
+ 	* Función para ocultar las página de las mesas una vez que se selecciona una de ellas
+  	*/
  	function mesasVisibles() {
-		
-		var iconMesas = document.getElementById("listadoMesas");
-		
+		/*var iconMesas = document.getElementById("listadoMesas");
 		iconMesas.setAttribute("hidden", "hidden");
-		
+		*/
+		$('#listadoMesas').attr('hidden', 'hidden');
 	}
  
 	// Cuando pulsamos en borrar todos los productos de la lista
@@ -62,7 +65,9 @@
 				text: 'Se ha borrado la comanda correcamente!',
 				icon: 'success',
 				confirmButtonColor: '#43b39b'
-			})
+			}).then(() => {
+                redirigirPaginaInicio();
+            });
 		  }
 		})	
 	});
@@ -90,8 +95,9 @@
 		});
 	}
 	
-	// Función para borrar la comanda por completo.
-	
+	/** 
+	 *	Función para borrar la comanda por completo y redirigir a la página inicial
+	 */
 	function borrarTodosAtributosSession() {
 		$.get('/Memphis_Cafe/limpiarComandaEntera', function() {
 			$('#lista-productos').empty();
@@ -99,12 +105,10 @@
 			$('.texto-pagar').empty();
 			$('.borrar-productos').hide();
 			$('#btnPagar').hide();
-			let element = document.getElementById("listadoMesas");
-			console.log(element);
-			
+			$('#listadoMesas').show();
+			// Una vez que limpio todo, envío la petición nuevamente al listado principal de las mesas
 		});
 	}
-	
 	
 	// ### Ini - Funciones encargadas de escuchar los productos que se añade para mantener el "Card" o pasar a una lista ### //
 	// ##################################################################################################################### //
@@ -539,8 +543,11 @@
 					}).then((result) => {
 						if (result.isConfirmed) {
 							borrarTodosAtributosSession();
+							
 						}
-					})	
+					}).then(() => {
+                		redirigirPaginaInicio();
+            		});	
 			    },
 			    error: function(error) {
 			        console.log(error);
@@ -551,6 +558,11 @@
 	});
 	// ##### FIN LÓGICA PARA EL PAGO DE LA CUENTA #####
 	
+	
+	function redirigirPaginaInicio() {
+		// Redirigir después de que el usuario cierre el mensaje de éxito
+		window.location.href = "/Memphis_Cafe/inicio";
+	}
 	
 	/*
 	// Función encargada de aniadir el desayuno. -> Por ahora está comentada ya que inicilamente no crea el div
