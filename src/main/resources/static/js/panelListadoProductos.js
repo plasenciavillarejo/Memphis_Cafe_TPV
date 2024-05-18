@@ -107,6 +107,7 @@
 			$('#btnPagar').hide();
 			$('#listadoMesas').show();
 			// Una vez que limpio todo, envío la petición nuevamente al listado principal de las mesas
+			redirigirPaginaInicio();
 		});
 	}
 	
@@ -543,11 +544,8 @@
 					}).then((result) => {
 						if (result.isConfirmed) {
 							borrarTodosAtributosSession();
-							
 						}
-					}).then(() => {
-                		redirigirPaginaInicio();
-            		});	
+					})
 			    },
 			    error: function(error) {
 			        console.log(error);
