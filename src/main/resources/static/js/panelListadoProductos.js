@@ -564,15 +564,20 @@
 	}
 	
 	/** Función que captura el valor de la mesa seleccionada
+	Utilicé $(this).siblings('.id-mesa').text().trim() para 
+	seleccionar el span oculto que está al lado del span visible 
+	que se hizo clic. siblings('.id-mesa') selecciona todos los 
+	hermanos del elemento actual con la clase id-mesa, y luego 
+	.text().trim() obtiene y limpia el valor de ese span.
 	 */
 	function mesaSeleccion() {
 		$(document).on('click', '.mesaSeleccionada', function() {
-			var mesaValue = $(this).text().trim();
-			console.log("Mesa seleccionada: " + mesaValue);
+			var numeroMesa = $(this).siblings('#id-mesa').text().trim();
+			console.log("Mesa seleccionada: " + numeroMesa);
 			$('.mesaSeleccionada').removeClass('active');
 			$(this).addClass('active');
 			// Indicamos la mesa que está seleccionada
-			$.get('/Memphis_Cafe/mesaSeleccion?mesa=' + mesaValue);
+			$.get('/Memphis_Cafe/mesaSeleccion?mesa=' + numeroMesa);
 		});
 	}
 	

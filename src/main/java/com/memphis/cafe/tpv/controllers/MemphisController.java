@@ -122,7 +122,7 @@ public class MemphisController {
 		// Se mete en sesión las mesas
 		model.addAttribute("listadoMesas", utilidades.listadoMesas());
 		
-		model.addAttribute("mesaSeleccionada", "Mesa 0");
+		model.addAttribute("mesaSeleccionada", "0");
 		
 		// Se mete en sesión la página actual
 		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
@@ -132,8 +132,7 @@ public class MemphisController {
 	@GetMapping(value = "/mesaSeleccion")
 	@ResponseBody
 	public void mesaSeleccion(Model model,
-			@RequestParam("mesa") String mesa,
-			@ModelAttribute("mesaSeleccionada") String mesaSeleccionada) {
+			@RequestParam("mesa") int mesa) {
 		model.addAttribute("mesaSeleccionada", mesa);
 	}
 	

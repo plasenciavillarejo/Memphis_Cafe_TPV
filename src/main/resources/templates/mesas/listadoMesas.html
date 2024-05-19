@@ -6,7 +6,8 @@
 </head>
 <body>
 
-		<div class="card mx-2">
+<!-- Cuando no se ha pulsado en ningúna mesa por defecto saldrá el listado de mesas al completo -->
+		<div class="card mx-2" th:if="${mesaSeleccionada} <= 0">
 			<div class="row">
 				<h5 class="card-header">
 					<span> Listado de mesas para seleccionar</span>
@@ -15,16 +16,21 @@
 			<div class="card-body">
 				<div class="row">
 					<div th:each="listMesas: ${listadoMesas}" class="d-flex col-xs-12 col-sm-12 col-md-3 pb-3">
-					<!-- Para mezclar texto y el icono sin evitar sustiir todo por el texto recibido desde el BE se utiliza 
-					th:inline="text", esto permite mezclar iconos y el texto de thymeleaf en un solo atributo, el texto recibido
-					desde el BE debe estár dentro de [[TEXTO]] para que pueda mostrar su valor -->
-					<span th:inline="text" class="mesaSeleccionada btn btn-outline-success rounded-pill border-1">
-					[[${listMesas.value}]] <ion-icon name="restaurant-outline"></ion-icon>
-					</span> 
-				</div>
-					
+						<!-- Para mezclar texto y el icono sin evitar sustiir todo por el texto recibido desde el BE se utiliza 
+						th:inline="text", esto permite mezclar iconos y el texto de thymeleaf en un solo atributo, el texto recibido
+						desde el BE debe estár dentro de [[TEXTO]] para que pueda mostrar su valor -->
+						<!--  -->
+						<span id="id-mesa" class="mesaSeleccionada" th:text="${listMesas.key}" hidden></span>
+						<span th:inline="text" class="mesaSeleccionada btn btn-outline-success rounded-pill border-1">
+						[[${listMesas.value}]] <ion-icon name="restaurant-outline"></ion-icon>
+						</span> 
+					</div>					
 				</div>
 			</div>
+		</div>
+	<!-- Cuando se ha seleccioando una mesa, por defecto saldrá un texto vacío si no existe ningún producto -->
+		<div th:if="${mesaSeleccionada} > 0">
+			PRUEBA SELECCION DE MESA
 		</div>
 
 </body>
