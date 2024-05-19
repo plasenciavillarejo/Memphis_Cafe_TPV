@@ -577,7 +577,24 @@
 			$('.mesaSeleccionada').removeClass('active');
 			$(this).addClass('active');
 			// Indicamos la mesa que está seleccionada
-			$.get('/Memphis_Cafe/mesaSeleccion?mesa=' + numeroMesa);
+			$.ajax({
+				url: '/Memphis_Cafe/mesaSeleccion',
+				method: 'GET',
+				data: { mesa: numeroMesa },
+				success: function(response) {
+					
+					console.log("Mesa seleccionada: " ,response);
+					// Ahora ocultamos el listado de las mesas iniciales
+					//$('#listado-mesas-iniciales').attr('hidden', 'hidden');
+					
+					// Habilitamos ya la cuenta de la mesa seleccionada 
+					//$('#listado-sin-productos').removeAttr('hidden');
+					window.location.href = "/Memphis_Cafe/inicio?mesa="+response;
+				},
+				error: function(error) {
+					console.error("Error al seleccionar la mesa: ", error);
+				}
+   			 });
 		});
 	}
 	

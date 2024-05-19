@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.memphis.cafe.tpv.models.entity.Comanda;
 import com.memphis.cafe.tpv.models.entity.Combinado;
 import com.memphis.cafe.tpv.models.entity.DatosGuardados;
 import com.memphis.cafe.tpv.models.entity.Historico;
@@ -31,6 +32,7 @@ import com.memphis.cafe.tpv.models.entity.ListaComidaAlmacenada;
 import com.memphis.cafe.tpv.models.entity.Lotes;
 import com.memphis.cafe.tpv.models.service.ICafeService;
 import com.memphis.cafe.tpv.models.service.ICarneService;
+import com.memphis.cafe.tpv.models.service.IComandaService;
 import com.memphis.cafe.tpv.models.service.ICombinadoService;
 import com.memphis.cafe.tpv.models.service.IDesayunosService;
 import com.memphis.cafe.tpv.models.service.IHistoricoService;
@@ -43,9 +45,11 @@ import com.memphis.cafe.tpv.models.service.IRefrescoService;
 import com.memphis.cafe.tpv.models.service.IReposteriaService;
 import com.memphis.cafe.tpv.utilidades.Utilidades;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(value = "/Memphis_Cafe")
-@SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada", "mesaSeleccionada"})
+@SessionAttributes({"listaProductos", "paginaActual", "comidaAlmacenada","comanda"})
 public class MemphisController {
 
 	private static final String INICIO = "inicio";
@@ -62,6 +66,7 @@ public class MemphisController {
 	private static final String PAGINACOMBINADOS = "/combinado/paginaCombinado";
 	private static final String PAGINAREPOSTERIA = "/reposteria/paginaReposteria";
 	private static final String PAGINAINFUSIONES = "infusiones";
+	private static final String PAGINALISTADOMESAS = "/mesas/listadoMesas";
 	
 	private String VALORPAGINAACTUAL = "";
 	
@@ -106,42 +111,78 @@ public class MemphisController {
 	@Autowired
 	private IHistoricoService historicoService;
 	
+	@Autowired
+	private IComandaService comandaService;
 	
 	@GetMapping(value={"/inicio", "/"})
-	public String inicio(Model model) {
-		
+	public String inicio(Model model,
+			@RequestParam(value = "mesa", required = false) Integer mesa) {
 		Map<Integer, String> localizarNombre = new HashMap<>();
 		localizarNombre = utilidades.logosIniciales();
 		model.addAttribute("logosPrincipales", localizarNombre.values());
 		logAplicacion.info("Mostrando la carta para el Cafe Bar - Memphis");
 		VALORPAGINAACTUAL = INICIO;
+		
 		// Se mete en sesión la listaBebida
-		model.addAttribute("listaProductos", bebidaAlmacenadaService.listaBebidaAlmacenada());
+		List<ListaBebidaAlmacenada> bebidaAlmacenada = bebidaAlmacenadaService.listaBebidaAlmacenada();
+		model.addAttribute("listaProductos", bebidaAlmacenada);
+		
 		// Se mete en sesión la listComida
-		model.addAttribute("comidaAlmacenada", comidaAlmacenadaService.listaComidaAlmacenada());
+		List<ListaComidaAlmacenada> comidaAlmacenada = comidaAlmacenadaService.listaComidaAlmacenada();
+		model.addAttribute("comidaAlmacenada", comidaAlmacenada);
 		// Se mete en sesión las mesas
 		model.addAttribute("listadoMesas", utilidades.listadoMesas());
 		
-		model.addAttribute("mesaSeleccionada", "0");
+		// Buscamos la comanda inicialmente para saber si ya la tenemos en sesión o no.
+		Comanda comanda = null;
+		if (mesa == null) {
+		    comanda = new Comanda();
+		    comanda.setIdComanda(0);
+		} else {
+			comanda = comandaService.recuperarComanda(Long.valueOf(mesa));
+		}
+
+		// Se mete en sesión la comanda con la mesa para asociar los productos a ella
+		model.addAttribute("comanda", comanda);
 		
 		// Se mete en sesión la página actual
 		model.addAttribute("paginaActual", VALORPAGINAACTUAL);
 		return INICIO;
 	}
 
+	/**
+	 * Función encargada de seleccionar la mesa para asociar la comandas
+	 * @param model
+	 * @param mesa
+	 * @param session
+	 * @return
+	 */
 	@GetMapping(value = "/mesaSeleccion")
 	@ResponseBody
-	public void mesaSeleccion(Model model,
-			@RequestParam("mesa") int mesa) {
+	public int mesaSeleccion(Model model,
+			@RequestParam("mesa") int mesa,
+			HttpSession session) {
+		logAplicacion.info("Agregando en sesión la mesa: {}", mesa);
 		model.addAttribute("mesaSeleccionada", mesa);
+		
+		// Se verifica si la comanda existe, en caso de que no exista, se crea.
+		Comanda comanda = comandaService.recuperarComanda(Long.valueOf(mesa));
+		if(comanda == null) {
+			Comanda nuevaComanda = new Comanda();
+			nuevaComanda.setIdComanda(mesa);
+			try {
+				comandaService.guardarComanda(nuevaComanda);
+			} catch (Exception e) {
+				logAplicacion.error("Error al almacenar la mesa a la comanda {}", e.getMessage(), e.getCause());
+			}
+		}
+		// Agregamos la comanda a la sesión
+		model.addAttribute("comanda", comanda);
+		return mesa;
 	}
 	
 	@GetMapping(value = "/redireccionComidas")
-	public String redireccioneComidas(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada, 
-			@ModelAttribute("paginaActual") String VALORPAGINAACTUAL,
-			@ModelAttribute("comidaAlmacenada") List<ListaComidaAlmacenada> comidaAlmacenada,
-			@ModelAttribute("listadoMesas") String mesaSeleccionada,
-			Model model, 
+	public String redireccioneComidas(Model model, 
 			@RequestParam(value = "valorBoton", required = false) String valorBoton) {
 		logAplicacion.info("Entrando por la redireccionComidas");
 		
@@ -351,6 +392,7 @@ public class MemphisController {
 			@PathVariable("nombreBebida") String nombreBebida, 
 			@PathVariable("precioBebida") String precioBebida,
 			@PathVariable(value = "checked") boolean checked,
+			@ModelAttribute("comanda") Comanda comanda,
 			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
 
 		String resultadoString = "";
@@ -374,7 +416,7 @@ public class MemphisController {
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);
-		
+		comanda.setListaBebidaAlmacenada(bebidaAlmacenada);
 		return resultadoFinal;
 	}
 	
@@ -384,6 +426,7 @@ public class MemphisController {
 	public Map<String, Object> restarPrecioBebidaEnSesion(@ModelAttribute("listaProductos") List<ListaBebidaAlmacenada> bebidaAlmacenada,
 			@PathVariable("nombreBebida") String nombreBebida, 
 			@PathVariable("precioBebida") String precioBebida, 
+			@ModelAttribute("comanda") Comanda comanda,
 			@PathVariable(value = "tablaBBDD") String tablaBBDD, Model model) {
 
 		String resultadoString = "";
@@ -425,6 +468,7 @@ public class MemphisController {
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);
+		comanda.setListaBebidaAlmacenada(bebidaAlmacenada);
 		return resultadoFinal;
 	}
 
@@ -487,3 +531,4 @@ public class MemphisController {
 	
 	
 }
+;
