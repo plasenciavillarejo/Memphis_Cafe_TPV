@@ -138,8 +138,16 @@ public class MemphisController {
 		if (mesa == null) {
 		    comanda = new Comanda();
 		    comanda.setIdComanda(0);
+		    comanda.setListaBebidaAlmacenada(new ArrayList<>());
+		    comanda.setListaComidaAlmacenada(new ArrayList<>());
 		} else {
 			comanda = comandaService.recuperarComanda(Long.valueOf(mesa));
+			if(comanda.getListaComidaAlmacenada() == null) {
+				comanda.setListaComidaAlmacenada(new ArrayList<>());
+			} 
+			if(comanda.getListaBebidaAlmacenada()== null) {
+				comanda.setListaBebidaAlmacenada(new ArrayList<>());
+			}
 		}
 
 		// Se mete en sesión la comanda con la mesa para asociar los productos a ella

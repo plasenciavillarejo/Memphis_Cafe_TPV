@@ -98,6 +98,9 @@ public class CafeController {
 				
 				// Agregamos los datos de la comanda
 				comanda.setListaBebidaAlmacenada(bebidaAlmacenada);
+				model.addAttribute("comanda", comanda);
+				
+				
 		return VALORPAGINAACTUAL;
 	}		
 	

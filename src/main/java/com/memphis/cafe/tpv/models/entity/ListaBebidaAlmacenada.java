@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(schema = "Memphis_Cafe", name = "ListaBebidaAlmacenada")
-public class ListaBebidaAlmacenada implements Serializable{
+public class ListaBebidaAlmacenada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

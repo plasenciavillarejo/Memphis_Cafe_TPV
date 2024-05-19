@@ -23,7 +23,7 @@ public class ComandaServiceImpl implements IComandaService {
 	@Override
 	@Transactional(readOnly = true)
 	public Comanda recuperarComanda(Long idComanda) {
-		return comandaDao.findById(idComanda).orElse(null);
+		return comandaDao.recuperarComanda(idComanda);
 	}
 
 	@Override

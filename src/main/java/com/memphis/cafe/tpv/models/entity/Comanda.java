@@ -24,11 +24,11 @@ public class Comanda implements Serializable {
 	private long idComanda;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "idComida")
 	private List<ListaComidaAlmacenada> listaComidaAlmacenada;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "idBebida")
 	private List<ListaBebidaAlmacenada> listaBebidaAlmacenada;
 
 	public long getIdComanda() {
