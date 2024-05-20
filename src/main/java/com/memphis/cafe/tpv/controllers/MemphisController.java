@@ -4,8 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,15 +141,15 @@ public class MemphisController {
 		if (mesa == null) {
 		    comanda = new Comanda();
 		    comanda.setIdComanda(0);
-		    comanda.setListaBebidaAlmacenada(new ArrayList<>());
-		    comanda.setListaComidaAlmacenada(new ArrayList<>());
+		    comanda.setListaBebidaAlmacenada(new HashSet<>());
+		    comanda.setListaComidaAlmacenada(new HashSet<>());
 		} else {
 			comanda = comandaService.recuperarComanda(Long.valueOf(mesa));
 			if(comanda.getListaComidaAlmacenada() == null) {
-				comanda.setListaComidaAlmacenada(new ArrayList<>());
+				comanda.setListaComidaAlmacenada(new HashSet<>());
 			} 
 			if(comanda.getListaBebidaAlmacenada()== null) {
-				comanda.setListaBebidaAlmacenada(new ArrayList<>());
+				comanda.setListaBebidaAlmacenada(new HashSet<>());
 			}
 		}
 
@@ -424,7 +427,7 @@ public class MemphisController {
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);
-		comanda.setListaBebidaAlmacenada(bebidaAlmacenada);
+		comanda.setListaBebidaAlmacenada(bebidaAlmacenada.stream().collect(Collectors.toSet()));
 		return resultadoFinal;
 	}
 	
@@ -476,7 +479,7 @@ public class MemphisController {
 			}
 		}
 		model.addAttribute("listaProductos", bebidaAlmacenada);
-		comanda.setListaBebidaAlmacenada(bebidaAlmacenada);
+		comanda.setListaBebidaAlmacenada(bebidaAlmacenada.stream().collect(Collectors.toSet()));
 		return resultadoFinal;
 	}
 

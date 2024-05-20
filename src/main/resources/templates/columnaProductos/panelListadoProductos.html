@@ -37,11 +37,10 @@
 				</div>
 				<!-- Div para la lista de la bebida -->
 				<div id="lista-productos" class="col-12 col-md-6 col-lg-6 col-xl-6">
-					<div th:if="${!comanda.listaBebidaAlmacenada.isEmpty()}"
-					 class="card ms-5" style="width: 21rem; right: 15%">
+					<div th:if="${!listaProductos.isEmpty()}" class="card ms-5" style="width: 21rem; right: 15%">
 						<div class="card-header">Bebida</div>
 							<div id="convertir-lista">
-								<ul id="lista-bebidas" th:each="bebidas: ${comanda.listaComidaAlmacenada}" class="list-group list-group-flush">
+								<ul id="lista-bebidas" th:each="bebidas: ${listaProductos}" class="list-group list-group-flush">
 									<li id="borrar-bebidas" class="list-group-item contar-bebida">
 										<ion-icon class="borrar-icono-bebida" name="remove-circle"></ion-icon> 
 												<span id="totalBebida" th:text="${bebidas.total}" ></span> - 

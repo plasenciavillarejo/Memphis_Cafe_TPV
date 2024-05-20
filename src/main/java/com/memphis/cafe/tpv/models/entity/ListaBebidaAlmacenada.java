@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -18,7 +21,7 @@ public class ListaBebidaAlmacenada implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "idBebida")
 	private int id;
 
 	@NotEmpty
@@ -33,6 +36,10 @@ public class ListaBebidaAlmacenada implements Serializable {
 	
 	@Column(name = "total")
 	private int total;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idComandaFk")
+	private Comanda comanda;
 	
 	public int getTotal() {
 		return total;
@@ -72,6 +79,14 @@ public class ListaBebidaAlmacenada implements Serializable {
 
 	public void setNombreTabla(String nombreTabla) {
 		this.nombreTabla = nombreTabla;
+	}
+
+	public Comanda getComanda() {
+		return comanda;
+	}
+
+	public void setComanda(Comanda comanda) {
+		this.comanda = comanda;
 	}
 
 	

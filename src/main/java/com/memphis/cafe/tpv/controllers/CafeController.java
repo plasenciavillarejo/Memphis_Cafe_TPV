@@ -1,6 +1,7 @@
 package com.memphis.cafe.tpv.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +98,7 @@ public class CafeController {
 				model.addAttribute("productoBebida", "cafes_carajillos_infusiones");
 				
 				// Agregamos los datos de la comanda
-				comanda.setListaBebidaAlmacenada(bebidaAlmacenada);
+				comanda.setListaBebidaAlmacenada(bebidaAlmacenada.stream().collect(Collectors.toSet()));
 				model.addAttribute("comanda", comanda);
 				
 				
