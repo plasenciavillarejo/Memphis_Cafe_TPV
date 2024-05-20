@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +26,11 @@ public class Comanda implements Serializable {
 	@Column(name = "idComanda")
 	private long idComanda;
 	
+	/* Al problema que tengo de Hibernate throws MultipleBagFetchException - cannot simultaneously fetch multiple bags
+	tengo la siguiente solución -> Sí utilio List<?> en vez de Set<?> es agregar @Fetch(value = FetchMode.SUBSELECT) */
+	
 	@OneToMany(mappedBy = "comanda", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//@Fetch(value =FetchMode.SUBSELECT)
 	private Set<ListaComidaAlmacenada> listaComidaAlmacenada;
 
 	@OneToMany(mappedBy = "comanda", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
