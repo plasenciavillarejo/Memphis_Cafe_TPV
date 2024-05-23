@@ -119,6 +119,7 @@ public class MemphisController {
 	
 	@GetMapping(value={"/inicio", "/"})
 	public String inicio(Model model,
+			HttpSession session,
 			@RequestParam(value = "mesa", required = false) Integer mesa) {
 		Map<Integer, String> localizarNombre = new HashMap<>();
 		localizarNombre = utilidades.logosIniciales();

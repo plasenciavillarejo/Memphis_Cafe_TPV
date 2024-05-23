@@ -18,10 +18,10 @@
 			<div class="row">
 				<!-- Div para la lista de la comida -->
 				<div id="lista-comida" class="col-12 col-md-6 col-lg-6 col-xl-6">
-					<div th:if="${!comidaAlmacenada.isEmpty()}" class="card" style="width: 21rem; right: 6%">
+					<div th:if="${!comanda.listaComidaAlmacenada.isEmpty()}" class="card" style="width: 21rem; right: 6%">
 						<div class="card-header">Comida</div>
 							<div id="convertir-lista-comida">
-								<ul id="lista-comidas" th:each="listaComida: ${comidaAlmacenada}" class="list-group list-group-flush">
+								<ul id="lista-comidas" th:each="listaComida: ${comanda.listaComidaAlmacenada}" class="list-group list-group-flush">
 									<li id="borrar-comidas" class="list-group-item contar-bebida">
 										<ion-icon class="borrar-icono-comida" name="remove-circle"></ion-icon> 
 												<span id="totalComida" th:text="${listaComida.total}" ></span> - 
@@ -37,10 +37,10 @@
 				</div>
 				<!-- Div para la lista de la bebida -->
 				<div id="lista-productos" class="col-12 col-md-6 col-lg-6 col-xl-6">
-					<div th:if="${!listaProductos.isEmpty()}" class="card ms-5" style="width: 21rem; right: 15%">
+					<div th:if="${!comanda.listaBebidaAlmacenada.isEmpty()}" class="card ms-5" style="width: 21rem; right: 15%">
 						<div class="card-header">Bebida</div>
 							<div id="convertir-lista">
-								<ul id="lista-bebidas" th:each="bebidas: ${listaProductos}" class="list-group list-group-flush">
+								<ul id="lista-bebidas" th:each="bebidas: ${comanda.listaBebidaAlmacenada}" class="list-group list-group-flush">
 									<li id="borrar-bebidas" class="list-group-item contar-bebida">
 										<ion-icon class="borrar-icono-bebida" name="remove-circle"></ion-icon> 
 												<span id="totalBebida" th:text="${bebidas.total}" ></span> - 
@@ -57,7 +57,7 @@
 		</div>
 		
 		
-		<div th:if="${!listaProductos.isEmpty() || !comidaAlmacenada.isEmpty()}" class="mb-3 mt-5 row texto-pagar justify-content-center">
+		<div th:if="${!comanda.listaBebidaAlmacenada.isEmpty() || !comanda.listaComidaAlmacenada.isEmpty()}" class="mb-3 mt-5 row texto-pagar justify-content-center">
 		    <label for="totalPagar" class="col-sm-2 col-form-label">Total: </label>
 		    <div class="col-sm-2 ">
 		      <input id="suma-cuenta" type="text" class="form-control"> 
@@ -65,7 +65,7 @@
 		 </div>
 		
 		<!-- Botón para limpiar -->
-		<div th:if="${!listaProductos.isEmpty() || !comidaAlmacenada.isEmpty()}" class="d-grid d-md-flex justify-content-center">
+		<div th:if="${!comanda.listaBebidaAlmacenada.isEmpty() || !comanda.listaComidaAlmacenada.isEmpty()}" class="d-grid d-md-flex justify-content-center">
 			<button id="modalBoton" class="btn btn-primary me-md-2 border-0 rounded-pill borrar-productos"
 				style="width: 30%;">Limpiar Comanda</button>
 				
